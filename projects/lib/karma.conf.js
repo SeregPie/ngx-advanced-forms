@@ -1,8 +1,16 @@
+process.env.CHROME_BIN = require('puppeteer').executablePath();
+
 module.exports = function (config) {
 	config.set({
-		autoWatch: true,
+		autoWatch: false,
 		basePath: '',
-		browsers: ['Chrome'],
+		browsers: ['ChromeHeadlessCI'],
+		customLaunchers: {
+			ChromeHeadlessCI: {
+				base: 'ChromeHeadless',
+				flags: ['--no-sandbox'],
+			},
+		},
 		client: {
 			clearContext: false,
 		},
@@ -27,7 +35,7 @@ module.exports = function (config) {
 		port: 9876,
 		reporters: ['progress', 'kjhtml'],
 		restartOnFileChange: true,
-		singleRun: false,
+		singleRun: true,
 		basePath: '',
 		frameworks: ['jasmine', '@angular-devkit/build-angular'],
 	});
