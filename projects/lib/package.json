@@ -1,0 +1,9 @@
+{
+	"name": "ngx-advanced-forms",
+	"version": "1.0.0",
+	"peerDependencies": {
+		"@angular/core": "^14",
+		"@angular/forms": "^14",
+		"rxjs": "^6 || ^7"
+	}
+}
