@@ -1,6 +1,15 @@
 {
 	"name": "ngx-advanced-forms",
 	"version": "1.0.0",
+	"description": "Everything to make your work with Angular forms easier.",
+	"keywords": [
+		"angular",
+		"forms",
+		"util"
+	],
+	"license": "MIT",
+	"author": "Sergej Sintschilin <seregpie@gmail.com>",
+	"repository": "github:SeregPie/ngx-advanced-forms",
 	"peerDependencies": {
 		"@angular/core": "^14",
 		"@angular/forms": "^14",
