@@ -4,6 +4,9 @@ module.exports = function (config) {
 	config.set({
 		autoWatch: false,
 		basePath: '',
+		browserConsoleLogOptions: {
+			terminal: true,
+		},
 		browsers: ['ChromeHeadlessCI'],
 		customLaunchers: {
 			ChromeHeadlessCI: {
