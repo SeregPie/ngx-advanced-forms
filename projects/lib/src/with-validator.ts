@@ -1,4 +1,9 @@
-import {AbstractControl, ValidationErrors} from '@angular/forms';
+import {
+	AbstractControl,
+	AsyncValidatorFn,
+	ValidationErrors,
+	ValidatorFn,
+} from '@angular/forms';
 import {Observable} from 'rxjs';
 
 export function withCustomValidator<
@@ -7,7 +12,7 @@ export function withCustomValidator<
 	control: TControl,
 	validator: (control: TControl) => null | ValidationErrors,
 ): TControl {
-	control.addValidators(() => validator(control));
+	control.addValidators(validator as ValidatorFn);
 	control.updateValueAndValidity();
 	return control;
 }
@@ -20,7 +25,7 @@ export function withCustomAsyncValidator<
 		control: TControl,
 	) => Promise<null | ValidationErrors> | Observable<null | ValidationErrors>,
 ): TControl {
-	control.addAsyncValidators(() => validator(control));
+	control.addAsyncValidators(validator as AsyncValidatorFn);
 	control.updateValueAndValidity();
 	return control;
 }
