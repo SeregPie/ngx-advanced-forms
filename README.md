@@ -179,7 +179,7 @@ export class MyComponent {
 
 ### withCustomValidator
 
-Sets a custom typed synchronous validator on a control and recalculates the value and the validation status of the control. Calling this overwrites any existing synchronous validators.
+Adds a custom typed synchronous validator on a control and recalculates the value and the validation status of the control.
 
 #### Type
 
@@ -222,7 +222,7 @@ export class MyComponent {
 
 ### withCustomAsyncValidator
 
-Sets a custom typed asynchronous validator on a control and recalculates the value and the validation status of the control. Calling this overwrites any existing asynchronous validators.
+Adds a custom typed asynchronous validator on a control and recalculates the value and the validation status of the control.
 
 #### Type
 

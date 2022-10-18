@@ -7,7 +7,7 @@ export function withCustomValidator<
 	control: TControl,
 	validator: (control: TControl) => null | ValidationErrors,
 ): TControl {
-	control.setValidators(() => validator(control));
+	control.addValidators(() => validator(control));
 	control.updateValueAndValidity();
 	return control;
 }
@@ -20,7 +20,7 @@ export function withCustomAsyncValidator<
 		control: TControl,
 	) => Promise<null | ValidationErrors> | Observable<null | ValidationErrors>,
 ): TControl {
-	control.setAsyncValidators(() => validator(control));
+	control.addAsyncValidators(() => validator(control));
 	control.updateValueAndValidity();
 	return control;
 }
