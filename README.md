@@ -170,10 +170,6 @@ export class MyComponent {
 }
 ```
 
-#### To-Do
-
-- Add tests.
-
 ### withCustomValidator
 
 Adds a custom typed synchronous validator on a control and recalculates the value and the validation status of the control.
