@@ -1,11 +1,15 @@
 import {Injectable, Optional, Provider, Self} from '@angular/core';
-import {AbstractControl, NgControl} from '@angular/forms';
-import {noop} from 'rxjs';
+import {
+	AbstractControl,
+	AbstractControlDirective,
+	ControlContainer,
+	NgControl,
+} from '@angular/forms';
+
+import {NOOP_VALUE_ACCESSOR} from './control-hacks';
 
 @Injectable()
-export class FallthroughFormService<
-	TControl extends AbstractControl = AbstractControl,
-> {
+export class FallthroughFormService {
 	static provide(): Provider {
 		return this;
 	}
@@ -13,25 +17,21 @@ export class FallthroughFormService<
 	constructor(
 		@Self()
 		@Optional()
-		private readonly ngControl?: NgControl,
+		controlContainer?: ControlContainer,
+
+		@Self()
+		@Optional()
+		ngControl?: NgControl,
 	) {
 		if (ngControl) {
-			ngControl.valueAccessor = {
-				writeValue: noop,
-				registerOnChange: noop,
-				registerOnTouched: noop,
-			};
+			ngControl.valueAccessor = NOOP_VALUE_ACCESSOR;
 		}
+		this.controlDirective = controlContainer ?? ngControl ?? null;
 	}
 
-	get control(): TControl {
-		const {ngControl} = this;
-		if (ngControl) {
-			if (ngControl.control) {
-				return ngControl.control as TControl;
-			}
-		}
-		// todo: error message
-		throw new Error();
+	readonly controlDirective: null | AbstractControlDirective;
+
+	get control(): null | AbstractControl {
+		return this.controlDirective?.control ?? null;
 	}
 }

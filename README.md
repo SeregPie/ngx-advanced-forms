@@ -143,12 +143,12 @@ Passes a form control from an Angular directive through.
 
 ```ts
 @Injectable()
-class FallthroughFormService<
-  TControl extends AbstractControl = AbstractControl,
-> {
+class FallthroughFormService {
   static provide(): Provider;
 
-  readonly control: TControl;
+  readonly controlDirective: null | AbstractControlDirective;
+
+  readonly control: null | AbstractControl;
 }
 ```
 
@@ -160,9 +160,7 @@ class FallthroughFormService<
   /* ... */
 })
 export class MyComponent {
-  constructor(
-    public fallthroughFormService: FallthroughFormService<FormControl<number>>,
-  ) {}
+  constructor(readonly fallthroughFormService: FallthroughFormService) {}
 
   get form() {
     return this.fallthroughFormService.control;
@@ -174,7 +172,6 @@ export class MyComponent {
 
 #### To-Do
 
-- Support `FormGroup` and `FormArray` directives.
 - Add tests.
 
 ### withCustomValidator
