@@ -5,7 +5,7 @@ import {withCustomAsyncValidator, withCustomValidator} from './with-validator';
 
 const dummyValidatorFn: ValidatorFn = () => null;
 
-const dummyAsyncValidatorFn: AsyncValidatorFn = () => Promise.resolve(null);
+const dummyAsyncValidatorFn: AsyncValidatorFn = async () => await null;
 
 describe('withCustomValidator', () => {
 	it('should validate', () => {
@@ -54,7 +54,7 @@ describe('withCustomAsyncValidator', () => {
 			new FormControl(1, {
 				nonNullable: true,
 			}),
-			(form) => Promise.resolve(form.value % 2 ? {error: true} : null),
+			async (form) => await (form.value % 2 ? {error: true} : null),
 		);
 
 		expect(form.pending).toBeTrue();
@@ -90,7 +90,7 @@ describe('withCustomAsyncValidator', () => {
 				validators: dummyValidatorFn,
 				asyncValidators: dummyAsyncValidatorFn,
 			}),
-			() => Promise.resolve(null),
+			async () => await null,
 		);
 		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
 		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
