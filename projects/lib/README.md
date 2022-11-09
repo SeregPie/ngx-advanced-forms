@@ -188,30 +188,13 @@ function withCustomValidator<
 #### Usage
 
 ```ts
-@Component({
-  /* ... */
-})
-export class MyComponent {
-  /* ... */
-
-  form = new FormGroup({
-    items: withCustomValidator(
-      new DynamicFormArray(
-        () =>
-          new FormControl(0, {
-            nonNullable: true,
-          }),
-      ),
-      (form) => (form.getRawValue().some((n) => n > 0) ? null : {error: true}),
-    ),
-  });
-}
+const form = withCustomValidator(
+  new FormControl(0, {
+    nonNullable: true,
+  }),
+  (form) => (isPowerOfTwo(form.value) ? null : {error: true}),
+);
 ```
-
-#### To-Do
-
-- Add better usage example.
-- Add tests.
 
 ### withCustomAsyncValidator
 
@@ -230,10 +213,16 @@ function withCustomAsyncValidator<
 ): TControl;
 ```
 
-#### To-Do
+#### Usage
 
-- Add usage example.
-- Add tests.
+```ts
+const form = withCustomAsyncValidator(
+  new FormControl('', {
+    nonNullable: true,
+  }),
+  async (form) => ((await isNameAvailable(form.value)) ? null : {error: true}),
+);
+```
 
 ## To-Do
 
