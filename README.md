@@ -154,25 +154,34 @@ class FallthroughFormService {
 
 #### Usage
 
+Provide the service inside the component which uses the form functionality.
+
 ```ts
 @Component({
   providers: [FallthroughFormService.provide()],
+  selector: 'my-kvvemtse',
   /* ... */
 })
 export class MyComponent {
   constructor(readonly fallthroughFormService: FallthroughFormService) {}
 
   get form() {
-    return this.fallthroughFormService.control;
+    return this.fallthroughFormService.control as FormControl;
   }
 
   /* ... */
 }
 ```
 
-#### To-Do
+Inside the template of your component pass the form control to the underlying input component.
 
-- Add better usage example.
+```html
+<ui-text-input [formControl]="form"></ui-text-input>
+```
+
+```html
+<my-kvvemtse [formControlName]="userName"></my-kvvemtse>
+```
 
 ### withCustomValidator
 
