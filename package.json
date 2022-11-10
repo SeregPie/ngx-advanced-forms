@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"build": "ng build lib",
+		"build": "ng build lib && cp README.md LICENSE dist/lib",
 		"format": "prettier --write .",
 		"test": "ng test lib"
 	},
