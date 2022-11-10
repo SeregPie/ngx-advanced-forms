@@ -1,7 +1,10 @@
 import {fakeAsync, flush} from '@angular/core/testing';
 import {AsyncValidatorFn, FormControl, ValidatorFn} from '@angular/forms';
 
-import {withCustomAsyncValidator, withCustomValidator} from './with-validator';
+import {
+	withCustomAsyncValidator,
+	withCustomValidator,
+} from './with-custom-validator';
 
 const dummyValidatorFn: ValidatorFn = () => null;
 
