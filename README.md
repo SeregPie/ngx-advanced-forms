@@ -28,6 +28,7 @@ import {
 - helper functions
   - [`withCustomValidator`](#withcustomvalidator)
   - [`withCustomAsyncValidator`](#withcustomasyncvalidator)
+- [`types`](#types)
 
 ### DynamicFormArray
 
@@ -183,10 +184,7 @@ Adds a custom typed synchronous validator on a control and recalculates the valu
 ```ts
 function withCustomValidator<
   TControl extends AbstractControl = AbstractControl,
->(
-  control: TControl,
-  validator: (control: TControl) => null | ValidationErrors,
-): TControl;
+>(control: TControl, validator: TypedValidatorFn<TControl>): TControl;
 ```
 
 #### Usage
@@ -209,12 +207,7 @@ Adds a custom typed asynchronous validator on a control and recalculates the val
 ```ts
 function withCustomAsyncValidator<
   TControl extends AbstractControl = AbstractControl,
->(
-  control: TControl,
-  validator: (
-    control: TControl,
-  ) => Promise<null | ValidationErrors> | Observable<null | ValidationErrors>,
-): TControl;
+>(control: TControl, validator: TypedAsyncValidatorFn<TControl>): TControl;
 ```
 
 #### Usage
@@ -226,6 +219,38 @@ const form = withCustomAsyncValidator(
   }),
   async (form) => ((await isNameAvailable(form.value)) ? null : {error: true}),
 );
+```
+
+### combineValidators
+
+...
+
+#### Type
+
+```ts
+function combineValidators<TControl extends AbstractControl = AbstractControl>(
+  ...validators: Array<TypedValidatorFn<TControl>>
+): TypedValidatorFn<TControl>;
+```
+
+#### Usage
+
+```ts
+...
+```
+
+### combineAsyncValidators
+
+...
+
+#### Type
+
+```ts
+function combineAsyncValidators<
+  TControl extends AbstractControl = AbstractControl,
+>(
+  ...validators: Array<TypedAsyncValidatorFn<TControl>>
+): TypedAsyncValidatorFn<TControl>;
 ```
 
 ## To-Do
