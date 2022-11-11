@@ -22,6 +22,7 @@ describe('withCustomValidator', () => {
 		expect(form.invalid).toBeTrue();
 
 		form.setValue(2);
+
 		expect(form.valid).toBeTrue();
 	});
 
