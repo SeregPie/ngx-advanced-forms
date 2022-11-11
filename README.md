@@ -183,10 +183,7 @@ Adds a custom typed synchronous validator on a control and recalculates the valu
 ```ts
 function withCustomValidator<
   TControl extends AbstractControl = AbstractControl,
->(
-  control: TControl,
-  validator: (control: TControl) => null | ValidationErrors,
-): TControl;
+>(control: TControl, validator: TypedValidatorFn<TControl>): TControl;
 ```
 
 #### Usage
@@ -209,12 +206,7 @@ Adds a custom typed asynchronous validator on a control and recalculates the val
 ```ts
 function withCustomAsyncValidator<
   TControl extends AbstractControl = AbstractControl,
->(
-  control: TControl,
-  validator: (
-    control: TControl,
-  ) => Promise<null | ValidationErrors> | Observable<null | ValidationErrors>,
-): TControl;
+>(control: TControl, validator: TypedAsyncValidatorFn<TControl>): TControl;
 ```
 
 #### Usage
