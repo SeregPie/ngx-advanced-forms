@@ -1,74 +1,51 @@
-import {fakeAsync, tick} from '@angular/core/testing';
+import {tick} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
 import {UltimateFormService} from './ultimate-form';
 
 describe('UltimateFormService', () => {
-	it('', fakeAsync(() => {
-		const form = new FormControl<null | number>(0);
-		const service: UltimateFormService<null | number> = null as any;
-		tick();
-		expect(form.value).toEqual(service.value);
-		{
-			const value = null;
-			form.setValue(value);
-			tick();
-			expect(service.value).toEqual(value);
-		}
-		{
-			const value = 0;
-			service.value = value;
-			tick();
-			expect(form.value).toEqual(value);
-		}
-	}));
+	it('', () => {
+		const form = new FormControl(0);
+		const service: UltimateFormService<number> = null as any;
+		expect(service.value).toEqual(0);
+		service.value = 1;
+		expect(form.value).toEqual(1);
+		form.setValue(2);
+		expect(service.value).toEqual(2);
+	});
 
-	it('', fakeAsync(() => {
-		const form = new FormControl<null | number>(0);
-		const service: UltimateFormService<null | number> = null as any;
-		{
-			service.disabled = true;
-			tick();
-			expect(form.disabled).toBeTrue();
-		}
-		{
-			service.disabled = false;
-			tick();
-			expect(form.disabled).toBeFalse();
-		}
-	}));
+	it('', () => {
+		const form = new FormControl(0);
+		const service: UltimateFormService<number> = null as any;
+		form.disable();
+		expect(service.disabled).toBeTrue();
+		form.enable();
+		expect(service.disabled).toBeFalse();
+	});
 
-	it('', fakeAsync(() => {
-		const form = new FormControl<null | number>(0);
-		const service: UltimateFormService<null | number> = null as any;
-		{
-			service.pending = true;
-			tick();
-			expect(form.pending).toBeTrue();
-			//expect(form.errors).toBeNull();
-		}
-	}));
+	it('', () => {
+		const form = new FormControl(0);
+		const service: UltimateFormService<number> = null as any;
+		service.pending = true;
+		expect(form.pending).toBeTrue();
+		service.pending = false;
+		expect(form.pending).toBeFalse();
+	});
 
-	it('', fakeAsync(() => {
-		const form = new FormControl<null | number>(0);
-		const service: UltimateFormService<null | number> = null as any;
-		{
-			service.errors = {error: true};
-			tick();
-			expect(form.invalid).toBeTrue();
-			expect(form.errors).toEqual(service.errors);
-		}
-		{
-			service.errors = null;
-			tick();
-			expect(form.invalid).toBeFalse();
-			expect(form.errors).toBeNull();
-		}
-	}));
+	it('', () => {
+		const form = new FormControl(0);
+		const service: UltimateFormService<number> = null as any;
+		service.errors = {error: true};
+		expect(form.invalid).toBeTrue();
+		expect(form.errors).toEqual({error: true});
+		service.errors = null;
+		expect(form.invalid).toBeFalse();
+		expect(form.errors).toBeNull();
+	});
 
-	it('', fakeAsync(() => {
-		const form = new FormControl<null | number>(0);
-		const service: UltimateFormService<null | number> = null as any;
+	it('', () => {
+		const form = new FormControl(0);
+		const service: UltimateFormService<number> = null as any;
 		{
 			service.pending = true;
 			service.errors = {error: true};
@@ -81,5 +58,5 @@ describe('UltimateFormService', () => {
 			expect(form.invalid).toBeTrue();
 			expect(form.errors).toEqual(service.errors);
 		}
-	}));
+	});
 });

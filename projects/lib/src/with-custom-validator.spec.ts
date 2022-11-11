@@ -18,11 +18,8 @@ describe('withCustomValidator', () => {
 			}),
 			(form) => (form.value % 2 ? {error: true} : null),
 		);
-
 		expect(form.invalid).toBeTrue();
-
 		form.setValue(2);
-
 		expect(form.valid).toBeTrue();
 	});
 
@@ -60,13 +57,10 @@ describe('withCustomAsyncValidator', () => {
 			}),
 			async (form) => await (form.value % 2 ? {error: true} : null),
 		);
-
 		expect(form.pending).toBeTrue();
 		flush();
 		expect(form.invalid).toBeTrue();
-
 		form.setValue(2);
-
 		expect(form.pending).toBeTrue();
 		flush();
 		expect(form.valid).toBeTrue();
