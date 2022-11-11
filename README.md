@@ -221,6 +221,38 @@ const form = withCustomAsyncValidator(
 );
 ```
 
+### combineValidators
+
+...
+
+#### Type
+
+```ts
+function combineValidators<TControl extends AbstractControl = AbstractControl>(
+  ...validators: Array<TypedValidatorFn<TControl>>
+): TypedValidatorFn<TControl>;
+```
+
+#### Usage
+
+```ts
+...
+```
+
+### combineAsyncValidators
+
+...
+
+#### Type
+
+```ts
+function combineAsyncValidators<
+  TControl extends AbstractControl = AbstractControl,
+>(
+  ...validators: Array<TypedAsyncValidatorFn<TControl>>
+): TypedAsyncValidatorFn<TControl>;
+```
+
 ## To-Do
 
 - Add new injectable service for sub-forms.
