@@ -86,3 +86,21 @@ function withCustomAsyncValidator<
   TControl extends AbstractControl = AbstractControl,
 >(control: TControl, validator: TypedAsyncValidatorFn<TControl>): TControl;
 ```
+
+---
+
+```ts
+function combineValidators<TControl extends AbstractControl = AbstractControl>(
+  ...validators: Array<TypedValidatorFn<TControl>>
+): TypedValidatorFn<TControl>;
+```
+
+---
+
+```ts
+function combineAsyncValidators<
+  TControl extends AbstractControl = AbstractControl,
+>(
+  ...validators: Array<TypedAsyncValidatorFn<TControl>>
+): TypedAsyncValidatorFn<TControl>;
+```
