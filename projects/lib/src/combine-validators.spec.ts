@@ -8,56 +8,43 @@ import {
 } from './with-custom-validator';
 
 describe('combineValidators', () => {
-	it('', () => {
+	it('should validate', () => {
 		const form = withCustomValidator(
-			new FormControl(0),
-			combineValidators(Validators.required, Validators.min(3)),
+			new FormControl<null | number>(null),
+			combineValidators(Validators.required, Validators.min(1)),
 		);
-
 		expect(form.invalid).toBeTrue();
-
-		form.setValue(null);
-
+		form.setValue(0);
 		expect(form.invalid).toBeTrue();
-
-		form.setValue(5);
-
+		form.setValue(1);
 		expect(form.valid).toBeTrue();
 	});
 
 	it('', () => {
 		const form = withCustomValidator(
-			new FormControl(3),
-			combineValidators(Validators.max(2), Validators.max(4)),
+			new FormControl(''),
+			combineValidators(Validators.minLength(1), Validators.min(2)),
 		);
-
-		expect(form.errors).toEqual({});
-
-		form.setValue(5);
-
-		expect(form.errors).toEqual({});
+		expect(form.errors).toEqual({min: {min: 1, actual: 0}});
+		form.setValue(1);
+		expect(form.errors).toEqual({min: {min: 2, actual: 1}});
 	});
 });
 
 describe('combineAsyncValidators', () => {
-	it('', fakeAsync(() => {
+	it('should validate', fakeAsync(() => {
 		const form = withCustomAsyncValidator(
-			new FormControl(0),
-			combineAsyncValidators(Validators.required, Validators.min(3)),
+			new FormControl<null | number>(null),
+			combineAsyncValidators(Validators.required, Validators.min(1)), // todo: asyncify
 		);
-
 		expect(form.pending).toBeTrue();
 		flush();
 		expect(form.invalid).toBeTrue();
-
-		form.setValue(null);
-
+		form.setValue(0);
 		expect(form.pending).toBeTrue();
 		flush();
 		expect(form.invalid).toBeTrue();
-
-		form.setValue(5);
-
+		form.setValue(1);
 		expect(form.pending).toBeTrue();
 		flush();
 		expect(form.valid).toBeTrue();

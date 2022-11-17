@@ -21,9 +21,7 @@ import {
 ## API Reference
 
 ```ts
-class DynamicFormArray<
-  TControl extends AbstractControl = AbstractControl,
-> extends FormArray<TControl> {
+class DynamicFormArray<TControl> extends FormArray<TControl> {
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
 }
 ```
@@ -31,9 +29,7 @@ class DynamicFormArray<
 ---
 
 ```ts
-class DynamicFormRecord<
-  TControl extends AbstractControl = AbstractControl,
-> extends FormRecord<TControl> {
+class DynamicFormRecord<TControl> extends FormRecord<TControl> {
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
 }
 ```
@@ -42,7 +38,7 @@ class DynamicFormRecord<
 
 ```ts
 @Injectable()
-class FallthroughFormService {
+class FormFallthroughService {
   static provide(): Provider;
 
   readonly controlDirective: null | AbstractControlDirective;
@@ -54,53 +50,33 @@ class FallthroughFormService {
 ---
 
 ```ts
-interface TypedValidatorFn<TControl extends AbstractControl = AbstractControl> {
-  (control: TControl): null | ValidationErrors;
-}
+function withCustomValidator<TControl>(
+  control: TControl,
+  validator: ValidatorFn<TControl>,
+): TControl;
 ```
 
 ---
 
 ```ts
-interface TypedAsyncValidatorFn<
-  TControl extends AbstractControl = AbstractControl,
-> {
-  (control: TControl):
-    | Promise<null | ValidationErrors>
-    | Observable<null | ValidationErrors>;
-}
+function withCustomAsyncValidator<TControl>(
+  control: TControl,
+  validator: AsyncValidatorFn<TControl>,
+): TControl;
 ```
 
 ---
 
 ```ts
-function withCustomValidator<
-  TControl extends AbstractControl = AbstractControl,
->(control: TControl, validator: TypedValidatorFn<TControl>): TControl;
+function combineValidators<TControl>(
+  ...validators: Array<ValidatorFn<TControl>>
+): ValidatorFn<TControl>;
 ```
 
 ---
 
 ```ts
-function withCustomAsyncValidator<
-  TControl extends AbstractControl = AbstractControl,
->(control: TControl, validator: TypedAsyncValidatorFn<TControl>): TControl;
-```
-
----
-
-```ts
-function combineValidators<TControl extends AbstractControl = AbstractControl>(
-  ...validators: Array<TypedValidatorFn<TControl>>
-): TypedValidatorFn<TControl>;
-```
-
----
-
-```ts
-function combineAsyncValidators<
-  TControl extends AbstractControl = AbstractControl,
->(
-  ...validators: Array<TypedAsyncValidatorFn<TControl>>
-): TypedAsyncValidatorFn<TControl>;
+function combineAsyncValidators<TControl>(
+  ...validators: Array<AsyncValidatorFn<TControl>>
+): AsyncValidatorFn<TControl>;
 ```

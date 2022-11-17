@@ -10,7 +10,7 @@ import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {skip} from 'rxjs/operators';
 
 @Injectable()
-export class UltimateFormService<TValue = any>
+export class FormControlService<TValue = any>
 	implements AsyncValidator, ControlValueAccessor, OnDestroy
 {
 	static provide(): Provider {

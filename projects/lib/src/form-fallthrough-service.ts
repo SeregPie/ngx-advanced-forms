@@ -9,7 +9,7 @@ import {
 import {NOOP_VALUE_ACCESSOR} from './control-hacks';
 
 @Injectable()
-export class FallthroughFormService {
+export class FormFallthroughService {
 	static provide(): Provider {
 		return this;
 	}

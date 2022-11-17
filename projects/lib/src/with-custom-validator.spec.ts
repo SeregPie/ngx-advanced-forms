@@ -6,8 +6,10 @@ import {
 	withCustomValidator,
 } from './with-custom-validator';
 
+// todo: replace
 const dummyValidatorFn: ValidatorFn = () => null;
 
+// todo: replace
 const dummyAsyncValidatorFn: AsyncValidatorFn = async () => await null;
 
 describe('withCustomValidator', () => {
@@ -16,11 +18,17 @@ describe('withCustomValidator', () => {
 			new FormControl(1, {
 				nonNullable: true,
 			}),
-			(form) => (form.value % 2 ? {error: true} : null),
+			(form) => (form.value % 2 ? {epeqmxsg: true} : null), // todo: replace
 		);
+		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({epeqmxsg: true});
 		form.setValue(2);
+		// todo: keep some of 3
+		expect(form.invalid).toBeFalse();
 		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	});
 
 	it('should contain validator', () => {
@@ -42,7 +50,7 @@ describe('withCustomValidator', () => {
 				validators: dummyValidatorFn,
 				asyncValidators: dummyAsyncValidatorFn,
 			}),
-			() => null,
+			() => null, // todo: replace
 		);
 		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
 		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
@@ -55,15 +63,21 @@ describe('withCustomAsyncValidator', () => {
 			new FormControl(1, {
 				nonNullable: true,
 			}),
-			async (form) => await (form.value % 2 ? {error: true} : null),
+			async (form) => await (form.value % 2 ? {epeqmxsg: true} : null), // todo: replace & asyncify
 		);
 		expect(form.pending).toBeTrue();
 		flush();
+		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({epeqmxsg: true});
 		form.setValue(2);
 		expect(form.pending).toBeTrue();
 		flush();
+		// todo: keep some of 3
+		expect(form.invalid).toBeFalse();
 		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	}));
 
 	it('should contain validator', () => {
@@ -88,7 +102,7 @@ describe('withCustomAsyncValidator', () => {
 				validators: dummyValidatorFn,
 				asyncValidators: dummyAsyncValidatorFn,
 			}),
-			async () => await null,
+			async () => await null, // todo: replace & asyncify
 		);
 		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
 		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
