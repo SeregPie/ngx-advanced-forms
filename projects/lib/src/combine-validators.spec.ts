@@ -10,60 +10,126 @@ import {
 describe('combineValidators', () => {
 	it('should validate', () => {
 		const form = withCustomValidator(
-			new FormControl<null | number>(null),
+			new FormControl(0),
 			combineValidators(Validators.required, Validators.min(1)),
 		);
+
+		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
-		form.setValue(0);
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({min: {min: 1, actual: 0}}); // todo: keys only
+
+		form.setValue(null);
+
+		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
-		form.setValue(1);
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({required: true}); // todo: keys only
+
+		form.setValue(2);
+
+		// todo: keep some of 3
+		expect(form.invalid).toBeFalse();
 		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	});
 
-	it('', () => {
+	it('todo: text', () => {
 		const form = withCustomValidator(
-			new FormControl(''),
-			combineValidators(Validators.minLength(1), Validators.min(2)),
+			new FormControl('aaaa', {
+				nonNullable: true,
+			}),
+			combineValidators(Validators.maxLength(3), Validators.pattern(/^b*$/)),
 		);
-		expect(form.errors).toEqual({min: {min: 1, actual: 0}});
-		form.setValue(1);
-		expect(form.errors).toEqual({min: {min: 2, actual: 1}});
+
+		// todo: keep some of 3
+		expect(form.invalid).toBeTrue();
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({
+			maxlength: {requiredLength: 3, actualLength: 4},
+		}); // todo: keys only
+
+		form.setValue('aa');
+
+		expect(form.invalid).toBeTrue();
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({
+			pattern: {requiredPattern: '^b*$', actualValue: 'aa'},
+		}); // todo: keys only
 	});
 });
 
 describe('combineAsyncValidators', () => {
 	it('should validate', fakeAsync(() => {
 		const form = withCustomAsyncValidator(
-			new FormControl<null | number>(null),
+			new FormControl(0),
 			combineAsyncValidators(Validators.required, Validators.min(1)), // todo: asyncify
 		);
+
 		expect(form.pending).toBeTrue();
+
 		flush();
+
+		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
-		form.setValue(0);
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({min: {min: 1, actual: 0}}); // todo: keys only
+
+		form.setValue(null);
+
 		expect(form.pending).toBeTrue();
+
 		flush();
+
+		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
-		form.setValue(1);
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({required: true}); // todo: keys only
+
+		form.setValue(2);
+
 		expect(form.pending).toBeTrue();
+
 		flush();
+
+		// todo: keep some of 3
+		expect(form.invalid).toBeFalse();
 		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	}));
 
-	it('', fakeAsync(() => {
+	it('todo: text', fakeAsync(() => {
 		const form = withCustomAsyncValidator(
-			new FormControl(3),
-			combineAsyncValidators(Validators.max(2), Validators.max(4)),
+			new FormControl('aaaa', {
+				nonNullable: true,
+			}),
+			combineAsyncValidators(
+				Validators.maxLength(3),
+				Validators.pattern(/^b*$/),
+			), // todo: asyncify
 		);
 
 		expect(form.pending).toBeTrue();
-		flush();
-		expect(form.errors).toEqual({});
 
-		form.setValue(5);
+		flush();
+
+		// todo: keep some of 3
+		expect(form.invalid).toBeTrue();
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({
+			maxlength: {requiredLength: 3, actualLength: 4},
+		}); // todo: keys only
+
+		form.setValue('aa');
 
 		expect(form.pending).toBeTrue();
+
 		flush();
-		expect(form.errors).toEqual({});
+
+		expect(form.invalid).toBeTrue();
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({
+			pattern: {requiredPattern: '^b*$', actualValue: 'aa'},
+		}); // todo: keys only
 	}));
 });

@@ -20,11 +20,14 @@ describe('withCustomValidator', () => {
 			}),
 			(form) => (form.value % 2 ? {epeqmxsg: true} : null), // todo: replace
 		);
+
 		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
 		expect(form.valid).toBeFalse();
 		expect(form.errors).toEqual({epeqmxsg: true});
+
 		form.setValue(2);
+
 		// todo: keep some of 3
 		expect(form.invalid).toBeFalse();
 		expect(form.valid).toBeTrue();
@@ -33,6 +36,7 @@ describe('withCustomValidator', () => {
 
 	it('should contain validator', () => {
 		const form = withCustomValidator(new FormControl(0), dummyValidatorFn);
+
 		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
 	});
 
@@ -41,6 +45,7 @@ describe('withCustomValidator', () => {
 			.createSpy(undefined, dummyValidatorFn)
 			.and.callThrough();
 		withCustomValidator(new FormControl(0), customValidatorFn);
+
 		expect(customValidatorFn).toHaveBeenCalledTimes(1);
 	});
 
@@ -52,6 +57,7 @@ describe('withCustomValidator', () => {
 			}),
 			() => null, // todo: replace
 		);
+
 		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
 		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
 	});
@@ -65,15 +71,22 @@ describe('withCustomAsyncValidator', () => {
 			}),
 			async (form) => await (form.value % 2 ? {epeqmxsg: true} : null), // todo: replace & asyncify
 		);
+
 		expect(form.pending).toBeTrue();
+
 		flush();
+
 		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
 		expect(form.valid).toBeFalse();
 		expect(form.errors).toEqual({epeqmxsg: true});
+
 		form.setValue(2);
+
 		expect(form.pending).toBeTrue();
+
 		flush();
+
 		// todo: keep some of 3
 		expect(form.invalid).toBeFalse();
 		expect(form.valid).toBeTrue();
@@ -85,6 +98,7 @@ describe('withCustomAsyncValidator', () => {
 			new FormControl(0),
 			dummyAsyncValidatorFn,
 		);
+
 		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
 	});
 
@@ -93,6 +107,7 @@ describe('withCustomAsyncValidator', () => {
 			.createSpy(undefined, dummyAsyncValidatorFn)
 			.and.callThrough();
 		withCustomAsyncValidator(new FormControl(0), customAsyncValidatorFn);
+
 		expect(customAsyncValidatorFn).toHaveBeenCalledTimes(1);
 	});
 
@@ -104,6 +119,7 @@ describe('withCustomAsyncValidator', () => {
 			}),
 			async () => await null, // todo: replace & asyncify
 		);
+
 		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
 		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
 	});
