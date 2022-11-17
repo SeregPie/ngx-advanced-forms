@@ -14,7 +14,7 @@ describe('FormControlService', () => {
 		expect(service.value).toEqual(2);
 	});
 
-	it('should propagate disabled state', () => {
+	it('should propagate disabled status', () => {
 		// todo: setup
 		const form = new FormControl(0);
 		const service: FormControlService<number> = null as any;
@@ -24,7 +24,7 @@ describe('FormControlService', () => {
 		expect(service.disabled).toBeFalse();
 	});
 
-	it('should propagate pending state', () => {
+	it('should propagate pending status', () => {
 		// todo: setup
 		const form = new FormControl(0);
 		const service: FormControlService<number> = null as any;
@@ -50,7 +50,7 @@ describe('FormControlService', () => {
 		expect(form.errors).toBeNull();
 	});
 
-	it('should propagate touched', () => {
+	it('should propagate touched status', () => {
 		// todo: setup
 		const form = new FormControl(0);
 		const service: FormControlService<number> = null as any;

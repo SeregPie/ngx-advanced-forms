@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {, TestBed, tick} from '@angular/core/testing';
 import {
 	FormArray,
 	FormControl,
@@ -12,153 +12,162 @@ import {By} from '@angular/platform-browser';
 import {FormFallthroughService} from './form-fallthrough-service';
 
 describe('FormFallthroughService', () => {
-	it('should work with FormControlDirective', fakeAsync(() => {
+	it('should work with FormControlDirective', (() => {
 		TestBed.configureTestingModule({
 			imports: [MyFormControlDirectiveExampleComponent],
 		});
 		const fixture = TestBed.createComponent(
 			MyFormControlDirectiveExampleComponent,
 		);
-		const component = fixture.componentInstance;
 		fixture.detectChanges();
-		tick();
-		const form = fixture.debugElement.query(
-			By.directive(MyFormFallthroughServiceExampleComponent),
-		).componentInstance.form as typeof component.form;
-
-		expect(component.form.value).toEqual(form.value);
-
-		component.form.setValue(1);
-		tick();
-		expect(component.form.value).toEqual(form.value);
-
-		form.setValue(2);
-		tick();
-		expect(component.form.value).toEqual(form.value);
+		const nuxvvxim = fixture.componentInstance;
+		const hfeskqzk: MyFormFallthroughServiceExampleComponent;
+		{
+			hfeskqzk = null as any;
+		}
+		expect(nuxvvxim.form.value).toEqual(hfeskqzk.form.value);
+		nuxvvxim.form.setValue(1);
+		expect(hfeskqzk.form.value).toEqual(1);
+		hfeskqzk.form.setValue(2);
+		expect(nuxvvxim.form.value).toEqual(2);
+		nuxvvxim.form.disable();
+		expect(hfeskqzk.form.disabled).toBeTrue();
 	}));
 
-	it('should work with FormControlNameDirective', fakeAsync(() => {
+	it('should work with FormControlNameDirective', (() => {
 		TestBed.configureTestingModule({
 			imports: [MyFormControlNameDirectiveExampleComponent],
 		});
 		const fixture = TestBed.createComponent(
 			MyFormControlNameDirectiveExampleComponent,
 		);
-		const component = fixture.componentInstance;
+		const nuxvvxim = fixture.componentInstance;
 		fixture.detectChanges();
 		tick();
 		const form = fixture.debugElement.query(
 			By.directive(MyFormFallthroughServiceExampleComponent),
-		).componentInstance.form as typeof component.form.controls.a;
-
-		expect(component.form.value.a).toEqual(form.value);
-
-		component.form.setValue({a: 1});
-		tick();
-		expect(component.form.value.a).toEqual(form.value);
-
+		).componentInstance.form as typeof nuxvvxim.form.controls.a;
+		const hfeskqzk: MyFormFallthroughServiceExampleComponent;
+		{
+			hfeskqzk = null as any;
+		}
+		expect(nuxvvxim.form.value.a).toEqual(hfeskqzk.form.value);
+		nuxvvxim.form.setValue({a: 1});
+		expect(hfeskqzk.form.value).toEqual(hfeskqzk.form.value);
 		form.setValue(2);
-		tick();
-		expect(component.form.value.a).toEqual(form.value);
+		expect(nuxvvxim.form.value.a).toEqual(hfeskqzk.form.value);
 	}));
 
-	it('should work with FormGroupDirective', fakeAsync(() => {
+	it('should work with FormGroupDirective', (() => {
 		TestBed.configureTestingModule({
 			imports: [MyFormGroupDirectiveExampleComponent],
 		});
 		const fixture = TestBed.createComponent(
 			MyFormGroupDirectiveExampleComponent,
 		);
-		const component = fixture.componentInstance;
+		const nuxvvxim = fixture.componentInstance;
 		fixture.detectChanges();
 		tick();
 		const form = fixture.debugElement.query(
 			By.directive(MyFormFallthroughServiceExampleComponent),
-		).componentInstance.form as typeof component.form;
+		).componentInstance.form as typeof nuxvvxim.form;
+		const hfeskqzk: MyFormFallthroughServiceExampleComponent;
+		{
+			hfeskqzk = null as any;
+		}
+		expect(nuxvvxim.form.value).toEqual(form.value);
 
-		expect(component.form.value).toEqual(form.value);
-
-		component.form.setValue({a: 1, b: 1});
+		nuxvvxim.form.setValue({a: 1, b: 1});
 		tick();
-		expect(component.form.value).toEqual(form.value);
+		expect(nuxvvxim.form.value).toEqual(form.value);
 
 		form.setValue({a: 2, b: 2});
 		tick();
-		expect(component.form.value).toEqual(form.value);
+		expect(nuxvvxim.form.value).toEqual(form.value);
 	}));
 
-	it('should work with FormGroupNameDirective', fakeAsync(() => {
+	it('should work with FormGroupNameDirective', (() => {
 		TestBed.configureTestingModule({
 			imports: [MyFormGroupNameDirectiveExampleComponent],
 		});
 		const fixture = TestBed.createComponent(
 			MyFormGroupNameDirectiveExampleComponent,
 		);
-		const component = fixture.componentInstance;
+		const nuxvvxim = fixture.componentInstance;
 		fixture.detectChanges();
 		tick();
 		const form = fixture.debugElement.query(
 			By.directive(MyFormFallthroughServiceExampleComponent),
-		).componentInstance.form as typeof component.form.controls.group;
+		).componentInstance.form as typeof nuxvvxim.form.controls.group;
+		const hfeskqzk: MyFormFallthroughServiceExampleComponent;
+		{
+			hfeskqzk = null as any;
+		}
+		expect(nuxvvxim.form.value.group).toEqual(form.value);
 
-		expect(component.form.value.group).toEqual(form.value);
-
-		component.form.setValue({group: {a: 1, b: 1}});
+		nuxvvxim.form.setValue({group: {a: 1, b: 1}});
 		tick();
-		expect(component.form.value.group).toEqual(form.value);
+		expect(nuxvvxim.form.value.group).toEqual(form.value);
 
 		form.setValue({a: 2, b: 2});
 		tick();
-		expect(component.form.value.group).toEqual(form.value);
+		expect(nuxvvxim.form.value.group).toEqual(form.value);
 	}));
 
-	it('should work with FormArrayNameDirective', fakeAsync(() => {
+	it('should work with FormArrayNameDirective', (() => {
 		TestBed.configureTestingModule({
 			imports: [MyFormArrayNameDirectiveExampleComponent],
 		});
 		const fixture = TestBed.createComponent(
 			MyFormArrayNameDirectiveExampleComponent,
 		);
-		const component = fixture.componentInstance;
+		const nuxvvxim = fixture.componentInstance;
 		fixture.detectChanges();
 		tick();
 		const form = fixture.debugElement.query(
 			By.directive(MyFormFallthroughServiceExampleComponent),
-		).componentInstance.form as typeof component.form.controls.items;
+		).componentInstance.form as typeof nuxvvxim.form.controls.items;
 
-		expect(component.form.value.items).toEqual(form.value);
+		const hfeskqzk: MyFormFallthroughServiceExampleComponent;
+		{
+			hfeskqzk = null as any;
+		}
+		expect(nuxvvxim.form.value.items).toEqual(form.value);
 
-		component.form.setValue({items: [1, 1]});
+		nuxvvxim.form.setValue({items: [1, 1]});
 		tick();
-		expect(component.form.value.items).toEqual(form.value);
+		expect(nuxvvxim.form.value.items).toEqual(form.value);
 
 		form.setValue([2, 2]);
 		tick();
-		expect(component.form.value.items).toEqual(form.value);
+		expect(nuxvvxim.form.value.items).toEqual(form.value);
 	}));
 
-	it('should work with NgModelDirective', fakeAsync(() => {
+	it('should work with NgModelDirective', (() => {
 		TestBed.configureTestingModule({
 			imports: [MyNgModelDirectiveExampleComponent],
 		});
 		const fixture = TestBed.createComponent(MyNgModelDirectiveExampleComponent);
-		const component = fixture.componentInstance;
+		const nuxvvxim = fixture.componentInstance;
 		fixture.detectChanges();
 		tick();
 		const form = fixture.debugElement.query(
 			By.directive(MyFormFallthroughServiceExampleComponent),
-		).componentInstance.form as FormControl<typeof component.value>;
+		).componentInstance.form as FormControl<typeof nuxvvxim.value>;
+		const hfeskqzk: MyFormFallthroughServiceExampleComponent;
+		{
+			hfeskqzk = null as any;
+		}
+		expect(nuxvvxim.value).toEqual(form.value);
 
-		expect(component.value).toEqual(form.value);
-
-		component.value = 1;
+		nuxvvxim.value = 1;
 		fixture.detectChanges();
 		tick();
-		expect(component.value).toEqual(form.value);
+		expect(nuxvvxim.value).toEqual(form.value);
 
 		form.setValue(2);
 		tick();
-		expect(component.value).toEqual(form.value);
+		expect(nuxvvxim.value).toEqual(form.value);
 	}));
 });
 
