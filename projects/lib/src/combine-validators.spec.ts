@@ -57,13 +57,40 @@ describe('combineValidators', () => {
 			pattern: {requiredPattern: '^b*$', actualValue: 'aa'},
 		}); // todo: keys only
 	});
+
+	it('todo: text', () => {
+		const form = withCustomValidator(
+			new FormControl('aaaa', {
+				nonNullable: true,
+			}),
+			combineValidators(Validators.maxLength(3), Validators.pattern(/^b*$/)),
+		);
+
+		// todo: keep some of 3
+		expect(form.invalid).toBeTrue();
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({
+			maxlength: {requiredLength: 3, actualLength: 4},
+		}); // todo: keys only
+
+		form.setValue('aa');
+
+		expect(form.invalid).toBeTrue();
+		expect(form.valid).toBeFalse();
+		expect(form.errors).toEqual({
+			pattern: {requiredPattern: '^b*$', actualValue: 'aa'},
+		}); // todo: keys only
+	});
 });
 
 describe('combineAsyncValidators', () => {
 	it('should validate', fakeAsync(() => {
 		const form = withCustomAsyncValidator(
 			new FormControl(0),
-			combineAsyncValidators(Validators.required, Validators.min(1)), // todo: asyncify
+			combineAsyncValidators(
+				async (form) => await Validators.required(form),
+				async (form) => await Validators.min(1)(form),
+			), // todo: asyncify
 		);
 
 		expect(form.pending).toBeTrue();
@@ -104,8 +131,8 @@ describe('combineAsyncValidators', () => {
 				nonNullable: true,
 			}),
 			combineAsyncValidators(
-				Validators.maxLength(3),
-				Validators.pattern(/^b*$/),
+				async (form) => await Validators.maxLength(3)(form),
+				async (form) => await Validators.pattern(/^b*$/)(form),
 			), // todo: asyncify
 		);
 
@@ -132,4 +159,11 @@ describe('combineAsyncValidators', () => {
 			pattern: {requiredPattern: '^b*$', actualValue: 'aa'},
 		}); // todo: keys only
 	}));
+
+	it('todo: text', (() => {
+		combineAsyncValidators(
+			async (form) => await Validators.maxLength(3)(form),
+			async (form) => await Validators.pattern(/^b*$/)(form),
+		),
+	});
 });

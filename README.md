@@ -50,6 +50,31 @@ class FormFallthroughService {
 ---
 
 ```ts
+@Injectable()
+class FormControlService<TValue> {
+  static provide(): Provider;
+
+  value: null | TValue;
+
+  readonly valueChanges: Observable<null | TValue>;
+
+  errors: null | ValidationErrors;
+
+  readonly errorsChanges: Observable<null | ValidationErrors>;
+
+  disabled: boolean;
+
+  readonly disabledChanges = Observable<boolean>;
+
+  pending: boolean;
+
+  readonly pendingChanges = Observable<boolean>;
+}
+```
+
+---
+
+```ts
 function withCustomValidator<TControl>(
   control: TControl,
   validator: ValidatorFn<TControl>,

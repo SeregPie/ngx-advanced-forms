@@ -119,20 +119,20 @@ describe('FormFallthroughService', () => {
 				By.directive(MyFormFallthroughServiceExampleComponent),
 			).componentInstance;
 
-		flush(); // todo: remove?
+		flush();
 
 		expect(hfeskqzkComponent.form.value).toEqual(0);
 
 		hfeskqzkComponent.form.setValue(1);
 
-		flush(); // todo: remove?
+		flush();
 
 		expect(nuxvvximComponent.value).toEqual(1);
 
 		nuxvvximComponent.value = 2;
 		fixture.detectChanges();
 
-		flush(); // todo: remove?
+		flush();
 
 		expect(hfeskqzkComponent.form.value).toEqual(2);
 	}));

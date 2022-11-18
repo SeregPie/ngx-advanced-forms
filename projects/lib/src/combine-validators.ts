@@ -8,8 +8,10 @@ export function combineValidators<
 >(
 	...validators: Array<TypedValidatorFn<TControl>>
 ): TypedValidatorFn<TControl> {
-	// todo: implement
-	throw null;
+	validators;
+	return (control) => {
+		return null;
+	};
 }
 
 // todo: rename
@@ -18,6 +20,8 @@ export function combineAsyncValidators<
 >(
 	...validators: Array<TypedAsyncValidatorFn<TControl>>
 ): TypedAsyncValidatorFn<TControl> {
-	// todo: implement
-	throw null;
+	validators.forEach;
+	return (control) => {
+		return null;
+	};
 }
