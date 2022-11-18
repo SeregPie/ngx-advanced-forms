@@ -59,27 +59,7 @@ describe('combineValidators', () => {
 	});
 
 	it('todo: text', () => {
-		const form = withCustomValidator(
-			new FormControl('aaaa', {
-				nonNullable: true,
-			}),
-			combineValidators(Validators.maxLength(3), Validators.pattern(/^b*$/)),
-		);
-
-		// todo: keep some of 3
-		expect(form.invalid).toBeTrue();
-		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({
-			maxlength: {requiredLength: 3, actualLength: 4},
-		}); // todo: keys only
-
-		form.setValue('aa');
-
-		expect(form.invalid).toBeTrue();
-		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({
-			pattern: {requiredPattern: '^b*$', actualValue: 'aa'},
-		}); // todo: keys only
+		// todo: test if skip after not null
 	});
 });
 
@@ -160,10 +140,15 @@ describe('combineAsyncValidators', () => {
 		}); // todo: keys only
 	}));
 
-	it('todo: text', (() => {
-		combineAsyncValidators(
-			async (form) => await Validators.maxLength(3)(form),
-			async (form) => await Validators.pattern(/^b*$/)(form),
-		),
+	it('todo: text', () => {
+		// todo: test if skip after not null
+	});
+
+	it('todo: text', () => {
+		// todo: test if only latest value
+	});
+
+	it('todo: text', () => {
+		// todo: test with EMPTY
 	});
 });
