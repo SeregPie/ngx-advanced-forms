@@ -1,29 +1,23 @@
 import {fakeAsync, flush} from '@angular/core/testing';
-import {AsyncValidatorFn, FormControl, ValidatorFn} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 
 import {addAsyncValidator, addValidator} from './add-validator';
-
-// todo: replace
-const dummyValidator: ValidatorFn = () => null;
-
-// todo: replace
-const dummyAsyncValidator: AsyncValidatorFn = async () => await null;
 
 describe('addValidator', () => {
 	it('should validate', () => {
 		const form = addValidator(
-			new FormControl(1, {
+			new FormControl(11, {
 				nonNullable: true,
 			}),
-			(form) => (form.value % 2 ? {epeqmxsg: true} : null), // todo: replace
+			(form) => (form.value % 2 ? {error: true} : null),
 		);
 
 		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
 		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({epeqmxsg: true});
+		expect(form.errors).toEqual({error: true});
 
-		form.setValue(2);
+		form.setValue(12);
 
 		// todo: keep some of 3
 		expect(form.invalid).toBeFalse();
@@ -32,41 +26,47 @@ describe('addValidator', () => {
 	});
 
 	it('should contain validator', () => {
-		const form = addValidator(new FormControl(0), dummyValidator);
+		const customValidator = () => null;
+		const form = addValidator(new FormControl(null), customValidator);
 
-		expect(form.hasValidator(dummyValidator)).toBeTrue();
+		expect(form.hasValidator(customValidator)).toBeTrue();
 	});
 
 	it('should call validator only once', () => {
 		const customValidator = jasmine
-			.createSpy(undefined, dummyValidator)
+			.createSpy(undefined, () => null)
 			.and.callThrough();
-		addValidator(new FormControl(0), customValidator);
+		addValidator(new FormControl(null), customValidator);
 
 		expect(customValidator).toHaveBeenCalledTimes(1);
 	});
 
 	it('should not replace existing validators', () => {
+		const customValidator = () => null;
+		const customAsyncValidator = async () => null;
 		const form = addValidator(
-			new FormControl(0, {
-				validators: dummyValidator,
-				asyncValidators: dummyAsyncValidator,
+			new FormControl(null, {
+				validators: customValidator,
+				asyncValidators: customAsyncValidator,
 			}),
-			() => null, // todo: replace
+			() => ({error: true}),
 		);
 
-		expect(form.hasValidator(dummyValidator)).toBeTrue();
-		expect(form.hasAsyncValidator(dummyAsyncValidator)).toBeTrue();
+		expect(form.hasValidator(customValidator)).toBeTrue();
+		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	});
 });
 
 describe('addAsyncValidator', () => {
 	it('should validate', fakeAsync(() => {
 		const form = addAsyncValidator(
-			new FormControl(1, {
+			new FormControl(11, {
 				nonNullable: true,
 			}),
-			(form) => MinAsyncValidator.is(form.value, 2), // todo: replace & asyncify
+			async (form) => {
+				const n = form.value;
+				return n % 2 ? {even: n} : null;
+			},
 		);
 
 		expect(form.pending).toBeTrue();
@@ -76,9 +76,9 @@ describe('addAsyncValidator', () => {
 		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
 		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({epeqmxsg: true});
+		expect(form.errors).toEqual({even: 11});
 
-		form.setValue(2);
+		form.setValue(12);
 
 		expect(form.pending).toBeTrue();
 
@@ -91,14 +91,15 @@ describe('addAsyncValidator', () => {
 	}));
 
 	it('should contain validator', () => {
-		const form = addAsyncValidator(new FormControl(null), NoopAsyncValidator);
+		const customAsyncValidator = async () => null;
+		const form = addAsyncValidator(new FormControl(null), customAsyncValidator);
 
-		expect(form.hasAsyncValidator(NoopAsyncValidator)).toBeTrue();
+		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	});
 
 	it('should call validator only once', () => {
 		const customAsyncValidator = jasmine
-			.createSpy(undefined, NoopAsyncValidator)
+			.createSpy(undefined, async () => null)
 			.and.callThrough();
 		addAsyncValidator(new FormControl(null), customAsyncValidator);
 
@@ -106,15 +107,17 @@ describe('addAsyncValidator', () => {
 	});
 
 	it('should not replace existing validators', () => {
+		const customValidator = () => null;
+		const customAsyncValidator = async () => null;
 		const form = addAsyncValidator(
 			new FormControl(null, {
-				validators: NoopValidator,
-				asyncValidators: NoopAsyncValidator,
+				validators: customValidator,
+				asyncValidators: customAsyncValidator,
 			}),
-			RequiredAsyncValidator,
+			async () => ({error: true}),
 		);
 
-		expect(form.hasValidator(NoopValidator)).toBeTrue();
-		expect(form.hasAsyncValidator(NoopAsyncValidator)).toBeTrue();
+		expect(form.hasValidator(customValidator)).toBeTrue();
+		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	});
 });
