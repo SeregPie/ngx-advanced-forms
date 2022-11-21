@@ -3,6 +3,7 @@ import {FormControl, Validators} from '@angular/forms';
 
 import {concatAsyncValidators, concatValidators} from './concat-validators';
 import {addAsyncValidator, addValidator} from './add-validator';
+import {EMPTY, from, lastValueFrom, of} from 'rxjs';
 
 describe('concatValidators', () => {
 	it('should validate', () => {
@@ -57,6 +58,7 @@ describe('concatValidators', () => {
 	});
 
 	it('todo: text', () => {
+		const form = new FormControl(0);
 		const customValidator1 = jasmine
 			.createSpy(undefined, () => null)
 			.and.callThrough();
@@ -67,7 +69,7 @@ describe('concatValidators', () => {
 			.createSpy(undefined, () => null)
 			.and.callThrough();
 		addValidator(
-			new FormControl(0),
+			,
 			concatValidators(customValidator1, customValidator2, customValidator3),
 		);
 
@@ -154,15 +156,15 @@ describe('concatAsyncValidators', () => {
 		}); // todo: keys only
 	}));
 
-	it('todo: text', () => {
-		addAsyncValidator(
-			new FormControl(0),
-			concatAsyncValidators(
-				customAsyncValidator1,
-				customAsyncValidator2,
-				customAsyncValidator3,
-			),
+	it('todo: text', async () =>  {
+		const form = new FormControl(WAT);
+		const validateAsync = concatAsyncValidators(
+			customAsyncValidator1,
+			customAsyncValidator2,
+			customAsyncValidator3,
 		);
+
+		const validationErrors = await lastValueFrom(from(validateAsync(form)));
 
 		expect(customAsyncValidator1).toHaveBeenCalledTimes(1);
 		expect(customAsyncValidator2).toHaveBeenCalledTimes(1);
@@ -171,10 +173,36 @@ describe('concatAsyncValidators', () => {
 
 	it('todo: text', () => {
 		// todo: test if only latest value
+
+		const form = addAsyncValidator(
+			new FormControl(null),
+			concatAsyncValidators(
+				() => of({a: true}, null, null),
+				() => of(null, {b: true}, null),
+				() => of(null, null, {c: true}),
+			),
+		);
+
+		expect(form.errors).toEqual({c: true});
 	});
 
 	it('todo: text', () => {
-		// todo: test with EMPTY
+		const form = new FormControl(WAT);
+		{
+			const customAsyncValidator =
+			awaitLa
+			expect(customAsyncValidatorform.errors).toEqual(customErrors3);
+		}
+
+
+		addAsyncValidator(
+
+			concatAsyncValidators(
+				() => EMPTY,
+				customAsyncValidator2,
+				customAsyncValidator3,
+			),
+		);
 	});
 
 	// test promises, observables

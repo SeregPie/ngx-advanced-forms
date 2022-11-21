@@ -66,7 +66,7 @@ describe('addAsyncValidator', () => {
 			new FormControl(1, {
 				nonNullable: true,
 			}),
-			(form) => MinAsyncValidator.validate(form.value, 2), // todo: replace & asyncify
+			(form) => MinAsyncValidator.is(form.value, 2), // todo: replace & asyncify
 		);
 
 		expect(form.pending).toBeTrue();
@@ -91,9 +91,9 @@ describe('addAsyncValidator', () => {
 	}));
 
 	it('should contain validator', () => {
-		const form = addAsyncValidator(new FormControl(null), dummyAsyncValidator);
+		const form = addAsyncValidator(new FormControl(null), NoopAsyncValidator);
 
-		expect(form.hasAsyncValidator(dummyAsyncValidator)).toBeTrue();
+		expect(form.hasAsyncValidator(NoopAsyncValidator)).toBeTrue();
 	});
 
 	it('should call validator only once', () => {
