@@ -11,8 +11,8 @@
 	"author": "Sergej Sintschilin <seregpie@gmail.com>",
 	"repository": "github:SeregPie/ngx-advanced-forms",
 	"peerDependencies": {
-		"@angular/core": "^14",
-		"@angular/forms": "^14",
-		"rxjs": "^6 || ^7"
+		"@angular/core": ">=14",
+		"@angular/forms": ">=14",
+		"rxjs": ">=6"
 	}
 }

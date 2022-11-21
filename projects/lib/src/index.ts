@@ -1,4 +1,4 @@
-export * from './combine-validators';
+export * from './concat-validators';
 export * from './form-fallthrough-service';
-export * from './typed-validator';
-export * from './with-custom-validator';
+export * from './validator';
+export * from './add-validator';

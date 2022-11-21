@@ -7,10 +7,15 @@ describe('FormControlService', () => {
 		// todo: setup
 		const form = new FormControl(0);
 		const service: FormControlService<number> = null as any;
+
 		expect(service.value).toEqual(0);
+
 		service.value = 1;
+
 		expect(form.value).toEqual(1);
+
 		form.setValue(2);
+
 		expect(service.value).toEqual(2);
 	});
 
@@ -18,9 +23,15 @@ describe('FormControlService', () => {
 		// todo: setup
 		const form = new FormControl(0);
 		const service: FormControlService<number> = null as any;
+
+		expect(service.disabled).toBeFalse();
+
 		form.disable();
+
 		expect(service.disabled).toBeTrue();
+
 		form.enable();
+
 		expect(service.disabled).toBeFalse();
 	});
 
@@ -28,9 +39,15 @@ describe('FormControlService', () => {
 		// todo: setup
 		const form = new FormControl(0);
 		const service: FormControlService<number> = null as any;
+
+		expect(form.pending).toBeFalse();
+
 		service.pending = true;
+
 		expect(form.pending).toBeTrue();
+
 		service.pending = false;
+
 		expect(form.pending).toBeFalse();
 	});
 
@@ -38,12 +55,16 @@ describe('FormControlService', () => {
 		// todo: setup
 		const form = new FormControl(0);
 		const service: FormControlService<number> = null as any;
+
 		service.errors = {epeqmxsg: true}; // todo: use other object
+
 		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
 		expect(form.valid).toBeFalse();
 		expect(form.errors).toEqual({epeqmxsg: true});
+
 		service.errors = null;
+
 		// todo: keep some of 3
 		expect(form.invalid).toBeFalse();
 		expect(form.valid).toBeTrue();
@@ -54,8 +75,11 @@ describe('FormControlService', () => {
 		// todo: setup
 		const form = new FormControl(0);
 		const service: FormControlService<number> = null as any;
+
 		service.touch();
+
 		expect(form.touched).toBeTrue();
+
 		// todo: form.markAsUntouched();
 	});
 

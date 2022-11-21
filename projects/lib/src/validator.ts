@@ -1,13 +1,13 @@
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 import {Observable} from 'rxjs';
 
-export interface TypedValidatorFn<
+export interface ValidatorFn<
 	TControl extends AbstractControl = AbstractControl,
 > {
 	(control: TControl): null | ValidationErrors;
 }
 
-export interface TypedAsyncValidatorFn<
+export interface AsyncValidatorFn<
 	TControl extends AbstractControl = AbstractControl,
 > {
 	(control: TControl):

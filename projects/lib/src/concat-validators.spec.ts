@@ -1,17 +1,14 @@
 import {fakeAsync, flush} from '@angular/core/testing';
 import {FormControl, Validators} from '@angular/forms';
 
-import {combineAsyncValidators, combineValidators} from './combine-validators';
-import {
-	withCustomAsyncValidator,
-	withCustomValidator,
-} from './with-custom-validator';
+import {concatAsyncValidators, concatValidators} from './concat-validators';
+import {addAsyncValidator, addValidator} from './add-validator';
 
-describe('combineValidators', () => {
+describe('concatValidators', () => {
 	it('should validate', () => {
-		const form = withCustomValidator(
+		const form = addValidator(
 			new FormControl(0),
-			combineValidators(Validators.required, Validators.min(1)),
+			concatValidators(Validators.required, Validators.min(1)),
 		);
 
 		// todo: keep some of 3
@@ -35,11 +32,11 @@ describe('combineValidators', () => {
 	});
 
 	it('todo: text', () => {
-		const form = withCustomValidator(
+		const form = addValidator(
 			new FormControl('aaaa', {
 				nonNullable: true,
 			}),
-			combineValidators(Validators.maxLength(3), Validators.pattern(/^b*$/)),
+			concatValidators(Validators.maxLength(3), Validators.pattern(/^b*$/)),
 		);
 
 		// todo: keep some of 3
@@ -51,6 +48,7 @@ describe('combineValidators', () => {
 
 		form.setValue('aa');
 
+		// todo: keep some of 3
 		expect(form.invalid).toBeTrue();
 		expect(form.valid).toBeFalse();
 		expect(form.errors).toEqual({
@@ -59,15 +57,31 @@ describe('combineValidators', () => {
 	});
 
 	it('todo: text', () => {
-		// todo: test if skip after not null
+		const customValidator1 = jasmine
+			.createSpy(undefined, () => null)
+			.and.callThrough();
+		const customValidator2 = jasmine
+			.createSpy(undefined, () => ({error: true}))
+			.and.callThrough();
+		const customValidator3 = jasmine
+			.createSpy(undefined, () => null)
+			.and.callThrough();
+		addValidator(
+			new FormControl(0),
+			concatValidators(customValidator1, customValidator2, customValidator3),
+		);
+
+		expect(customValidator1).toHaveBeenCalledTimes(1);
+		expect(customValidator2).toHaveBeenCalledTimes(1);
+		expect(customValidator3).toHaveBeenCalledTimes(0);
 	});
 });
 
-describe('combineAsyncValidators', () => {
+describe('concatAsyncValidators', () => {
 	it('should validate', fakeAsync(() => {
-		const form = withCustomAsyncValidator(
+		const form = addAsyncValidator(
 			new FormControl(0),
-			combineAsyncValidators(
+			concatAsyncValidators(
 				async (form) => await Validators.required(form),
 				async (form) => await Validators.min(1)(form),
 			), // todo: asyncify
@@ -106,11 +120,11 @@ describe('combineAsyncValidators', () => {
 	}));
 
 	it('todo: text', fakeAsync(() => {
-		const form = withCustomAsyncValidator(
+		const form = addAsyncValidator(
 			new FormControl('aaaa', {
 				nonNullable: true,
 			}),
-			combineAsyncValidators(
+			concatAsyncValidators(
 				async (form) => await Validators.maxLength(3)(form),
 				async (form) => await Validators.pattern(/^b*$/)(form),
 			), // todo: asyncify
@@ -141,7 +155,18 @@ describe('combineAsyncValidators', () => {
 	}));
 
 	it('todo: text', () => {
-		// todo: test if skip after not null
+		addAsyncValidator(
+			new FormControl(0),
+			concatAsyncValidators(
+				customAsyncValidator1,
+				customAsyncValidator2,
+				customAsyncValidator3,
+			),
+		);
+
+		expect(customAsyncValidator1).toHaveBeenCalledTimes(1);
+		expect(customAsyncValidator2).toHaveBeenCalledTimes(1);
+		expect(customAsyncValidator3).toHaveBeenCalledTimes(0);
 	});
 
 	it('todo: text', () => {
@@ -151,4 +176,8 @@ describe('combineAsyncValidators', () => {
 	it('todo: text', () => {
 		// todo: test with EMPTY
 	});
+
+	// test promises, observables
+
+	// test immediate
 });
