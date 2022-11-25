@@ -17,12 +17,12 @@ import {FormFallthroughService} from './form-fallthrough-service';
 
 describe('FormFallthroughService', () => {
 	it('should work with FormControlDirective', () => {
-		Component({
+		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'spec-hfeskqzk',
 			standalone: true,
 			template: '',
-		});
+		})
 		class HfeskqzkComponent {
 			constructor(public service: FormFallthroughService) {}
 		}
@@ -51,12 +51,12 @@ describe('FormFallthroughService', () => {
 	});
 
 	it('should work with FormControlNameDirective', () => {
-		Component({
+		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'spec-hfeskqzk',
 			standalone: true,
 			template: '',
-		});
+		})
 		class HfeskqzkComponent {
 			constructor(public service: FormFallthroughService) {}
 		}
@@ -93,12 +93,12 @@ describe('FormFallthroughService', () => {
 	});
 
 	it('should work with FormGroupDirective', () => {
-		Component({
+		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'spec-hfeskqzk',
 			standalone: true,
 			template: '',
-		});
+		})
 		class HfeskqzkComponent {
 			constructor(public service: FormFallthroughService) {}
 		}
@@ -130,12 +130,12 @@ describe('FormFallthroughService', () => {
 	});
 
 	it('should work with FormGroupNameDirective', () => {
-		Component({
+		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'spec-hfeskqzk',
 			standalone: true,
 			template: '',
-		});
+		})
 		class HfeskqzkComponent {
 			constructor(public service: FormFallthroughService) {}
 		}
@@ -175,12 +175,12 @@ describe('FormFallthroughService', () => {
 	});
 
 	it('should work with FormArrayNameDirective', () => {
-		Component({
+		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'spec-hfeskqzk',
 			standalone: true,
 			template: '',
-		});
+		})
 		class HfeskqzkComponent {
 			constructor(public service: FormFallthroughService) {}
 		}
@@ -217,12 +217,12 @@ describe('FormFallthroughService', () => {
 	});
 
 	it('should work with NgModelDirective', fakeAsync(() => {
-		Component({
+		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'spec-hfeskqzk',
 			standalone: true,
 			template: '',
-		});
+		})
 		class HfeskqzkComponent {
 			constructor(public service: FormFallthroughService) {}
 
