@@ -11,113 +11,245 @@ import {By} from '@angular/platform-browser';
 
 import {FormFallthroughService} from './form-fallthrough-service';
 
-// todo: rename nuxvvximComponent
-// todo: rename hfeskqzkComponent
+// todo: rename nuxvvxim Nuxvvxim
+// todo: rename hfeskqzk Hfeskqzk
 // todo: rename yfvgjtss
 
 describe('FormFallthroughService', () => {
 	it('should work with FormControlDirective', () => {
-		TestBed.configureTestingModule({
-			imports: [MyFormControlDirectiveExampleComponent],
+		Component({
+			providers: [FormFallthroughService.provide()],
+			selector: 'spec-hfeskqzk',
+			standalone: true,
+			template: '',
 		});
-		const fixture = TestBed.createComponent(
-			MyFormControlDirectiveExampleComponent,
-		);
+		class HfeskqzkComponent {
+			constructor(public service: FormFallthroughService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, HfeskqzkComponent],
+			selector: 'spec-nuxvvxim',
+			standalone: true,
+			template: `<spec-hfeskqzk [formControl]="form"></spec-hfeskqzk>`,
+		})
+		class NuxvvximComponent {
+			form = new FormControl(0);
+		}
+
+		TestBed.configureTestingModule({
+			imports: [NuxvvximComponent],
+		});
+		const fixture = TestBed.createComponent(NuxvvximComponent);
 		fixture.detectChanges();
 		const nuxvvximComponent = fixture.componentInstance;
-		const hfeskqzkComponent: MyFormFallthroughServiceExampleComponent =
-			fixture.debugElement.query(
-				By.directive(MyFormFallthroughServiceExampleComponent),
-			).componentInstance;
+		const hfeskqzkComponent: HfeskqzkComponent = fixture.debugElement.query(
+			By.directive(HfeskqzkComponent),
+		).componentInstance;
 
-		expect(hfeskqzkComponent.form).toBe(nuxvvximComponent.form);
+		expect(hfeskqzkComponent.service.control).toBe(nuxvvximComponent.form);
 	});
 
 	it('should work with FormControlNameDirective', () => {
-		TestBed.configureTestingModule({
-			imports: [MyFormControlNameDirectiveExampleComponent],
+		Component({
+			providers: [FormFallthroughService.provide()],
+			selector: 'spec-hfeskqzk',
+			standalone: true,
+			template: '',
 		});
-		const fixture = TestBed.createComponent(
-			MyFormControlNameDirectiveExampleComponent,
-		);
+		class HfeskqzkComponent {
+			constructor(public service: FormFallthroughService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, HfeskqzkComponent],
+			selector: 'spec-nuxvvxim',
+			standalone: true,
+			template: `
+				<ng-container [formGroup]="form">
+					<spec-hfeskqzk formControlName="yfvgjtss"></spec-hfeskqzk>
+				</ng-container>
+			`,
+		})
+		class NuxvvximComponent {
+			form = new FormGroup({
+				yfvgjtss: new FormControl(0),
+			});
+		}
+
+		TestBed.configureTestingModule({
+			imports: [NuxvvximComponent],
+		});
+		const fixture = TestBed.createComponent(NuxvvximComponent);
 		fixture.detectChanges();
 		const nuxvvximComponent = fixture.componentInstance;
-		const hfeskqzkComponent: MyFormFallthroughServiceExampleComponent =
-			fixture.debugElement.query(
-				By.directive(MyFormFallthroughServiceExampleComponent),
-			).componentInstance;
+		const hfeskqzkComponent: HfeskqzkComponent = fixture.debugElement.query(
+			By.directive(HfeskqzkComponent),
+		).componentInstance;
 
-		expect(hfeskqzkComponent.form).toBe(
+		expect(hfeskqzkComponent.service.control).toBe(
 			nuxvvximComponent.form.controls.yfvgjtss,
 		);
 	});
 
 	it('should work with FormGroupDirective', () => {
-		TestBed.configureTestingModule({
-			imports: [MyFormGroupDirectiveExampleComponent],
+		Component({
+			providers: [FormFallthroughService.provide()],
+			selector: 'spec-hfeskqzk',
+			standalone: true,
+			template: '',
 		});
-		const fixture = TestBed.createComponent(
-			MyFormGroupDirectiveExampleComponent,
-		);
+		class HfeskqzkComponent {
+			constructor(public service: FormFallthroughService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, HfeskqzkComponent],
+			selector: 'spec-nuxvvxim',
+			standalone: true,
+			template: `<spec-hfeskqzk [formGroup]="form"></spec-hfeskqzk>`,
+		})
+		class NuxvvximComponent {
+			form = new FormGroup({
+				a: new FormControl(0),
+				b: new FormControl(0),
+			});
+		}
+
+		TestBed.configureTestingModule({
+			imports: [NuxvvximComponent],
+		});
+		const fixture = TestBed.createComponent(NuxvvximComponent);
 		fixture.detectChanges();
 		const nuxvvximComponent = fixture.componentInstance;
-		const hfeskqzkComponent: MyFormFallthroughServiceExampleComponent =
-			fixture.debugElement.query(
-				By.directive(MyFormFallthroughServiceExampleComponent),
-			).componentInstance;
+		const hfeskqzkComponent: HfeskqzkComponent = fixture.debugElement.query(
+			By.directive(HfeskqzkComponent),
+		).componentInstance;
 
-		expect(hfeskqzkComponent.form).toBe(nuxvvximComponent.form);
+		expect(hfeskqzkComponent.service.control).toBe(nuxvvximComponent.form);
 	});
 
 	it('should work with FormGroupNameDirective', () => {
-		TestBed.configureTestingModule({
-			imports: [MyFormGroupNameDirectiveExampleComponent],
+		Component({
+			providers: [FormFallthroughService.provide()],
+			selector: 'spec-hfeskqzk',
+			standalone: true,
+			template: '',
 		});
-		const fixture = TestBed.createComponent(
-			MyFormGroupNameDirectiveExampleComponent,
-		);
+		class HfeskqzkComponent {
+			constructor(public service: FormFallthroughService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, HfeskqzkComponent],
+			selector: 'spec-nuxvvxim',
+			standalone: true,
+			template: `
+				<ng-container [formGroup]="form">
+					<spec-hfeskqzk formGroupName="yfvgjtss"></spec-hfeskqzk>
+				</ng-container>
+			`,
+		})
+		class NuxvvximComponent {
+			form = new FormGroup({
+				yfvgjtss: new FormGroup({
+					a: new FormControl(0),
+					b: new FormControl(0),
+				}),
+			});
+		}
+
+		TestBed.configureTestingModule({
+			imports: [NuxvvximComponent],
+		});
+		const fixture = TestBed.createComponent(NuxvvximComponent);
 		fixture.detectChanges();
 		const nuxvvximComponent = fixture.componentInstance;
-		const hfeskqzkComponent: MyFormFallthroughServiceExampleComponent =
-			fixture.debugElement.query(
-				By.directive(MyFormFallthroughServiceExampleComponent),
-			).componentInstance;
+		const hfeskqzkComponent: HfeskqzkComponent = fixture.debugElement.query(
+			By.directive(HfeskqzkComponent),
+		).componentInstance;
 
-		expect(hfeskqzkComponent.form).toBe(
+		expect(hfeskqzkComponent.service.control).toBe(
 			nuxvvximComponent.form.controls.yfvgjtss,
 		);
 	});
 
 	it('should work with FormArrayNameDirective', () => {
-		TestBed.configureTestingModule({
-			imports: [MyFormArrayNameDirectiveExampleComponent],
+		Component({
+			providers: [FormFallthroughService.provide()],
+			selector: 'spec-hfeskqzk',
+			standalone: true,
+			template: '',
 		});
-		const fixture = TestBed.createComponent(
-			MyFormArrayNameDirectiveExampleComponent,
-		);
+		class HfeskqzkComponent {
+			constructor(public service: FormFallthroughService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, HfeskqzkComponent],
+			selector: 'spec-nuxvvxim',
+			standalone: true,
+			template: `
+				<ng-container [formGroup]="form">
+					<spec-hfeskqzk formArrayName="yfvgjtss"></spec-hfeskqzk>
+				</ng-container>
+			`,
+		})
+		class NuxvvximComponent {
+			form = new FormGroup({
+				yfvgjtss: new FormArray([new FormControl(0), new FormControl(0)]),
+			});
+		}
+
+		TestBed.configureTestingModule({
+			imports: [NuxvvximComponent],
+		});
+		const fixture = TestBed.createComponent(NuxvvximComponent);
 		fixture.detectChanges();
 		const nuxvvximComponent = fixture.componentInstance;
-		const hfeskqzkComponent: MyFormFallthroughServiceExampleComponent =
-			fixture.debugElement.query(
-				By.directive(MyFormFallthroughServiceExampleComponent),
-			).componentInstance;
+		const hfeskqzkComponent: HfeskqzkComponent = fixture.debugElement.query(
+			By.directive(HfeskqzkComponent),
+		).componentInstance;
 
-		expect(hfeskqzkComponent.form).toBe(
+		expect(hfeskqzkComponent.service.control).toBe(
 			nuxvvximComponent.form.controls.yfvgjtss,
 		);
 	});
 
 	it('should work with NgModelDirective', fakeAsync(() => {
-		TestBed.configureTestingModule({
-			imports: [MyNgModelDirectiveExampleComponent],
+		Component({
+			providers: [FormFallthroughService.provide()],
+			selector: 'spec-hfeskqzk',
+			standalone: true,
+			template: '',
 		});
-		const fixture = TestBed.createComponent(MyNgModelDirectiveExampleComponent);
+		class HfeskqzkComponent {
+			constructor(public service: FormFallthroughService) {}
+
+			get form() {
+				return this.service.control as FormControl<number>;
+			}
+		}
+
+		@Component({
+			imports: [FormsModule, HfeskqzkComponent],
+			selector: 'spec-nuxvvxim',
+			standalone: true,
+			template: `<spec-hfeskqzk [(ngModel)]="value"></spec-hfeskqzk>`,
+		})
+		class NuxvvximComponent {
+			value = 0;
+		}
+
+		TestBed.configureTestingModule({
+			imports: [NuxvvximComponent],
+		});
+		const fixture = TestBed.createComponent(NuxvvximComponent);
 		fixture.detectChanges();
 		const nuxvvximComponent = fixture.componentInstance;
-		const hfeskqzkComponent: MyFormFallthroughServiceExampleComponent =
-			fixture.debugElement.query(
-				By.directive(MyFormFallthroughServiceExampleComponent),
-			).componentInstance;
+		const hfeskqzkComponent: HfeskqzkComponent = fixture.debugElement.query(
+			By.directive(HfeskqzkComponent),
+		).componentInstance;
 
 		flush();
 
@@ -137,120 +269,3 @@ describe('FormFallthroughService', () => {
 		expect(hfeskqzkComponent.form.value).toEqual(2);
 	}));
 });
-
-@Component({
-	providers: [FormFallthroughService.provide()],
-	selector: 'my-form-fallthrough-service-example',
-	standalone: true,
-	template: '',
-})
-// todo: rename?
-class MyFormFallthroughServiceExampleComponent {
-	constructor(readonly fallthroughFormService: FormFallthroughService) {}
-
-	get form() {
-		return this.fallthroughFormService.control!;
-	}
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFormFallthroughServiceExampleComponent],
-	selector: 'my-form-control-directive-example',
-	standalone: true,
-	template: `<my-form-fallthrough-service-example
-		[formControl]="form"
-	></my-form-fallthrough-service-example>`,
-})
-// todo: rename?
-class MyFormControlDirectiveExampleComponent {
-	form = new FormControl(0);
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFormFallthroughServiceExampleComponent],
-	selector: 'my-form-control-name-directive-example',
-	standalone: true,
-	template: `
-		<ng-container [formGroup]="form">
-			<my-form-fallthrough-service-example
-				formControlName="yfvgjtss"
-			></my-form-fallthrough-service-example>
-		</ng-container>
-	`,
-})
-// todo: rename?
-class MyFormControlNameDirectiveExampleComponent {
-	form = new FormGroup({
-		yfvgjtss: new FormControl(0),
-	});
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFormFallthroughServiceExampleComponent],
-	selector: 'my-form-group-directive-example',
-	standalone: true,
-	template: `<my-form-fallthrough-service-example
-		[formGroup]="form"
-	></my-form-fallthrough-service-example>`,
-})
-// todo: rename?
-class MyFormGroupDirectiveExampleComponent {
-	form = new FormGroup({
-		a: new FormControl(0),
-		b: new FormControl(0),
-	});
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFormFallthroughServiceExampleComponent],
-	selector: 'my-form-group-name-directive-example',
-	standalone: true,
-	template: `
-		<ng-container [formGroup]="form">
-			<my-form-fallthrough-service-example
-				formGroupName="yfvgjtss"
-			></my-form-fallthrough-service-example>
-		</ng-container>
-	`,
-})
-// todo: rename?
-class MyFormGroupNameDirectiveExampleComponent {
-	form = new FormGroup({
-		yfvgjtss: new FormGroup({
-			a: new FormControl(0),
-			b: new FormControl(0),
-		}),
-	});
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFormFallthroughServiceExampleComponent],
-	selector: 'my-form-array-name-directive-example',
-	standalone: true,
-	template: `
-		<ng-container [formGroup]="form">
-			<my-form-fallthrough-service-example
-				formArrayName="yfvgjtss"
-			></my-form-fallthrough-service-example>
-		</ng-container>
-	`,
-})
-// todo: rename?
-class MyFormArrayNameDirectiveExampleComponent {
-	form = new FormGroup({
-		yfvgjtss: new FormArray([new FormControl(0), new FormControl(0)]),
-	});
-}
-
-@Component({
-	imports: [FormsModule, MyFormFallthroughServiceExampleComponent],
-	selector: 'my-ng-model-directive-example',
-	standalone: true,
-	template: `<my-form-fallthrough-service-example
-		[(ngModel)]="value"
-	></my-form-fallthrough-service-example>`,
-})
-// todo: rename?
-class MyNgModelDirectiveExampleComponent {
-	value = 0;
-}
