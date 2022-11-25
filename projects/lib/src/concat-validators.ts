@@ -2,9 +2,9 @@ import {AbstractControl} from '@angular/forms';
 
 import {AsyncValidatorFn, ValidatorFn} from './validator';
 
-export function concatValidators<
-	TControl extends AbstractControl = AbstractControl,
->(...validators: Array<ValidatorFn<TControl>>): ValidatorFn<TControl> {
+export function concatValidators<TControl extends AbstractControl = AbstractControl>(
+	...validators: Array<ValidatorFn<TControl>>
+): ValidatorFn<TControl> {
 	return (control) => {
 		for (const validator of validators) {
 			const errors = validator(control);
@@ -16,9 +16,7 @@ export function concatValidators<
 	};
 }
 
-export function concatAsyncValidators<
-	TControl extends AbstractControl = AbstractControl,
->(
+export function concatAsyncValidators<TControl extends AbstractControl = AbstractControl>(
 	...validators: Array<AsyncValidatorFn<TControl>>
 ): AsyncValidatorFn<TControl> {
 	validators;

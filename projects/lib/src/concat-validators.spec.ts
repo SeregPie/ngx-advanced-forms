@@ -55,15 +55,9 @@ describe('concatValidators', () => {
 
 	it('todo: text', () => {
 		const form = new FormControl(0);
-		const customValidator1 = jasmine
-			.createSpy(undefined, () => null)
-			.and.callThrough();
-		const customValidator2 = jasmine
-			.createSpy(undefined, () => ({error: true}))
-			.and.callThrough();
-		const customValidator3 = jasmine
-			.createSpy(undefined, () => null)
-			.and.callThrough();
+		const customValidator1 = jasmine.createSpy(undefined, () => null).and.callThrough();
+		const customValidator2 = jasmine.createSpy(undefined, () => ({error: true})).and.callThrough();
+		const customValidator3 = jasmine.createSpy(undefined, () => null).and.callThrough();
 
 		expect(customValidator1).toHaveBeenCalledTimes(1);
 		expect(customValidator2).toHaveBeenCalledTimes(1);
@@ -153,11 +147,7 @@ describe('concatAsyncValidators', () => {
 
 	it('todo: text', async () => {
 		const form = new FormControl(WAT);
-		const validateAsync = concatAsyncValidators(
-			customAsyncValidator1,
-			customAsyncValidator2,
-			customAsyncValidator3,
-		);
+		const validateAsync = concatAsyncValidators(customAsyncValidator1, customAsyncValidator2, customAsyncValidator3);
 
 		const validationErrors = await lastValueFrom(from(validateAsync(form)));
 
@@ -169,9 +159,7 @@ describe('concatAsyncValidators', () => {
 	it('should return same validator of only one validator provided', () => {
 		const customAsyncValidator = async () => null;
 
-		expect(concatAsyncValidators(customAsyncValidator)).toBe(
-			customAsyncValidator,
-		);
+		expect(concatAsyncValidators(customAsyncValidator)).toBe(customAsyncValidator);
 	});
 
 	it('should return noop validator of no validator provided', () => {
@@ -200,13 +188,7 @@ describe('concatAsyncValidators', () => {
 			expect(customAsyncValidatorform.errors).toEqual(customErrors3);
 		}
 
-		addAsyncValidator(
-			concatAsyncValidators(
-				() => EMPTY,
-				customAsyncValidator2,
-				customAsyncValidator3,
-			),
-		);
+		addAsyncValidator(concatAsyncValidators(() => EMPTY, customAsyncValidator2, customAsyncValidator3));
 	});
 
 	// test promises, observables

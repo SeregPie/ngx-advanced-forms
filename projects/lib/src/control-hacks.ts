@@ -1,13 +1,8 @@
 import {AbstractControl, FormArray, FormGroup} from '@angular/forms';
 
-export function registerControl(
-	parent: FormGroup | FormArray,
-	child: AbstractControl,
-): void {
+export function registerControl(parent: FormGroup | FormArray, child: AbstractControl): void {
 	child.setParent(parent);
-	(child as any)._registerOnCollectionChange(
-		(parent as any)._onCollectionChange,
-	);
+	(child as any)._registerOnCollectionChange((parent as any)._onCollectionChange);
 }
 
 export function unregisterControl(child: AbstractControl): void {

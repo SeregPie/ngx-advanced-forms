@@ -1,22 +1,8 @@
-import {
-	AbstractControl,
-	AbstractControlOptions,
-	FormRecord,
-	ɵRawValue,
-} from '@angular/forms';
-import {
-	registerControl,
-	triggerCollectionChange,
-	unregisterControl,
-} from './control-hacks';
+import {AbstractControl, AbstractControlOptions, FormRecord, ɵRawValue} from '@angular/forms';
+import {registerControl, triggerCollectionChange, unregisterControl} from './control-hacks';
 
-export class DynamicFormRecord<
-	TControl extends AbstractControl = AbstractControl,
-> extends FormRecord<TControl> {
-	constructor(
-		public readonly controlFactory: () => TControl,
-		options?: AbstractControlOptions,
-	) {
+export class DynamicFormRecord<TControl extends AbstractControl = AbstractControl> extends FormRecord<TControl> {
+	constructor(public readonly controlFactory: () => TControl, options?: AbstractControlOptions) {
 		super({}, options);
 	}
 
@@ -114,9 +100,7 @@ export class DynamicFormRecord<
 	private _setDynamicControls(names: Array<string>): void {
 		const currentNames = Object.keys(this.controls);
 		this._removeControls(currentNames.filter((name) => !names.includes(name)));
-		this._addDynamicControls(
-			names.filter((name) => !currentNames.includes(name)),
-		);
+		this._addDynamicControls(names.filter((name) => !currentNames.includes(name)));
 	}
 
 	setDynamicControls(

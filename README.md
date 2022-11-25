@@ -75,33 +75,23 @@ class FormControlService<TValue> {
 ---
 
 ```ts
-function addValidator<TControl>(
-  control: TControl,
-  validator: ValidatorFn<TControl>,
-): TControl;
+function addValidator<TControl>(control: TControl, validator: ValidatorFn<TControl>): TControl;
 ```
 
 ---
 
 ```ts
-function addAsyncValidator<TControl>(
-  control: TControl,
-  validator: AsyncValidatorFn<TControl>,
-): TControl;
+function addAsyncValidator<TControl>(control: TControl, validator: AsyncValidatorFn<TControl>): TControl;
 ```
 
 ---
 
 ```ts
-function concatValidators<TControl>(
-  ...validators: Array<ValidatorFn<TControl>>
-): ValidatorFn<TControl>;
+function concatValidators<TControl>(...validators: Array<ValidatorFn<TControl>>): ValidatorFn<TControl>;
 ```
 
 ---
 
 ```ts
-function concatAsyncValidators<TControl>(
-  ...validators: Array<AsyncValidatorFn<TControl>>
-): AsyncValidatorFn<TControl>;
+function concatAsyncValidators<TControl>(...validators: Array<AsyncValidatorFn<TControl>>): AsyncValidatorFn<TControl>;
 ```

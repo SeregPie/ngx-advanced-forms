@@ -1,23 +1,9 @@
-import {
-	AbstractControl,
-	AbstractControlOptions,
-	FormArray,
-	ɵRawValue,
-} from '@angular/forms';
+import {AbstractControl, AbstractControlOptions, FormArray, ɵRawValue} from '@angular/forms';
 
-import {
-	registerControl,
-	triggerCollectionChange,
-	unregisterControl,
-} from './control-hacks';
+import {registerControl, triggerCollectionChange, unregisterControl} from './control-hacks';
 
-export class DynamicFormArray<
-	TControl extends AbstractControl = AbstractControl,
-> extends FormArray<TControl> {
-	constructor(
-		public readonly controlFactory: () => TControl,
-		options?: AbstractControlOptions,
-	) {
+export class DynamicFormArray<TControl extends AbstractControl = AbstractControl> extends FormArray<TControl> {
+	constructor(public readonly controlFactory: () => TControl, options?: AbstractControlOptions) {
 		super([], options);
 	}
 

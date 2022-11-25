@@ -1,22 +1,8 @@
-import {
-	AbstractControl,
-	AbstractControlOptions,
-	FormRecord,
-	ɵRawValue,
-} from '@angular/forms';
-import {
-	registerControl,
-	triggerCollectionChange,
-	unregisterControl,
-} from './control-hacks';
+import {AbstractControl, AbstractControlOptions, FormRecord, ɵRawValue} from '@angular/forms';
+import {registerControl, triggerCollectionChange, unregisterControl} from './control-hacks';
 
-export class DynamicFormRecord<
-	TControl extends AbstractControl = AbstractControl,
-> extends FormRecord<TControl> {
-	constructor(
-		public readonly controlFactory: () => TControl,
-		options?: AbstractControlOptions,
-	) {
+export class DynamicFormRecord<TControl extends AbstractControl = AbstractControl> extends FormRecord<TControl> {
+	constructor(public readonly controlFactory: () => TControl, options?: AbstractControlOptions) {
 		super({}, options);
 	}
 

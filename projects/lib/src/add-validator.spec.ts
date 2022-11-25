@@ -28,9 +28,7 @@ describe('addValidator', () => {
 	});
 
 	it('should call validator only once', () => {
-		const customValidator = jasmine
-			.createSpy(undefined, () => null)
-			.and.callThrough();
+		const customValidator = jasmine.createSpy(undefined, () => null).and.callThrough();
 		addValidator(new FormControl(null), customValidator);
 
 		expect(customValidator).toHaveBeenCalledTimes(1);
@@ -85,9 +83,7 @@ describe('addAsyncValidator', () => {
 	});
 
 	it('should call validator only once', () => {
-		const customAsyncValidator = jasmine
-			.createSpy(undefined, async () => null)
-			.and.callThrough();
+		const customAsyncValidator = jasmine.createSpy(undefined, async () => null).and.callThrough();
 		addAsyncValidator(new FormControl(null), customAsyncValidator);
 
 		expect(customAsyncValidator).toHaveBeenCalledTimes(1);
