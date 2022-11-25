@@ -4,14 +4,22 @@ import {
 	AbstractControlDirective,
 	ControlContainer,
 	NgControl,
+	NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
-import {NOOP_VALUE_ACCESSOR} from './control-hacks';
+import {NOOP_CONTROL_VALUE_ACCESSOR} from './control-value-accessor';
 
 @Injectable()
 export class FormFallthroughService {
 	static provide(): Provider {
-		return this;
+		return [
+			this,
+			{
+				multi: true,
+				provide: NG_VALUE_ACCESSOR,
+				useValue: NOOP_CONTROL_VALUE_ACCESSOR,
+			},
+		];
 	}
 
 	constructor(
@@ -23,9 +31,6 @@ export class FormFallthroughService {
 		@Optional()
 		ngControl?: NgControl,
 	) {
-		if (ngControl) {
-			ngControl.valueAccessor = NOOP_VALUE_ACCESSOR;
-		}
 		this.controlDirective = controlContainer ?? ngControl ?? null;
 	}
 
