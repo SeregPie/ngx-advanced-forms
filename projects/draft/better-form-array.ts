@@ -2,7 +2,9 @@ import {AbstractControl, FormArray, FormRecord} from '@angular/forms';
 
 import {triggerCollectionChange} from './control-hacks';
 
-export class BetterFormArray<TControl extends AbstractControl = AbstractControl> extends FormArray<TControl> {
+export class BetterFormArray<
+	TControl extends AbstractControl = AbstractControl,
+> extends FormArray<TControl> {
 	// todo: rename
 	addLast(
 		control: TControl,

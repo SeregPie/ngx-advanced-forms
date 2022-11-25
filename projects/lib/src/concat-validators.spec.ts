@@ -147,7 +147,11 @@ describe('concatAsyncValidators', () => {
 
 	it('todo: text', async () => {
 		const form = new FormControl(WAT);
-		const validateAsync = concatAsyncValidators(customAsyncValidator1, customAsyncValidator2, customAsyncValidator3);
+		const validateAsync = concatAsyncValidators(
+			customAsyncValidator1,
+			customAsyncValidator2,
+			customAsyncValidator3,
+		);
 
 		const validationErrors = await lastValueFrom(from(validateAsync(form)));
 
@@ -188,7 +192,9 @@ describe('concatAsyncValidators', () => {
 			expect(customAsyncValidatorform.errors).toEqual(customErrors3);
 		}
 
-		addAsyncValidator(concatAsyncValidators(() => EMPTY, customAsyncValidator2, customAsyncValidator3));
+		addAsyncValidator(
+			concatAsyncValidators(() => EMPTY, customAsyncValidator2, customAsyncValidator3),
+		);
 	});
 
 	// test promises, observables

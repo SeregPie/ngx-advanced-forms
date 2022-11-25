@@ -32,7 +32,9 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(By.directive(MySubComponent)).componentInstance;
+		const mySubComponent: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		expect(mySubComponent.service.control).toBe(myComponent.form);
 	});
@@ -69,7 +71,9 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(By.directive(MySubComponent)).componentInstance;
+		const mySubComponent: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
 	});
@@ -103,7 +107,9 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(By.directive(MySubComponent)).componentInstance;
+		const mySubComponent: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		expect(mySubComponent.service.control).toBe(myComponent.form);
 	});
@@ -143,7 +149,9 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(By.directive(MySubComponent)).componentInstance;
+		const mySubComponent: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
 	});
@@ -180,7 +188,9 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(By.directive(MySubComponent)).componentInstance;
+		const mySubComponent: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
 	});
@@ -215,7 +225,9 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(By.directive(MySubComponent)).componentInstance;
+		const mySubComponent: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		flush();
 

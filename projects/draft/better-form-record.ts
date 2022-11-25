@@ -1,6 +1,8 @@
 import {AbstractControl, FormRecord} from '@angular/forms';
 
-export class BetterFormRecord<TControl extends AbstractControl = AbstractControl> extends FormRecord<TControl> {
+export class BetterFormRecord<
+	TControl extends AbstractControl = AbstractControl,
+> extends FormRecord<TControl> {
 	// todo: rename
 	has(name: string): boolean {
 		return this.controls[name] != null;
