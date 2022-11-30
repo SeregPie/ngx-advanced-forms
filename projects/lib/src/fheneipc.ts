@@ -1,7 +1,10 @@
+// todo: rename file
+
 import {ControlValueAccessor} from '@angular/forms';
 import {noop} from 'rxjs';
 
-export const NOOP_CONTROL_VALUE_ACCESSOR: ControlValueAccessor = {
+// todo: rename
+export const gvfeyuot: ControlValueAccessor = {
 	writeValue: noop,
 	registerOnChange: noop,
 	registerOnTouched: noop,

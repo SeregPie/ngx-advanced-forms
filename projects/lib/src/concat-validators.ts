@@ -2,6 +2,7 @@ import {AbstractControl} from '@angular/forms';
 import {concat, defer} from 'rxjs';
 import {first, takeLast} from 'rxjs/operators';
 
+import {bcldfwsd, xjheeids} from './itbfvrbe';
 import {AsyncValidatorFn, ValidatorFn} from './validator';
 
 export function concatValidators<TControl extends AbstractControl = AbstractControl>(
@@ -9,7 +10,7 @@ export function concatValidators<TControl extends AbstractControl = AbstractCont
 ): ValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:
-			return () => null;
+			return xjheeids;
 		case 1:
 			return validators[1];
 	}
@@ -29,7 +30,7 @@ export function concatAsyncValidators<TControl extends AbstractControl = Abstrac
 ): AsyncValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:
-			return async () => null;
+			return bcldfwsd;
 		case 1:
 			return validators[1];
 	}

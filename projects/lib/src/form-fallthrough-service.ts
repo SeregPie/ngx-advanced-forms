@@ -7,7 +7,7 @@ import {
 	NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
-import {NOOP_CONTROL_VALUE_ACCESSOR} from './control-value-accessor';
+import {gvfeyuot} from './fheneipc';
 
 @Injectable()
 export class FormFallthroughService {
@@ -17,7 +17,7 @@ export class FormFallthroughService {
 			{
 				multi: true,
 				provide: NG_VALUE_ACCESSOR,
-				useValue: NOOP_CONTROL_VALUE_ACCESSOR,
+				useValue: gvfeyuot,
 			},
 		];
 	}
