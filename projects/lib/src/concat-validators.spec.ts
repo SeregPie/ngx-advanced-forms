@@ -1,77 +1,56 @@
-import {fakeAsync, flush} from '@angular/core/testing';
-import {FormControl, Validators} from '@angular/forms';
+import {fakeAsync, tick} from '@angular/core/testing';
+import {FormControl} from '@angular/forms';
+import {of} from 'rxjs';
+import {delay} from 'rxjs/operators';
 
 import {concatAsyncValidators, concatValidators} from './concat-validators';
 import {addAsyncValidator, addValidator} from './add-validator';
-import {EMPTY, from, lastValueFrom, of} from 'rxjs';
 
 describe('concatValidators', () => {
 	it('should work', () => {
 		const form = addValidator(
 			new FormControl(1),
 			concatValidators(
-				(form) => (form.value === 1 ? {error1: true} : null),
-				(form) => (form.value === 2 ? {error2: true} : null),
+				(form) => (form.value === 1 ? {error: 1} : null),
+				(form) => (form.value === 2 ? {error: 2} : null),
 			),
 		);
 
 		expect(form.invalid).toBeTrue();
-		expect(form.errors).toEqual({error1: true});
+		expect(form.errors).toEqual({error: 1});
 
 		form.setValue(2);
 
 		expect(form.invalid).toBeTrue();
-		expect(form.errors).toEqual({error2: true});
+		expect(form.errors).toEqual({error: 2});
 
 		form.setValue(3);
 
 		expect(form.valid).toBeTrue();
 	});
 
-	it('todo: text', () => {
-		const form = addValidator(
-			new FormControl('aaaa', {
-				nonNullable: true,
-			}),
-			concatValidators(Validators.maxLength(3), Validators.pattern(/^b*$/)),
-		);
-
-		// todo: keep some of 3
-		expect(form.invalid).toBeTrue();
-		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({
-			maxlength: {requiredLength: 3, actualLength: 4},
-		}); // todo: keys only
-
-		form.setValue('aa');
-
-		// todo: keep some of 3
-		expect(form.invalid).toBeTrue();
-		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({
-			pattern: {requiredPattern: '^b*$', actualValue: 'aa'},
-		}); // todo: keys only
-	});
-
-	it('todo: text', () => {
-		const form = new FormControl(0);
+	it('should skip other validators after one fails', () => {
 		const customValidator1 = jasmine.createSpy(undefined, () => null).and.callThrough();
 		const customValidator2 = jasmine.createSpy(undefined, () => ({error: true})).and.callThrough();
 		const customValidator3 = jasmine.createSpy(undefined, () => null).and.callThrough();
+		addValidator(
+			new FormControl(null),
+			concatValidators(customValidator1, customValidator2, customValidator3),
+		);
 
 		expect(customValidator1).toHaveBeenCalledTimes(1);
 		expect(customValidator2).toHaveBeenCalledTimes(1);
 		expect(customValidator3).toHaveBeenCalledTimes(0);
 	});
 
-	it('should return same validator of only one validator provided', () => {
+	it('should return same validator if only one provided', () => {
 		const customValidator = () => null;
 
 		expect(concatValidators(customValidator)).toBe(customValidator);
 	});
 
-	it('should return noop validator of no validator provided', () => {
-		expect(concatValidators()).toBe(NoopValidator);
+	xit('should return noop validator if nothing provided', () => {
+		expect(concatValidators()).toBe(null);
 	});
 });
 
@@ -80,124 +59,111 @@ describe('concatAsyncValidators', () => {
 		const form = addAsyncValidator(
 			new FormControl(1),
 			concatAsyncValidators(
-				async (form) => (form.value === 1 ? {error1: true} : null),
-				async (form) => (form.value === 2 ? {error2: true} : null),
+				async (form) => (form.value === 1 ? {error: 1} : null),
+				async (form) => (form.value === 2 ? {error: 2} : null),
 			),
 		);
 
 		expect(form.pending).toBeTrue();
 
-		flush();
+		tick();
 
 		expect(form.invalid).toBeTrue();
-		expect(form.errors).toEqual({error1: true});
+		expect(form.errors).toEqual({error: 1});
 
 		form.setValue(2);
 
 		expect(form.pending).toBeTrue();
 
-		flush();
+		tick();
 
 		expect(form.invalid).toBeTrue();
-		expect(form.errors).toEqual({error2: true});
+		expect(form.errors).toEqual({error: 2});
 
 		form.setValue(3);
 
 		expect(form.pending).toBeTrue();
 
-		flush();
+		tick();
 
 		expect(form.valid).toBeTrue();
 	}));
 
-	it('todo: text', fakeAsync(() => {
-		const form = addAsyncValidator(
-			new FormControl('aaaa', {
-				nonNullable: true,
-			}),
-			concatAsyncValidators(
-				async (form) => await Validators.maxLength(3)(form),
-				async (form) => await Validators.pattern(/^b*$/)(form),
-			), // todo: asyncify
+	it('should skip other validators after one fails', fakeAsync(() => {
+		const customAsyncValidator1 = jasmine.createSpy(undefined, async () => null).and.callThrough();
+		const customAsyncValidator2 = jasmine
+			.createSpy(undefined, async () => ({error: true}))
+			.and.callThrough();
+		const customAsyncValidator3 = jasmine.createSpy(undefined, async () => null).and.callThrough();
+		addAsyncValidator(
+			new FormControl(null),
+			concatAsyncValidators(customAsyncValidator1, customAsyncValidator2, customAsyncValidator3),
 		);
 
-		expect(form.pending).toBeTrue();
-
-		flush();
-
-		// todo: keep some of 3
-		expect(form.invalid).toBeTrue();
-		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({
-			maxlength: {requiredLength: 3, actualLength: 4},
-		}); // todo: keys only
-
-		form.setValue('aa');
-
-		expect(form.pending).toBeTrue();
-
-		flush();
-
-		expect(form.invalid).toBeTrue();
-		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({
-			pattern: {requiredPattern: '^b*$', actualValue: 'aa'},
-		}); // todo: keys only
-	}));
-
-	it('todo: text', async () => {
-		const form = new FormControl(WAT);
-		const validateAsync = concatAsyncValidators(
-			customAsyncValidator1,
-			customAsyncValidator2,
-			customAsyncValidator3,
-		);
-
-		const validationErrors = await lastValueFrom(from(validateAsync(form)));
+		tick();
 
 		expect(customAsyncValidator1).toHaveBeenCalledTimes(1);
 		expect(customAsyncValidator2).toHaveBeenCalledTimes(1);
 		expect(customAsyncValidator3).toHaveBeenCalledTimes(0);
-	});
+	}));
 
-	it('should return same validator of only one validator provided', () => {
+	it('should return same validator if only one provided', () => {
 		const customAsyncValidator = async () => null;
 
 		expect(concatAsyncValidators(customAsyncValidator)).toBe(customAsyncValidator);
 	});
 
-	it('should return noop validator of no validator provided', () => {
-		expect(concatAsyncValidators()).toBe(NoopAsyncValidator);
+	xit('should return noop validator if nothing provided', () => {
+		expect(concatAsyncValidators()).toBe(null);
 	});
 
-	it('todo: text', () => {
-		// todo: test if only latest value
-
+	it('todo: text', fakeAsync(() => {
+		// todo
 		const form = addAsyncValidator(
 			new FormControl(null),
 			concatAsyncValidators(
-				() => of({a: true}, null, null),
-				() => of(null, {b: true}, null),
-				() => of(null, null, {c: true}),
+				() => of({error: 1}, null, null).pipe(delay(0)),
+				() => of(null, {error: 2}, null).pipe(delay(0)),
+				() => of(null, null, {error: 3}).pipe(delay(0)),
 			),
 		);
 
-		expect(form.errors).toEqual({c: true});
-	});
+		tick();
+
+		expect(form.errors).toEqual({error: 3});
+	}));
 
 	it('todo: text', () => {
-		const form = new FormControl(WAT);
-		{
-			const customAsyncValidator = awaitLa;
-			expect(customAsyncValidatorform.errors).toEqual(customErrors3);
-		}
-
-		addAsyncValidator(
-			concatAsyncValidators(() => EMPTY, customAsyncValidator2, customAsyncValidator3),
+		// todo
+		const form = addAsyncValidator(
+			new FormControl(null),
+			concatAsyncValidators(
+				() => of({error: 1}, null, null),
+				() => of(null, {error: 2}, null),
+				() => of(null, null, {error: 3}),
+			),
 		);
+
+		expect(form.errors).toEqual({error: 3});
 	});
 
-	// test promises, observables
+	xit('todo: text', fakeAsync(() => {
+		// todo
+		{
+			const form = addAsyncValidator(
+				new FormControl(null),
+				concatAsyncValidators(
+					() => of(),
+					async () => null,
+					() => of({error: 1}, {error: 2}),
+					() => of({error: 4}, {error: 4}).pipe(delay(0)),
+					async () => ({error: 5}),
+				),
+			);
 
-	// test immediate
+			tick();
+
+			expect(form.errors).toEqual({error: 5});
+		}
+	}));
 });
