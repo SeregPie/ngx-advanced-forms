@@ -5,7 +5,10 @@ import {first, takeLast} from 'rxjs/operators';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
 import {AsyncValidatorFn, ValidatorFn} from './validator';
 
-export function concatValidators<TControl extends AbstractControl>(
+// prettier-ignore
+export function concatValidators<
+	TControl extends AbstractControl,
+>(
 	...validators: Array<ValidatorFn<TControl>>
 ): ValidatorFn<TControl> {
 	switch (validators.length) {
@@ -25,7 +28,10 @@ export function concatValidators<TControl extends AbstractControl>(
 	};
 }
 
-export function concatAsyncValidators<TControl extends AbstractControl>(
+// prettier-ignore
+export function concatAsyncValidators<
+	TControl extends AbstractControl,
+>(
 	...validators: Array<AsyncValidatorFn<TControl>>
 ): AsyncValidatorFn<TControl> {
 	switch (validators.length) {
@@ -34,8 +40,5 @@ export function concatAsyncValidators<TControl extends AbstractControl>(
 		case 1:
 			return validators[0];
 	}
-	return (control) =>
-		concat(
-			...validators.map((validator) => defer(() => validator(control)).pipe(takeLast(1))),
-		).pipe(first((errors) => errors != null, null));
+	return (control) => concat(...validators.map((validator) => defer(() => validator(control)).pipe(takeLast(1)))).pipe(first((errors) => errors != null, null));
 }

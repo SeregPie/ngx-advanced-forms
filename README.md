@@ -75,7 +75,10 @@ class FormControlService<TValue> {
 ---
 
 ```ts
-function addValidator<TControl>(control: TControl, validator: ValidatorFn<TControl>): TControl;
+function addValidator<TControl>(
+  control: TControl,
+  validator: ValidatorFn<TControl>,
+): TControl;
 ```
 
 ---

@@ -1,10 +1,17 @@
 import {Component} from '@angular/core';
 import {fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {
+	FormArray,
+	FormControl,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule,
+} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {FormFallthroughService} from './form-fallthrough-service';
 
+// prettier-ignore
 describe('FormFallthroughService', () => {
 	it('should work with FormControlDirective', () => {
 		@Component({
@@ -32,9 +39,11 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form);
 	});
@@ -71,9 +80,11 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
 	});
@@ -107,9 +118,11 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form);
 	});
@@ -149,9 +162,11 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
 	});
@@ -178,7 +193,10 @@ describe('FormFallthroughService', () => {
 		})
 		class MyComponent {
 			form = new FormGroup({
-				one: new FormArray([new FormControl(0), new FormControl(0)]),
+				one: new FormArray([
+					new FormControl(0),
+					new FormControl(0),
+				]),
 			});
 		}
 
@@ -188,9 +206,11 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
 	});
@@ -225,9 +245,11 @@ describe('FormFallthroughService', () => {
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		tick();
 

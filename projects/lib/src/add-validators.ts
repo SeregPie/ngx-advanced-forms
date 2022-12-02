@@ -1,8 +1,16 @@
 import {AbstractControl} from '@angular/forms';
 
-import {AsyncValidatorFn, AsyncValidatorFn2, ValidatorFn, ValidatorFn2} from './validator';
+import {
+	AsyncValidatorFn,
+	AsyncValidatorFn2,
+	ValidatorFn,
+	ValidatorFn2,
+} from './validator';
 
-export function addValidators<TControl extends AbstractControl>(
+// prettier-ignore
+export function addValidators<
+	TControl extends AbstractControl
+>(
 	control: TControl,
 	...validators: Array<ValidatorFn<TControl>>
 ): TControl {
@@ -13,7 +21,10 @@ export function addValidators<TControl extends AbstractControl>(
 	return control;
 }
 
-export function addAsyncValidators<TControl extends AbstractControl>(
+// prettier-ignore
+export function addAsyncValidators<
+	TControl extends AbstractControl
+>(
 	control: TControl,
 	...validators: Array<AsyncValidatorFn<TControl>>
 ): TControl {

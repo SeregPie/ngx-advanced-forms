@@ -8,12 +8,16 @@ export interface ValidatorFn<TControl extends AbstractControl> {
 
 // todo: rename
 export interface ValidatorFn2 {
-	<TControl extends AbstractControl>(control: TControl): null | ValidationErrors;
+	<TControl extends AbstractControl>(
+		control: TControl,
+	): null | ValidationErrors;
 }
 
 // todo: rename
 export interface AsyncValidatorFn<TControl extends AbstractControl> {
-	(control: TControl): Promise<null | ValidationErrors> | Observable<null | ValidationErrors>;
+	(control: TControl):
+		| Promise<null | ValidationErrors>
+		| Observable<null | ValidationErrors>;
 }
 
 // todo: rename

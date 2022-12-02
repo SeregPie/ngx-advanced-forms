@@ -4,13 +4,19 @@ import {of} from 'rxjs';
 import {delay} from 'rxjs/operators';
 
 import {concatAsyncValidators, concatValidators} from './concat-validators';
-import {addAsyncValidator, addValidator} from './add-validator';
-import {bcldfwsd, xjheeids} from './itbfvrbe';
+import {noopAsyncValidator, noopValidator} from './noop-validator';
+import {addAsyncValidators, addValidators} from './add-validators';
+
+function spy<Fn extends jasmine.Func>(fn: Fn) {
+	return jasmine.createSpy(undefined, fn).and.callThrough();
+}
 
 describe('concatValidators', () => {
 	it('should work', () => {
-		const form = addValidator(
-			new FormControl(1),
+		const form = addValidators(
+			new FormControl(1, {
+				nonNullable: true,
+			}),
 			concatValidators(
 				(form) => (form.value === 1 ? {error: 1} : null),
 				(form) => (form.value === 2 ? {error: 2} : null),
@@ -31,11 +37,12 @@ describe('concatValidators', () => {
 	});
 
 	it('should skip other validators after one fails', () => {
-		const customValidator1 = jasmine.createSpy(undefined, () => null).and.callThrough();
-		const customValidator2 = jasmine.createSpy(undefined, () => ({error: true})).and.callThrough();
-		const customValidator3 = jasmine.createSpy(undefined, () => null).and.callThrough();
-		addValidator(
-			new FormControl(null),
+		const form = new FormControl(null);
+		const customValidator1 = spy(() => null);
+		const customValidator2 = spy(() => ({error: true}));
+		const customValidator3 = spy(() => null);
+		addValidators(
+			form,
 			concatValidators(customValidator1, customValidator2, customValidator3),
 		);
 
@@ -44,21 +51,25 @@ describe('concatValidators', () => {
 		expect(customValidator3).toHaveBeenCalledTimes(0);
 	});
 
+	// prettier-ignore
 	it('should return same validator if only one provided', () => {
 		const customValidator = () => null;
 
 		expect(concatValidators(customValidator)).toBe(customValidator);
 	});
 
+	// prettier-ignore
 	it('should return noop validator if nothing provided', () => {
-		expect(concatValidators()).toBe(xjheeids);
+		expect(concatValidators()).toBe(noopValidator);
 	});
 });
 
 describe('concatAsyncValidators', () => {
 	it('should work', fakeAsync(() => {
-		const form = addAsyncValidator(
-			new FormControl(1),
+		const form = addAsyncValidators(
+			new FormControl(1, {
+				nonNullable: true,
+			}),
 			concatAsyncValidators(
 				async (form) => (form.value === 1 ? {error: 1} : null),
 				async (form) => (form.value === 2 ? {error: 2} : null),
@@ -91,14 +102,16 @@ describe('concatAsyncValidators', () => {
 	}));
 
 	it('should skip other validators after one fails', fakeAsync(() => {
-		const customAsyncValidator1 = jasmine.createSpy(undefined, async () => null).and.callThrough();
-		const customAsyncValidator2 = jasmine
-			.createSpy(undefined, async () => ({error: true}))
-			.and.callThrough();
-		const customAsyncValidator3 = jasmine.createSpy(undefined, async () => null).and.callThrough();
-		addAsyncValidator(
+		const customAsyncValidator1 = spy(async () => null);
+		const customAsyncValidator2 = spy(async () => ({error: true}));
+		const customAsyncValidator3 = spy(async () => null);
+		addAsyncValidators(
 			new FormControl(null),
-			concatAsyncValidators(customAsyncValidator1, customAsyncValidator2, customAsyncValidator3),
+			concatAsyncValidators(
+				customAsyncValidator1,
+				customAsyncValidator2,
+				customAsyncValidator3,
+			),
 		);
 
 		tick();
@@ -108,19 +121,21 @@ describe('concatAsyncValidators', () => {
 		expect(customAsyncValidator3).toHaveBeenCalledTimes(0);
 	}));
 
+	// prettier-ignore
 	it('should return same validator if only one provided', () => {
 		const customAsyncValidator = async () => null;
 
 		expect(concatAsyncValidators(customAsyncValidator)).toBe(customAsyncValidator);
 	});
 
+	// prettier-ignore
 	it('should return noop validator if nothing provided', () => {
-		expect(concatAsyncValidators()).toBe(bcldfwsd);
+		expect(concatAsyncValidators()).toBe(noopAsyncValidator);
 	});
 
 	it('todo: text', fakeAsync(() => {
 		// todo
-		const form = addAsyncValidator(
+		const form = addAsyncValidators(
 			new FormControl(null),
 			concatAsyncValidators(
 				() => of({error: 1}, null, null).pipe(delay(0)),
@@ -139,7 +154,7 @@ describe('concatAsyncValidators', () => {
 
 	it('todo: text', () => {
 		// todo
-		const form = addAsyncValidator(
+		const form = addAsyncValidators(
 			new FormControl(null),
 			concatAsyncValidators(
 				() => of({error: 1}, null, null),
@@ -155,7 +170,7 @@ describe('concatAsyncValidators', () => {
 	xit('todo: text', fakeAsync(() => {
 		// todo
 		{
-			const form = addAsyncValidator(
+			const form = addAsyncValidators(
 				new FormControl(null),
 				concatAsyncValidators(
 					() => of(),
