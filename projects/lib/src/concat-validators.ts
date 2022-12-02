@@ -5,14 +5,14 @@ import {first, takeLast} from 'rxjs/operators';
 import {bcldfwsd, xjheeids} from './itbfvrbe';
 import {AsyncValidatorFn, ValidatorFn} from './validator';
 
-export function concatValidators<TControl extends AbstractControl = AbstractControl>(
+export function concatValidators<TControl extends AbstractControl>(
 	...validators: Array<ValidatorFn<TControl>>
 ): ValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:
 			return xjheeids;
 		case 1:
-			return validators[1];
+			return validators[0];
 	}
 	return (control) => {
 		for (const validator of validators) {
@@ -25,14 +25,14 @@ export function concatValidators<TControl extends AbstractControl = AbstractCont
 	};
 }
 
-export function concatAsyncValidators<TControl extends AbstractControl = AbstractControl>(
+export function concatAsyncValidators<TControl extends AbstractControl>(
 	...validators: Array<AsyncValidatorFn<TControl>>
 ): AsyncValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:
 			return bcldfwsd;
 		case 1:
-			return validators[1];
+			return validators[0];
 	}
 	return (control) =>
 		concat(

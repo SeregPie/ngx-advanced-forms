@@ -5,6 +5,7 @@ import {delay} from 'rxjs/operators';
 
 import {concatAsyncValidators, concatValidators} from './concat-validators';
 import {addAsyncValidator, addValidator} from './add-validator';
+import {bcldfwsd, xjheeids} from './itbfvrbe';
 
 describe('concatValidators', () => {
 	it('should work', () => {
@@ -49,8 +50,8 @@ describe('concatValidators', () => {
 		expect(concatValidators(customValidator)).toBe(customValidator);
 	});
 
-	xit('should return noop validator if nothing provided', () => {
-		expect(concatValidators()).toBe(null);
+	it('should return noop validator if nothing provided', () => {
+		expect(concatValidators()).toBe(xjheeids);
 	});
 });
 
@@ -113,8 +114,8 @@ describe('concatAsyncValidators', () => {
 		expect(concatAsyncValidators(customAsyncValidator)).toBe(customAsyncValidator);
 	});
 
-	xit('should return noop validator if nothing provided', () => {
-		expect(concatAsyncValidators()).toBe(null);
+	it('should return noop validator if nothing provided', () => {
+		expect(concatAsyncValidators()).toBe(bcldfwsd);
 	});
 
 	it('todo: text', fakeAsync(() => {
@@ -128,8 +129,11 @@ describe('concatAsyncValidators', () => {
 			),
 		);
 
+		expect(form.pending).toBeTrue();
+
 		tick();
 
+		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: 3});
 	}));
 
@@ -144,6 +148,7 @@ describe('concatAsyncValidators', () => {
 			),
 		);
 
+		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: 3});
 	});
 
@@ -154,6 +159,7 @@ describe('concatAsyncValidators', () => {
 				new FormControl(null),
 				concatAsyncValidators(
 					() => of(),
+					() => of(null),
 					async () => null,
 					() => of({error: 1}, {error: 2}),
 					() => of({error: 4}, {error: 4}).pipe(delay(0)),
@@ -161,8 +167,11 @@ describe('concatAsyncValidators', () => {
 				),
 			);
 
+			expect(form.pending).toBeTrue();
+
 			tick();
 
+			expect(form.invalid).toBeTrue();
 			expect(form.errors).toEqual({error: 5});
 		}
 	}));

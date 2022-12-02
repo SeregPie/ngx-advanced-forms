@@ -1,11 +1,10 @@
 // todo: rename file
 
-import {AbstractControl} from '@angular/forms';
 import {toAsyncValidator} from './to-async-validator';
-import {ValidatorFn} from './validator';
+import {AsyncValidatorFn2, ValidatorFn2} from './validator';
 
 // todo: rename
-export const xjheeids: ValidatorFn = <TControl extends AbstractControl = AbstractControl>() => null;
+export const xjheeids: ValidatorFn2 = () => null;
 
 // todo: rename
-export const bcldfwsd = toAsyncValidator(xjheeids);
+export const bcldfwsd: AsyncValidatorFn2 = toAsyncValidator(xjheeids);

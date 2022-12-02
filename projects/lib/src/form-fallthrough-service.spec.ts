@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {fakeAsync, flush, TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
@@ -229,20 +229,20 @@ describe('FormFallthroughService', () => {
 			By.directive(MySubComponent),
 		).componentInstance;
 
-		flush();
+		tick();
 
 		expect(mySubComponent.form.value).toEqual(0);
 
 		mySubComponent.form.setValue(1);
 
-		flush();
+		tick();
 
 		expect(myComponent.value).toEqual(1);
 
 		myComponent.value = 2;
 		fixture.detectChanges();
 
-		flush();
+		tick();
 
 		expect(mySubComponent.form.value).toEqual(2);
 	}));
