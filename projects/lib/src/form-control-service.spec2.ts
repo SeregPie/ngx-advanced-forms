@@ -1,12 +1,43 @@
-import {FormControl} from '@angular/forms';
+import {Component} from '@angular/core';
+import {TestBed} from '@angular/core/testing';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {By} from '@angular/platform-browser';
 
 import {FormControlService} from './form-control-service';
 
 describe('FormControlService', () => {
 	it('should propagate value', () => {
-		// todo: setup
-		const form = new FormControl(0);
-		const service: FormControlService<number> = null as any;
+		const form = new FormControl(0, {
+			nonNullable: true,
+		});
+
+		@Component({
+			providers: [FormControlService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FormControlService<number>) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = form;
+		}
+
+		TestBed.configureTestingModule({
+			imports: [MyComponent],
+		});
+		const fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		const {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		expect(service.value).toEqual(0);
 
@@ -20,9 +51,35 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate disabled status', () => {
-		// todo: setup
-		const form = new FormControl(0);
-		const service: FormControlService<number> = null as any;
+		const form = new FormControl(null);
+
+		@Component({
+			providers: [FormControlService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FormControlService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = form;
+		}
+
+		TestBed.configureTestingModule({
+			imports: [MyComponent],
+		});
+		const fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		const {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		expect(service.disabled).toBeFalse();
 
@@ -52,23 +109,44 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate errors', () => {
-		// todo: setup
-		const form = new FormControl(0);
-		const service: FormControlService<number> = null as any;
+		const form = new FormControl(null);
 
-		service.errors = {epeqmxsg: true}; // todo: use other object
+		@Component({
+			providers: [FormControlService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FormControlService) {}
+		}
 
-		// todo: keep some of 3
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = form;
+		}
+
+		TestBed.configureTestingModule({
+			imports: [MyComponent],
+		});
+		const fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		const {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
+
+		service.errors = {error: true};
+
 		expect(form.invalid).toBeTrue();
-		expect(form.valid).toBeFalse();
-		expect(form.errors).toEqual({epeqmxsg: true});
+		expect(form.errors).toEqual({error: true});
 
 		service.errors = null;
 
-		// todo: keep some of 3
-		expect(form.invalid).toBeFalse();
 		expect(form.valid).toBeTrue();
-		expect(form.errors).toBeNull();
 	});
 
 	it('should propagate touched status', () => {
