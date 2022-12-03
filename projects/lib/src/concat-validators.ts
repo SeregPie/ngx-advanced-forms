@@ -2,15 +2,15 @@ import {AbstractControl} from '@angular/forms';
 import {concat, defer} from 'rxjs';
 import {first, takeLast} from 'rxjs/operators';
 
+import {CustomAsyncValidatorFn, CustomValidatorFn} from './custom-validator';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
-import {AsyncValidatorFn, ValidatorFn} from './validator';
 
 // prettier-ignore
 export function concatValidators<
 	TControl extends AbstractControl,
 >(
-	...validators: Array<ValidatorFn<TControl>>
-): ValidatorFn<TControl> {
+	...validators: Array<CustomValidatorFn<TControl>>
+): CustomValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:
 			return noopValidator;
@@ -32,8 +32,8 @@ export function concatValidators<
 export function concatAsyncValidators<
 	TControl extends AbstractControl,
 >(
-	...validators: Array<AsyncValidatorFn<TControl>>
-): AsyncValidatorFn<TControl> {
+	...validators: Array<CustomAsyncValidatorFn<TControl>>
+): CustomAsyncValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:
 			return noopAsyncValidator;

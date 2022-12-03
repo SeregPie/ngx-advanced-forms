@@ -1,7 +1,12 @@
-import {toAsyncValidator} from './to-async-validator';
-import {AsyncValidatorFn2, ValidatorFn2} from './validator';
+import {AbstractControl} from '@angular/forms';
+import {Observable, of} from 'rxjs';
 
-export const noopValidator: ValidatorFn2 = () => null;
+// prettier-ignore
+export const noopValidator: {
+	<TControl extends AbstractControl>(control: TControl): null;
+} = () => null;
 
-export const noopAsyncValidator: AsyncValidatorFn2 =
-	toAsyncValidator(noopValidator);
+// prettier-ignore
+export const noopAsyncValidator: {
+	<TControl extends AbstractControl>(control: TControl): Observable<null>;
+} = () => of(null);

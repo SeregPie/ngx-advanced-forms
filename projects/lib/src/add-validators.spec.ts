@@ -3,12 +3,12 @@ import {FormControl} from '@angular/forms';
 
 import {addAsyncValidators, addValidators} from './add-validators';
 
-function spy<Fn extends jasmine.Func>(fn: Fn) {
+function spy<Fn extends jasmine.Func>(fn?: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
+// prettier-ignore
 describe('addValidators', () => {
-	// prettier-ignore
 	it('should work', () => {
 		const form = addValidators(
 			new FormControl(1, {
@@ -26,50 +26,57 @@ describe('addValidators', () => {
 	});
 
 	it('should contain validators', () => {
-		const customValidator1 = () => null;
-		const customValidator2 = () => null;
-		const form = addValidators(
-			new FormControl(null),
-			customValidator1,
-			customValidator2,
-		);
+		const form = new FormControl(null);
+		const customValidators = [
+			() => null,
+			() => null,
+		];
+		addValidators(form, ...customValidators);
 
-		expect(form.hasValidator(customValidator1)).toBeTrue();
-		expect(form.hasValidator(customValidator2)).toBeTrue();
+		for (const customValidator of customValidators) {
+			expect(form.hasValidator(customValidator)).toBeTrue();
+		}
 	});
 
 	it('should call validators only once', () => {
-		const customValidator1 = spy(() => null);
-		const customValidator2 = spy(() => null);
-		addValidators(new FormControl(null), customValidator1, customValidator2);
+		const form = new FormControl(null);
+		const customValidators = [
+			spy(() => null),
+			spy(() => null),
+		];
+		addValidators(form, ...customValidators);
 
-		expect(customValidator1).toHaveBeenCalledTimes(1);
-		expect(customValidator2).toHaveBeenCalledTimes(1);
+		for (const customValidator of customValidators) {
+			expect(customValidator).toHaveBeenCalledTimes(1);
+		}
 	});
 
 	it('should not replace existing validators', () => {
 		const customValidator = () => null;
 		const customAsyncValidator = async () => null;
-		const form = addValidators(
-			new FormControl(null, {
-				validators: customValidator,
-				asyncValidators: customAsyncValidator,
-			}),
-			() => ({error: true}),
-		);
+		const form = new FormControl(null, {
+			validators: customValidator,
+			asyncValidators: customAsyncValidator,
+		});
+		addValidators(form, () => ({error: true}));
 
 		expect(form.hasValidator(customValidator)).toBeTrue();
 		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	});
 
 	it('should not trigger changes if no validators provided', () => {
-		const form = addValidators(new FormControl(null));
-		// todo
+		const form = new FormControl(null);
+		// todo: rename
+		const svieeorp = spy();
+		form.statusChanges.subscribe(svieeorp);
+		addValidators(form);
+
+		expect(svieeorp).toHaveBeenCalledTimes(0);
 	});
 });
 
+// prettier-ignore
 describe('addAsyncValidators', () => {
-	// prettier-ignore
 	it('should work', fakeAsync(() => {
 		const form = addAsyncValidators(
 			new FormControl(1, {
@@ -95,48 +102,51 @@ describe('addAsyncValidators', () => {
 	}));
 
 	it('should contain validators', () => {
-		const customAsyncValidator1 = async () => null;
-		const customAsyncValidator2 = async () => null;
-		const form = addAsyncValidators(
-			new FormControl(null),
-			customAsyncValidator1,
-			customAsyncValidator2,
-		);
+		const form = new FormControl(null);
+		const customAsyncValidators = [
+			async () => null,
+			async () => null,
+		];
+		addAsyncValidators(form, ...customAsyncValidators);
 
-		expect(form.hasAsyncValidator(customAsyncValidator1)).toBeTrue();
-		expect(form.hasAsyncValidator(customAsyncValidator2)).toBeTrue();
+		for (const customAsyncValidator of customAsyncValidators) {
+			expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
+		}
 	});
 
 	it('should call validators only once', () => {
-		const customAsyncValidator1 = spy(async () => null);
-		const customAsyncValidator2 = spy(async () => null);
-		addAsyncValidators(
-			new FormControl(null),
-			customAsyncValidator1,
-			customAsyncValidator2,
-		);
+		const form = new FormControl(null);
+		const customAsyncValidators = [
+			spy(async () => null),
+			spy(async () => null),
+		];
+		addAsyncValidators(form, ...customAsyncValidators);
 
-		expect(customAsyncValidator1).toHaveBeenCalledTimes(1);
-		expect(customAsyncValidator2).toHaveBeenCalledTimes(1);
+		for (const customAsyncValidator of customAsyncValidators) {
+			expect(customAsyncValidator).toHaveBeenCalledTimes(1);
+		}
 	});
 
 	it('should not replace existing validators', () => {
 		const customValidator = () => null;
 		const customAsyncValidator = async () => null;
-		const form = addAsyncValidators(
-			new FormControl(null, {
-				validators: customValidator,
-				asyncValidators: customAsyncValidator,
-			}),
-			async () => ({error: true}),
-		);
+		const form = new FormControl(null, {
+			validators: customValidator,
+			asyncValidators: customAsyncValidator,
+		});
+		addAsyncValidators(form, async () => ({error: true}));
 
 		expect(form.hasValidator(customValidator)).toBeTrue();
 		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	});
 
 	it('should not trigger changes if no validators provided', () => {
-		const form = addValidators(new FormControl(null));
-		// todo
+		const form = new FormControl(null);
+		// todo: rename
+		const svieeorp = spy();
+		form.statusChanges.subscribe(svieeorp);
+		addAsyncValidators(form);
+
+		expect(svieeorp).toHaveBeenCalledTimes(0);
 	});
 });

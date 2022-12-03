@@ -7,10 +7,11 @@ import {concatAsyncValidators, concatValidators} from './concat-validators';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
 import {addAsyncValidators, addValidators} from './add-validators';
 
-function spy<Fn extends jasmine.Func>(fn: Fn) {
+function spy<Fn extends jasmine.Func>(fn?: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
+// prettier-ignore
 describe('concatValidators', () => {
 	it('should work', () => {
 		const form = addValidators(
@@ -38,33 +39,31 @@ describe('concatValidators', () => {
 
 	it('should skip other validators after one fails', () => {
 		const form = new FormControl(null);
-		const customValidator1 = spy(() => null);
-		const customValidator2 = spy(() => ({error: true}));
-		const customValidator3 = spy(() => null);
-		addValidators(
-			form,
-			concatValidators(customValidator1, customValidator2, customValidator3),
-		);
+		const customValidators = [
+			spy(() => null),
+			spy(() => ({error: true})),
+			spy(() => null),
+		];
+		addValidators(form, concatValidators(...customValidators));
 
-		expect(customValidator1).toHaveBeenCalledTimes(1);
-		expect(customValidator2).toHaveBeenCalledTimes(1);
-		expect(customValidator3).toHaveBeenCalledTimes(0);
+		expect(customValidators[0]).toHaveBeenCalledTimes(1);
+		expect(customValidators[1]).toHaveBeenCalledTimes(1);
+		expect(customValidators[2]).toHaveBeenCalledTimes(0);
 	});
 
-	// prettier-ignore
 	it('should return same validator if only one provided', () => {
 		const customValidator = () => null;
 
 		expect(concatValidators(customValidator)).toBe(customValidator);
 	});
 
-	// prettier-ignore
 	it('should return noop validator if nothing provided', () => {
 		expect(concatValidators()).toBe(noopValidator);
 	});
 });
 
 describe('concatAsyncValidators', () => {
+	// prettier-ignore
 	it('should work', fakeAsync(() => {
 		const form = addAsyncValidators(
 			new FormControl(1, {
@@ -101,24 +100,21 @@ describe('concatAsyncValidators', () => {
 		expect(form.valid).toBeTrue();
 	}));
 
+	// prettier-ignore
 	it('should skip other validators after one fails', fakeAsync(() => {
-		const customAsyncValidator1 = spy(async () => null);
-		const customAsyncValidator2 = spy(async () => ({error: true}));
-		const customAsyncValidator3 = spy(async () => null);
-		addAsyncValidators(
-			new FormControl(null),
-			concatAsyncValidators(
-				customAsyncValidator1,
-				customAsyncValidator2,
-				customAsyncValidator3,
-			),
-		);
+		const form = new FormControl(null);
+		const customAsyncValidators = [
+			spy(async () => null),
+			spy(async () => ({error: true})),
+			spy(async () => null),
+		];
+		addAsyncValidators(form, concatAsyncValidators(...customAsyncValidators));
 
 		tick();
 
-		expect(customAsyncValidator1).toHaveBeenCalledTimes(1);
-		expect(customAsyncValidator2).toHaveBeenCalledTimes(1);
-		expect(customAsyncValidator3).toHaveBeenCalledTimes(0);
+		expect(customAsyncValidators[0]).toHaveBeenCalledTimes(1);
+		expect(customAsyncValidators[1]).toHaveBeenCalledTimes(1);
+		expect(customAsyncValidators[2]).toHaveBeenCalledTimes(0);
 	}));
 
 	// prettier-ignore
