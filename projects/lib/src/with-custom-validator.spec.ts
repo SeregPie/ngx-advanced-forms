@@ -6,7 +6,7 @@ import {
 	withCustomValidator,
 } from './with-custom-validator';
 
-function spy<Fn extends jasmine.Func>(fn?: Fn) {
+function spy<Fn extends jasmine.Func>(fn: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 

@@ -6,7 +6,7 @@ import {
 	NG_VALUE_ACCESSOR,
 	ValidationErrors,
 } from '@angular/forms';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, Subscription} from 'rxjs';
 import {skip} from 'rxjs/operators';
 
 @Injectable()
@@ -84,7 +84,7 @@ export class FormControlService<TValue = any>
 	}
 
 	touch(): void {
-		throw 'not implemented yet';
+		// todo: implement
 	}
 
 	writeValue(value: null | TValue): void {
@@ -92,7 +92,8 @@ export class FormControlService<TValue = any>
 	}
 
 	private get onChange(): Observable<null | TValue> {
-		throw 'not implemented yet';
+		// todo: implement
+		return EMPTY;
 	}
 
 	private onChangeSubscription = Subscription.EMPTY;
@@ -106,7 +107,8 @@ export class FormControlService<TValue = any>
 	}
 
 	private get onTouched(): Observable<void> {
-		throw 'not implemented yet';
+		// todo: implement
+		return EMPTY;
 	}
 
 	private onTouchedSubscription = Subscription.EMPTY;
@@ -124,11 +126,13 @@ export class FormControlService<TValue = any>
 	}
 
 	validate(): Observable<null | ValidationErrors> {
-		throw 'not implemented yet';
+		// todo: implement
+		return EMPTY;
 	}
 
 	private get onValidatorChange(): Observable<void> {
-		throw 'not implemented yet';
+		// todo: implement
+		return EMPTY;
 	}
 
 	private onValidatorChangeSubscription = Subscription.EMPTY;

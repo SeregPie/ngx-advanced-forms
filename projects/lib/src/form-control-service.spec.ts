@@ -18,7 +18,7 @@ describe('FormControlService', () => {
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormControlService<number>) {}
+			constructor(public service: FormControlService) {}
 		}
 
 		@Component({
@@ -35,9 +35,12 @@ describe('FormControlService', () => {
 		});
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		// prettier-ignore
+		const {service}: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		expect(service.value).toEqual(0);
 
@@ -77,9 +80,12 @@ describe('FormControlService', () => {
 		});
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		// prettier-ignore
+		const {service}: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		expect(service.disabled).toBeFalse();
 
@@ -93,9 +99,38 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate pending status', () => {
-		// todo: setup
-		const form = new FormControl(0);
-		const service: FormControlService<number> = null as any;
+		const form = new FormControl(null);
+
+		@Component({
+			providers: [FormControlService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FormControlService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = form;
+		}
+
+		TestBed.configureTestingModule({
+			imports: [MyComponent],
+		});
+		const fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		// prettier-ignore
+		const {service}: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		expect(form.pending).toBeFalse();
 
@@ -135,9 +170,12 @@ describe('FormControlService', () => {
 		});
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = fixture.debugElement.query(
-			By.directive(MySubComponent),
-		).componentInstance;
+		// prettier-ignore
+		const {service}: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		service.errors = {error: true};
 
@@ -150,9 +188,38 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate touched status', () => {
-		// todo: setup
-		const form = new FormControl(0);
-		const service: FormControlService<number> = null as any;
+		const form = new FormControl(null);
+
+		@Component({
+			providers: [FormControlService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FormControlService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = form;
+		}
+
+		TestBed.configureTestingModule({
+			imports: [MyComponent],
+		});
+		const fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		// prettier-ignore
+		const {service}: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
 		service.touch();
 
