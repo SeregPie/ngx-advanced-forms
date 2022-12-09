@@ -14,7 +14,6 @@ function spy<Fn extends jasmine.Func>(fn?: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
-// prettier-ignore
 describe('concatValidators', () => {
 	it('should work', () => {
 		const form = withCustomValidator(
@@ -66,7 +65,6 @@ describe('concatValidators', () => {
 });
 
 describe('concatAsyncValidators', () => {
-	// prettier-ignore
 	it('should work', fakeAsync(() => {
 		const form = withCustomAsyncValidator(
 			new FormControl(1, {
