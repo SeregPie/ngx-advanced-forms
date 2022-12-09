@@ -5,10 +5,6 @@ import {delay} from 'rxjs/operators';
 
 import {concatAsyncValidators, concatValidators} from './concat-validators';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
-import {
-	withCustomAsyncValidator,
-	withCustomValidator,
-} from './with-custom-validator';
 
 function spy<Fn extends jasmine.Func>(fn: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
@@ -16,15 +12,13 @@ function spy<Fn extends jasmine.Func>(fn: Fn) {
 
 describe('concatValidators', () => {
 	it('should work', () => {
-		const form = withCustomValidator(
-			new FormControl(1, {
-				nonNullable: true,
-			}),
-			concatValidators(
+		const form = new FormControl(1, {
+			nonNullable: true,
+			validators: concatValidators(
 				(form) => (form.value === 1 ? {error: 1} : null),
 				(form) => (form.value === 2 ? {error: 2} : null),
 			),
-		);
+		});
 
 		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: 1});
@@ -40,13 +34,12 @@ describe('concatValidators', () => {
 	});
 
 	it('should skip other validators after one fails', () => {
-		const form = new FormControl(null);
 		const customValidators = [
 			spy(() => null),
 			spy(() => ({error: true})),
 			spy(() => null),
 		];
-		withCustomValidator(form, concatValidators(...customValidators));
+		concatValidators(...customValidators)(new FormControl(null));
 
 		expect(customValidators[0]).toHaveBeenCalledTimes(1);
 		expect(customValidators[1]).toHaveBeenCalledTimes(1);
@@ -66,15 +59,13 @@ describe('concatValidators', () => {
 
 describe('concatAsyncValidators', () => {
 	it('should work', fakeAsync(() => {
-		const form = withCustomAsyncValidator(
-			new FormControl(1, {
-				nonNullable: true,
-			}),
-			concatAsyncValidators(
+		const form = new FormControl(1, {
+			nonNullable: true,
+			asyncValidators: concatAsyncValidators(
 				async (form) => (form.value === 1 ? {error: 1} : null),
 				async (form) => (form.value === 2 ? {error: 2} : null),
 			),
-		);
+		});
 
 		expect(form.pending).toBeTrue();
 
@@ -101,15 +92,13 @@ describe('concatAsyncValidators', () => {
 		expect(form.valid).toBeTrue();
 	}));
 
-	// prettier-ignore
 	it('should skip other validators after one fails', fakeAsync(() => {
-		const form = new FormControl(null);
 		const customAsyncValidators = [
 			spy(async () => null),
 			spy(async () => ({error: true})),
 			spy(async () => null),
 		];
-		withCustomAsyncValidator(form, concatAsyncValidators(...customAsyncValidators));
+		concatAsyncValidators(...customAsyncValidators)(new FormControl(null));
 
 		tick();
 
@@ -125,21 +114,9 @@ describe('concatAsyncValidators', () => {
 		expect(concatAsyncValidators(customAsyncValidator)).toBe(customAsyncValidator);
 	});
 
-	// prettier-ignore
 	it('should return noop validator if nothing provided', () => {
 		expect(concatAsyncValidators()).toBe(noopAsyncValidator);
 	});
-
-	it('LOLOLOL', fakeAsync(() => {
-		// todo
-		const form = withCustomAsyncValidator(new FormControl(null), () => of());
-
-		console.log(form.status, form.errors);
-
-		tick();
-
-		console.log(form.status, form.errors);
-	}));
 
 	it('todo: text', fakeAsync(() => {
 		// todo
@@ -172,11 +149,8 @@ describe('concatAsyncValidators', () => {
 			),
 		);
 
-		expect(form.pending).toBeTrue();
-
 		tick();
 
-		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: 3});
 	});
 
