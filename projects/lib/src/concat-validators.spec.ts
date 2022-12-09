@@ -130,6 +130,17 @@ describe('concatAsyncValidators', () => {
 		expect(concatAsyncValidators()).toBe(noopAsyncValidator);
 	});
 
+	it('LOLOLOL', fakeAsync(() => {
+		// todo
+		const form = withCustomAsyncValidator(new FormControl(null), () => of());
+
+		console.log(form.status, form.errors);
+
+		tick();
+
+		console.log(form.status, form.errors);
+	}));
+
 	it('todo: text', fakeAsync(() => {
 		// todo
 		const form = withCustomAsyncValidator(
@@ -149,20 +160,49 @@ describe('concatAsyncValidators', () => {
 		expect(form.errors).toEqual({error: 3});
 	}));
 
-	it('todo: text', () => {
-		// todo
-		const form = withCustomAsyncValidator(
-			new FormControl(null),
+	it('should accept only final result from observables', () => {
+		const form = new FormControl(null);
+		withCustomAsyncValidator(
+			form,
 			concatAsyncValidators(
+				async () => null,
 				() => of({error: 1}, null, null),
 				() => of(null, {error: 2}, null),
 				() => of(null, null, {error: 3}),
 			),
 		);
 
+		expect(form.pending).toBeTrue();
+
+		tick();
+
 		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: 3});
 	});
+
+	it('todo: text', fakeAsync(() => {
+		// todo
+		{
+			const form = withCustomAsyncValidator(
+				new FormControl(null),
+				concatAsyncValidators(
+					() => of(),
+					() => of(null),
+					async () => null,
+					() => of({error: 1}, {error: 2}),
+					() => of({error: 4}, {error: 4}).pipe(delay(0)),
+					async () => ({error: 5}),
+				),
+			);
+
+			expect(form.pending).toBeTrue();
+
+			tick();
+
+			expect(form.invalid).toBeTrue();
+			expect(form.errors).toEqual({error: 5});
+		}
+	}));
 
 	xit('todo: text', fakeAsync(() => {
 		// todo
