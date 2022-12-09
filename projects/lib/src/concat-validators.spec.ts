@@ -5,7 +5,10 @@ import {delay} from 'rxjs/operators';
 
 import {concatAsyncValidators, concatValidators} from './concat-validators';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
-import {addAsyncValidators, addValidators} from './add-validators';
+import {
+	withCustomAsyncValidator,
+	withCustomValidator,
+} from './with-custom-validator';
 
 function spy<Fn extends jasmine.Func>(fn?: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
@@ -14,7 +17,7 @@ function spy<Fn extends jasmine.Func>(fn?: Fn) {
 // prettier-ignore
 describe('concatValidators', () => {
 	it('should work', () => {
-		const form = addValidators(
+		const form = withCustomValidator(
 			new FormControl(1, {
 				nonNullable: true,
 			}),
@@ -44,7 +47,7 @@ describe('concatValidators', () => {
 			spy(() => ({error: true})),
 			spy(() => null),
 		];
-		addValidators(form, concatValidators(...customValidators));
+		withCustomValidator(form, concatValidators(...customValidators));
 
 		expect(customValidators[0]).toHaveBeenCalledTimes(1);
 		expect(customValidators[1]).toHaveBeenCalledTimes(1);
@@ -65,7 +68,7 @@ describe('concatValidators', () => {
 describe('concatAsyncValidators', () => {
 	// prettier-ignore
 	it('should work', fakeAsync(() => {
-		const form = addAsyncValidators(
+		const form = withCustomAsyncValidator(
 			new FormControl(1, {
 				nonNullable: true,
 			}),
@@ -108,7 +111,7 @@ describe('concatAsyncValidators', () => {
 			spy(async () => ({error: true})),
 			spy(async () => null),
 		];
-		addAsyncValidators(form, concatAsyncValidators(...customAsyncValidators));
+		withCustomAsyncValidator(form, concatAsyncValidators(...customAsyncValidators));
 
 		tick();
 
@@ -131,7 +134,7 @@ describe('concatAsyncValidators', () => {
 
 	it('todo: text', fakeAsync(() => {
 		// todo
-		const form = addAsyncValidators(
+		const form = withCustomAsyncValidator(
 			new FormControl(null),
 			concatAsyncValidators(
 				() => of({error: 1}, null, null).pipe(delay(0)),
@@ -150,7 +153,7 @@ describe('concatAsyncValidators', () => {
 
 	it('todo: text', () => {
 		// todo
-		const form = addAsyncValidators(
+		const form = withCustomAsyncValidator(
 			new FormControl(null),
 			concatAsyncValidators(
 				() => of({error: 1}, null, null),
@@ -166,7 +169,7 @@ describe('concatAsyncValidators', () => {
 	xit('todo: text', fakeAsync(() => {
 		// todo
 		{
-			const form = addAsyncValidators(
+			const form = withCustomAsyncValidator(
 				new FormControl(null),
 				concatAsyncValidators(
 					() => of(),

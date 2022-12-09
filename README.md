@@ -13,7 +13,7 @@ npm i ngx-advanced-forms
 ```ts
 import {
   DynamicFormArray,
-  addValidator,
+  withCustomValidator,
   /* ... */
 } from 'ngx-advanced-forms';
 ```
@@ -75,7 +75,7 @@ class FormControlService<TValue> {
 ---
 
 ```ts
-function addValidator<TControl>(
+function withCustomValidator<TControl>(
   control: TControl,
   validator: ValidatorFn<TControl>,
 ): TControl;
@@ -84,7 +84,7 @@ function addValidator<TControl>(
 ---
 
 ```ts
-function addAsyncValidator<TControl>(
+function withCustomAsyncValidator<TControl>(
   control: TControl,
   validator: AsyncValidatorFn<TControl>,
 ): TControl;

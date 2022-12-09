@@ -30,7 +30,7 @@ export function concatValidators<
 
 // prettier-ignore
 export function concatAsyncValidators<
-	TControl extends AbstractControl,
+	TControl extends AbstractControl
 >(
 	...validators: Array<CustomAsyncValidatorFn<TControl>>
 ): CustomAsyncValidatorFn<TControl> {
