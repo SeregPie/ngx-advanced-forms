@@ -6,7 +6,7 @@ import {CustomAsyncValidatorFn, CustomValidatorFn} from './custom-validator';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
 
 // prettier-ignore
-export function concatValidators<
+export function composeValidators<
 	TControl extends AbstractControl,
 >(
 	...validators: Array<CustomValidatorFn<TControl>>
@@ -29,7 +29,7 @@ export function concatValidators<
 }
 
 // prettier-ignore
-export function concatAsyncValidators<
+export function composeAsyncValidators<
 	TControl extends AbstractControl
 >(
 	...validators: Array<CustomAsyncValidatorFn<TControl>>

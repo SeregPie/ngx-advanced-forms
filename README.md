@@ -93,7 +93,7 @@ function withCustomAsyncValidator<TControl>(
 ---
 
 ```ts
-function concatValidators<TControl>(
+function composeValidators<TControl>(
   ...validators: Array<ValidatorFn<TControl>>
 ): ValidatorFn<TControl>;
 ```
@@ -101,7 +101,7 @@ function concatValidators<TControl>(
 ---
 
 ```ts
-function concatAsyncValidators<TControl>(
+function composeAsyncValidators<TControl>(
   ...validators: Array<AsyncValidatorFn<TControl>>
 ): AsyncValidatorFn<TControl>;
 ```
