@@ -17,3 +17,47 @@ export function unregisterControl(child: AbstractControl): void {
 export function triggerCollectionChange(control: AbstractControl): void {
 	(control as any)._onCollectionChange();
 }
+
+export function getChildren(control: AbstractControl): Array<AbstractControl> {
+	if (control instanceof FormGroup) {
+		return Object.values(control.controls);
+	}
+	if (control instanceof FormArray) {
+		return control.controls;
+	}
+	return [];
+}
+
+export function getAncestors(control: AbstractControl): Array<AbstractControl> {
+	const {parent} = control;
+	return parent ? [parent, ...getAncestors(parent)] : [];
+}
+
+export function getDescendants(
+	control: AbstractControl,
+): Array<AbstractControl> {
+	return getChildren(control).flatMap((child) => [
+		...getDescendants(child),
+		child,
+	]);
+}
+
+export function isDescendantOf(
+	control: AbstractControl,
+	otherControl: AbstractControl,
+): boolean {
+	let x: null | AbstractControl = control;
+	while ((x = x.parent)) {
+		if (x === otherControl) {
+			return true;
+		}
+	}
+	return false;
+}
+
+export function isAncestorOf(
+	control: AbstractControl,
+	otherControl: AbstractControl,
+): boolean {
+	return isDescendantOf(otherControl, control);
+}

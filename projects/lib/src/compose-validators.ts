@@ -5,11 +5,13 @@ import {first, takeLast} from 'rxjs/operators';
 import {CustomAsyncValidatorFn, CustomValidatorFn} from './custom-validator';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
 
+// todo: rename combineValidators, concatValidators
+// todo: spread args?
 // prettier-ignore
 export function composeValidators<
 	TControl extends AbstractControl,
 >(
-	...validators: Array<CustomValidatorFn<TControl>>
+	validators: Array<CustomValidatorFn<TControl>>,
 ): CustomValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:
@@ -32,7 +34,7 @@ export function composeValidators<
 export function composeAsyncValidators<
 	TControl extends AbstractControl
 >(
-	...validators: Array<CustomAsyncValidatorFn<TControl>>
+	validators: Array<CustomAsyncValidatorFn<TControl>>,
 ): CustomAsyncValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:

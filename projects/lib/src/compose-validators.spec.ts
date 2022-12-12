@@ -12,10 +12,10 @@ describe('composeValidators', () => {
 	it('should work', () => {
 		const form = new FormControl(1, {
 			nonNullable: true,
-			validators: composeValidators(
+			validators: composeValidators([
 				(form) => (form.value === 1 ? {error: 1} : null),
 				(form) => (form.value === 2 ? {error: 2} : null),
-			),
+			]),
 		});
 
 		expect(form.invalid).toBeTrue();
@@ -37,7 +37,9 @@ describe('composeValidators', () => {
 			spy(() => ({error: true})),
 			spy(() => null),
 		];
-		composeValidators(...customValidators)(new FormControl(null));
+		new FormControl(null, {
+			validators: composeValidators(customValidators),
+		});
 
 		expect(customValidators[0]).toHaveBeenCalledTimes(1);
 		expect(customValidators[1]).toHaveBeenCalledTimes(1);
@@ -47,11 +49,11 @@ describe('composeValidators', () => {
 	it('should return same validator if only one provided', () => {
 		const customValidator = () => null;
 
-		expect(composeValidators(customValidator)).toBe(customValidator);
+		expect(composeValidators([customValidator])).toBe(customValidator);
 	});
 
 	it('should return noop validator if nothing provided', () => {
-		expect(composeValidators()).toBe(noopValidator);
+		expect(composeValidators([])).toBe(noopValidator);
 	});
 });
 
@@ -59,10 +61,10 @@ describe('composeAsyncValidators', () => {
 	it('should work', fakeAsync(() => {
 		const form = new FormControl(1, {
 			nonNullable: true,
-			asyncValidators: composeAsyncValidators(
+			asyncValidators: composeAsyncValidators([
 				async (form) => (form.value === 1 ? {error: 1} : null),
 				async (form) => (form.value === 2 ? {error: 2} : null),
-			),
+			]),
 		});
 
 		expect(form.pending).toBeTrue();
@@ -96,7 +98,9 @@ describe('composeAsyncValidators', () => {
 			spy(async () => ({error: true})),
 			spy(async () => null),
 		];
-		composeAsyncValidators(...customAsyncValidators)(new FormControl(null));
+		new FormControl(null, {
+			asyncValidators: composeAsyncValidators(customAsyncValidators),
+		});
 
 		tick();
 
@@ -109,10 +113,10 @@ describe('composeAsyncValidators', () => {
 	it('should return same validator if only one provided', () => {
 		const customAsyncValidator = async () => null;
 
-		expect(composeAsyncValidators(customAsyncValidator)).toBe(customAsyncValidator);
+		expect(composeAsyncValidators([customAsyncValidator])).toBe(customAsyncValidator);
 	});
 
 	it('should return noop validator if nothing provided', () => {
-		expect(composeAsyncValidators()).toBe(noopAsyncValidator);
+		expect(composeAsyncValidators([])).toBe(noopAsyncValidator);
 	});
 });

@@ -93,7 +93,7 @@ export class FormControlService<TValue = any>
 
 	private get onChange(): Observable<null | TValue> {
 		// todo: implement
-		return EMPTY;
+		return this.valueChanges;
 	}
 
 	private onChangeSubscription = Subscription.EMPTY;

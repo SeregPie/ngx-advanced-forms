@@ -30,7 +30,7 @@ describe('FormFallthroughService', () => {
 			template: `<my-sub [formControl]="form"></my-sub>`,
 		})
 		class MyComponent {
-			form = new FormControl(0);
+			form = new FormControl(null);
 		}
 
 		TestBed.configureTestingModule({
@@ -64,13 +64,13 @@ describe('FormFallthroughService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub formControlName="one"></my-sub>
+					<my-sub formControlName="a"></my-sub>
 				</ng-container>
 			`,
 		})
 		class MyComponent {
 			form = new FormGroup({
-				one: new FormControl(0),
+				a: new FormControl(null),
 			});
 		}
 
@@ -86,7 +86,7 @@ describe('FormFallthroughService', () => {
 			.componentInstance
 		);
 
-		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
+		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
 	});
 
 	it('should work with FormGroupDirective', () => {
@@ -107,8 +107,8 @@ describe('FormFallthroughService', () => {
 		})
 		class MyComponent {
 			form = new FormGroup({
-				a: new FormControl(0),
-				b: new FormControl(0),
+				a: new FormControl(null),
+				b: new FormControl(null),
 			});
 		}
 
@@ -143,15 +143,15 @@ describe('FormFallthroughService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub formGroupName="one"></my-sub>
+					<my-sub formGroupName="a"></my-sub>
 				</ng-container>
 			`,
 		})
 		class MyComponent {
 			form = new FormGroup({
-				one: new FormGroup({
-					a: new FormControl(0),
-					b: new FormControl(0),
+				a: new FormGroup({
+					a: new FormControl(null),
+					b: new FormControl(null),
 				}),
 			});
 		}
@@ -168,7 +168,7 @@ describe('FormFallthroughService', () => {
 			.componentInstance
 		);
 
-		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
+		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
 	});
 
 	it('should work with FormArrayNameDirective', () => {
@@ -187,15 +187,15 @@ describe('FormFallthroughService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub formArrayName="one"></my-sub>
+					<my-sub formArrayName="a"></my-sub>
 				</ng-container>
 			`,
 		})
 		class MyComponent {
 			form = new FormGroup({
-				one: new FormArray([
-					new FormControl(0),
-					new FormControl(0),
+				a: new FormArray([
+					new FormControl(null),
+					new FormControl(null),
 				]),
 			});
 		}
@@ -212,7 +212,7 @@ describe('FormFallthroughService', () => {
 			.componentInstance
 		);
 
-		expect(mySubComponent.service.control).toBe(myComponent.form.controls.one);
+		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
 	});
 
 	it('should work with NgModelDirective', fakeAsync(() => {
