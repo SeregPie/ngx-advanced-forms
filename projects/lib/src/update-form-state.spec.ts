@@ -71,65 +71,107 @@ fdescribe('updateFormState', () => {
 	});
 
 	it('todo: description ceysijjl', () => {
-		const form = new FormGroup({
-			a: new FormControl(null),
-			b: new FormControl(null),
-		});
-		form.disable();
+		for (let r = 0; r < 2; r++) {
+			const form = new FormGroup({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			});
+			form.disable();
 
-		// todo: rename
-		const bivszejl = spy(noop);
-		form.statusChanges.subscribe(bivszejl);
+			// todo: rename
+			const bivszejl = spy(noop);
+			form.statusChanges.subscribe(bivszejl);
 
-		updateFormState(form, (wrap) => {
-			wrap(form).disabled = true;
-			wrap(form.controls.a).disabled = false;
-		});
+			switch (r) {
+				case 0: {
+					updateFormState(form, (wrap) => {
+						wrap(form).disabled = true;
+						wrap(form.controls.a).disabled = false;
+					});
+					break;
+				}
+				case 1: {
+					updateFormState(form, (wrap) => {
+						wrap(form.controls.a).disabled = false;
+						wrap(form).disabled = true;
+					});
+					break;
+				}
+			}
 
-		expect(form.controls.a.disabled).toBeTrue();
-		expect(form.controls.b.disabled).toBeTrue();
-		expect(bivszejl).toHaveBeenCalledTimes(0);
+			expect(form.controls.a.disabled).toBeTrue();
+			expect(form.controls.b.disabled).toBeTrue();
+			expect(bivszejl).toHaveBeenCalledTimes(0);
+		}
 	});
 
 	it('todo: description ydepqowi', () => {
-		const form = new FormGroup({
-			a: new FormControl(null),
-			b: new FormControl(null),
-		});
-		form.disable();
+		for (let r = 0; r < 2; r++) {
+			const form = new FormGroup({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			});
+			form.disable();
 
-		// todo: rename
-		const bivszejl = spy(noop);
-		form.statusChanges.subscribe(bivszejl);
+			// todo: rename
+			const bivszejl = spy(noop);
+			form.statusChanges.subscribe(bivszejl);
 
-		updateFormState(form, (wrap) => {
-			wrap(form).disabled = false;
-			wrap(form.controls.a).disabled = false;
-		});
+			switch (r) {
+				case 0: {
+					updateFormState(form, (wrap) => {
+						wrap(form).disabled = false;
+						wrap(form.controls.a).disabled = false;
+					});
+					break;
+				}
+				case 1: {
+					updateFormState(form, (wrap) => {
+						wrap(form.controls.a).disabled = false;
+						wrap(form).disabled = false;
+					});
+					break;
+				}
+			}
 
-		expect(form.controls.a.disabled).toBeFalse();
-		expect(form.controls.b.disabled).toBeTrue();
-		expect(bivszejl).toHaveBeenCalledTimes(1);
+			expect(form.controls.a.disabled).toBeFalse();
+			expect(form.controls.b.disabled).toBeFalse();
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+		}
 	});
 
 	it('todo: description gpmstuxe', () => {
-		const form = new FormGroup({
-			a: new FormControl(null),
-			b: new FormControl(null),
-		});
-		form.disable();
+		for (let r = 0; r < 2; r++) {
+			const form = new FormGroup({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			});
+			form.disable();
 
-		// todo: rename
-		const bivszejl = spy(noop);
-		form.statusChanges.subscribe(bivszejl);
+			// todo: rename
+			const bivszejl = spy(noop);
+			form.statusChanges.subscribe(bivszejl);
 
-		updateFormState(form, (wrap) => {
-			wrap(form).disabled = false;
-			wrap(form.controls.a).disabled = true;
-		});
+			switch (r) {
+				case 0: {
+					updateFormState(form, (wrap) => {
+						wrap(form).disabled = false;
+						wrap(form.controls.a).disabled = true;
+					});
+					break;
+				}
+				case 1: {
+					updateFormState(form, (wrap) => {
+						wrap(form.controls.a).disabled = true;
+						wrap(form).disabled = false;
+					});
+					break;
+				}
+			}
 
-		expect(form.controls.a.disabled).toBeTrue();
-		expect(form.controls.b.disabled).toBeFalse();
-		expect(bivszejl).toHaveBeenCalledTimes(1);
+			expect(form.controls.a.disabled).toBeTrue();
+			expect(form.controls.b.disabled).toBeFalse();
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+		}
 	});
 });

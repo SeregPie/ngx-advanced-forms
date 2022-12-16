@@ -1,20 +1,12 @@
 import {AbstractControl} from '@angular/forms';
 
-import {isAncestorOf, isDescendantOf} from './control-hacks';
-
 // todo: rename
-export class Raqkxkuc<TControl extends AbstractControl> {
-	constructor(readonly control: TControl) {}
+export interface Raqkxkuc<TControl extends AbstractControl> {
+	readonly control: TControl;
 
-	disabled = this.control.disabled;
+	disabled: boolean;
 
-	get enabled(): boolean {
-		return !this.disabled;
-	}
-
-	set enabled(v: boolean) {
-		this.disabled = !v;
-	}
+	enabled: boolean;
 }
 
 // todo: rename
@@ -22,46 +14,101 @@ export interface Zyggsdzi {
 	<TControl extends AbstractControl>(control: TControl): Raqkxkuc<TControl>;
 }
 
+class Wwhquhvs<TControl extends AbstractControl> {
+	constructor(readonly control: TControl) {}
+
+	itabxwak = new Fvwdslpy<TControl>(this);
+
+	disabled: boolean = this.control.disabled;
+
+	children: Array<Wwhquhvs<AbstractControl>> = [];
+}
+
+class Fvwdslpy<TControl extends AbstractControl> implements Raqkxkuc<TControl> {
+	constructor(readonly wwwhquhvs: Wwhquhvs<TControl>) {}
+
+	get control(): TControl {
+		return this.wwwhquhvs.control;
+	}
+
+	get disabled(): boolean {
+		return this.wwwhquhvs.disabled;
+	}
+	set disabled(v: boolean) {
+		this.wwwhquhvs.disabled = v;
+	}
+
+	get enabled(): boolean {
+		return !this.disabled;
+	}
+	set enabled(v: boolean) {
+		this.disabled = !v;
+	}
+}
+
 export function updateFormState(
 	control: AbstractControl,
 	fn: (wrap: Zyggsdzi) => void,
 ): void {
-	// todo: rename wweltkgv, culrkwmp, whevuusi, pzzpdgeq
-	const wweltkgv = new Map<AbstractControl, Raqkxkuc<AbstractControl>>();
-	let changed = false;
-	fn((control) => {
+	interface Wwhquhvs<TControl extends AbstractControl> {
+		control: TControl;
+		itabxwak: Raqkxkuc<TControl>;
+		disabled: boolean;
+		children: Array<Wwhquhvs<AbstractControl>>;
+	}
+	const wweltkgv = new Map<AbstractControl, Wwhquhvs<AbstractControl>>();
+	const miohiqrw = (otherControl: AbstractControl): boolean => {
+		let x: null | AbstractControl = otherControl;
+		do {
+			if (x === control) {
+				return true;
+			}
+		} while ((x = x.parent));
+		return false;
+	};
+	const tnhyhhzs = <TControl extends AbstractControl>(
+		control: TControl,
+	): Wwhquhvs<TControl> => {
 		if (wweltkgv.has(control)) {
 			return wweltkgv.get(control) as any;
 		}
-		const culrkwmp = new Raqkxkuc(control);
-		wweltkgv.set(control, culrkwmp);
-		return culrkwmp;
-	});
-	wweltkgv.forEach((whevuusi) => {
-		if (whevuusi.disabled) {
-			wweltkgv.forEach((pzzpdgeq) => {
-				if (whevuusi !== pzzpdgeq) {
-					if (isAncestorOf(whevuusi.control, pzzpdgeq.control)) {
-						wweltkgv.delete(pzzpdgeq.control);
-					}
-				}
-			});
+		if (!miohiqrw(control)) {
+			throw new Error('todo');
 		}
-	});
-	wweltkgv.forEach((whevuusi) => {
-		if (whevuusi.enabled) {
-			wweltkgv.forEach((pzzpdgeq) => {
-				if (whevuusi !== pzzpdgeq) {
-					if (isDescendantOf(whevuusi.control, pzzpdgeq.control)) {
-						wweltkgv.delete(pzzpdgeq.control);
-					}
-				}
-			});
+		const hwznxzvo = {
+			control,
+			itabxwak: {
+				get control() {
+					return control;
+				},
+				get disabled() {
+					return hwznxzvo.disabled;
+				},
+				set disabled(v) {
+					hwznxzvo.disabled = v;
+				},
+				get enabled() {
+					return !hwznxzvo.disabled;
+				},
+				set enabled(v) {
+					hwznxzvo.disabled = !v;
+				},
+			},
+			disabled: control.disabled,
+			children: [],
+		};
+		wweltkgv.set(control, hwznxzvo);
+		if (control.parent) {
+			tnhyhhzs(control.parent).children.push(hwznxzvo);
 		}
-	});
-	wweltkgv.forEach((culrkwmp) => {
-		const {control} = culrkwmp;
-		if (culrkwmp.disabled) {
+		return hwznxzvo;
+	};
+	const hwznxzvo = tnhyhhzs(control);
+	fn((control) => tnhyhhzs(control).itabxwak);
+	const qyiozgmz = (hwznxzvo: Wwhquhvs<AbstractControl>): boolean => {
+		let changed = false;
+		const {control} = hwznxzvo;
+		if (hwznxzvo.disabled) {
 			if (control.enabled) {
 				control.disable({emitEvent: false});
 				if (control.disabled) {
@@ -76,8 +123,16 @@ export function updateFormState(
 				}
 			}
 		}
-	});
-	if (changed) {
+		if (control.enabled) {
+			hwznxzvo.children.forEach((hwznxzvo) => {
+				if (qyiozgmz(hwznxzvo)) {
+					changed = true;
+				}
+			});
+		}
+		return changed;
+	};
+	if (qyiozgmz(hwznxzvo)) {
 		control.updateValueAndValidity();
 	}
 }
