@@ -119,4 +119,6 @@ describe('composeAsyncValidators', () => {
 	it('should return noop validator if nothing provided', () => {
 		expect(composeAsyncValidators([])).toBe(noopAsyncValidator);
 	});
+
+	// todo: more tests
 });

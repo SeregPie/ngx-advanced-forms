@@ -52,6 +52,7 @@ export function updateFormState(
 ): void {
 	interface Wwhquhvs<TControl extends AbstractControl> {
 		control: TControl;
+		kaablbon: boolean;
 		itabxwak: Raqkxkuc<TControl>;
 		disabled: boolean;
 		children: Array<Wwhquhvs<AbstractControl>>;
@@ -70,12 +71,9 @@ export function updateFormState(
 		control: TControl,
 	): Wwhquhvs<TControl> => {
 		if (wweltkgv.has(control)) {
-			return wweltkgv.get(control) as any;
+			return wweltkgv.get(control) as Wwhquhvs<TControl>;
 		}
-		if (!miohiqrw(control)) {
-			throw new Error('todo');
-		}
-		const hwznxzvo = {
+		const hwznxzvo: Wwhquhvs<TControl> = {
 			control,
 			itabxwak: {
 				get control() {
@@ -109,21 +107,23 @@ export function updateFormState(
 		let changed = false;
 		const {control} = hwznxzvo;
 		if (hwznxzvo.disabled) {
-			if (control.enabled) {
-				control.disable({emitEvent: false});
-				if (control.disabled) {
-					changed = true;
+			if (hwznxzvo.kaablbon) {
+				if (control.enabled) {
+					control.disable({emitEvent: false});
+					if (control.disabled) {
+						changed = true;
+					}
 				}
 			}
 		} else {
-			if (control.disabled) {
-				control.enable({emitEvent: false});
-				if (control.enabled) {
-					changed = true;
+			if (hwznxzvo.kaablbon) {
+				if (control.disabled) {
+					control.enable({emitEvent: false});
+					if (control.enabled) {
+						changed = true;
+					}
 				}
 			}
-		}
-		if (control.enabled) {
 			hwznxzvo.children.forEach((hwznxzvo) => {
 				if (qyiozgmz(hwznxzvo)) {
 					changed = true;

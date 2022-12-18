@@ -5,8 +5,6 @@ import {first, takeLast} from 'rxjs/operators';
 import {CustomAsyncValidatorFn, CustomValidatorFn} from './custom-validator';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
 
-// todo: rename combineValidators, concatValidators
-// todo: spread args?
 // prettier-ignore
 export function composeValidators<
 	TControl extends AbstractControl,
@@ -42,5 +40,6 @@ export function composeAsyncValidators<
 		case 1:
 			return validators[0];
 	}
+	// todo: rework
 	return (control) => concat(...validators.map((validator) => defer(() => validator(control)).pipe(takeLast(1)))).pipe(first((errors) => errors != null, null));
 }
