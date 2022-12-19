@@ -1,14 +1,10 @@
 import {
 	AbstractControl,
 	AbstractControlOptions,
-	FormRecord,
 	ɵRawValue,
 } from '@angular/forms';
-import {
-	registerControl,
-	triggerCollectionChange,
-	unregisterControl,
-} from './control-hacks';
+
+import {FormRecord} from './form-record';
 
 export class DynamicFormRecord<
 	TControl extends AbstractControl = AbstractControl,
@@ -27,8 +23,10 @@ export class DynamicFormRecord<
 			emitEvent: boolean;
 		}>,
 	): void {
-		// todo: implement
-		throw 'not implemented yet';
+		const names = Object.keys(value);
+		this.hpjprvfa(names);
+		super.setValue(value, options);
+		// todo
 	}
 
 	// todo: rename
@@ -38,8 +36,11 @@ export class DynamicFormRecord<
 			emitEvent: boolean;
 		}>,
 	): void {
-		// todo: implement
-		throw 'not implemented yet';
+		// todo?
+		const currentControls = this.controls;
+		const {controlFactory} = this;
+		const control = currentControls[name] ?? controlFactory();
+		this.set(name, control, options);
 	}
 
 	// todo: rename
@@ -49,18 +50,23 @@ export class DynamicFormRecord<
 			emitEvent: boolean;
 		}>,
 	): void {
-		// todo: implement
-		throw 'not implemented yet';
+		// todo?
+		const currentControls = this.controls;
+		const {controlFactory} = this;
+		const controls = Object.fromEntries(
+			names.map((name) => [name, currentControls[name] ?? controlFactory()]),
+		);
+		this.setAll(controls, options);
 	}
 
 	// todo: rename
-	ensure(
+	hpjprvfa(
 		names: Array<string>,
 		options?: Partial<{
 			emitEvent: boolean;
 		}>,
 	): void {
-		// todo: implement
-		throw 'not implemented yet';
+		this.ensureAll(names, options);
+		this.retainAll(names, options);
 	}
 }

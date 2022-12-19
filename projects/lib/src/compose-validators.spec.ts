@@ -8,6 +8,7 @@ function spy<Fn extends jasmine.Func>(fn: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
+// prettier-ignore
 describe('composeValidators', () => {
 	it('should work', () => {
 		const form = new FormControl(1, {
@@ -58,6 +59,7 @@ describe('composeValidators', () => {
 });
 
 describe('composeAsyncValidators', () => {
+	// prettier-ignore
 	it('should work', fakeAsync(() => {
 		const form = new FormControl(1, {
 			nonNullable: true,
@@ -92,6 +94,7 @@ describe('composeAsyncValidators', () => {
 		expect(form.valid).toBeTrue();
 	}));
 
+	// prettier-ignore
 	it('should skip other validators after one fails', fakeAsync(() => {
 		const customAsyncValidators = [
 			spy(async () => null),
@@ -116,6 +119,7 @@ describe('composeAsyncValidators', () => {
 		expect(composeAsyncValidators([customAsyncValidator])).toBe(customAsyncValidator);
 	});
 
+	// prettier-ignore
 	it('should return noop validator if nothing provided', () => {
 		expect(composeAsyncValidators([])).toBe(noopAsyncValidator);
 	});

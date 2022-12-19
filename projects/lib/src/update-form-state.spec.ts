@@ -7,7 +7,7 @@ function spy<Fn extends jasmine.Func>(fn: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
-fdescribe('updateFormState', () => {
+describe('updateFormState', () => {
 	it('should work', () => {
 		const form = new FormGroup({
 			a: new FormControl(null),

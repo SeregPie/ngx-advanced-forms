@@ -9,8 +9,9 @@ import {
 
 import {gvfeyuot} from './fheneipc';
 
-// todo: rename FallthroughFormService?
 @Injectable()
+// prettier-ignore
+// todo: rename FallthroughFormService?
 export class FormFallthroughService {
 	static provide(): Provider {
 		return [

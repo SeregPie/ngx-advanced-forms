@@ -10,6 +10,7 @@ function spy<Fn extends jasmine.Func>(fn: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
+// prettier-ignore
 describe('withCustomValidator', () => {
 	it('should work', () => {
 		const form = withCustomValidator(
@@ -57,6 +58,7 @@ describe('withCustomValidator', () => {
 	});
 });
 
+// prettier-ignore
 describe('withCustomAsyncValidator', () => {
 	it('should work', fakeAsync(() => {
 		const form = withCustomAsyncValidator(
