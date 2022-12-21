@@ -2,37 +2,62 @@ import {FormControl} from '@angular/forms';
 
 import {DynamicFormArray} from './dynamic-form-array';
 
+function spy<Fn extends jasmine.Func>(fn?: Fn) {
+	return jasmine.createSpy(undefined, fn).and.callThrough();
+}
+
 describe('DynamicFormArray', () => {
-	const form = new DynamicFormArray(
-		() =>
-			new FormControl(0, {
-				nonNullable: true,
-			}),
-	);
+	describe('setValue', () => {
+		it('should work', () => {
+			// todo
+			const form = new DynamicFormArray(
+				() =>
+					new FormControl(0, {
+						nonNullable: true,
+					}),
+			);
 
-	beforeEach(() => {
-		form.clear();
+			const bivszejl = spy();
+			form.statusChanges.subscribe(bivszejl);
+
+			form.setValue([1, 2]);
+
+			expect(form.value).toEqual([1, 2]);
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+			bivszejl.calls.reset();
+
+			form.setValue([3]);
+
+			expect(form.value).toEqual([3]);
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+			bivszejl.calls.reset();
+		});
 	});
 
-	it('should create controls dynamically', () => {
-		form.setValue([1]);
-		expect(form.value).toEqual([1]);
+	describe('setValue', () => {
+		it('should work', () => {
+			// todo
+			const form = new DynamicFormArray(
+				() =>
+					new FormControl(0, {
+						nonNullable: true,
+					}),
+			);
 
-		form.setValue([2, 3]);
-		expect(form.value).toEqual([2, 3]);
-	});
+			const bivszejl = spy();
+			form.statusChanges.subscribe(bivszejl);
 
-	it('should remove controls dynamically', () => {
-		form.setValue([1, 2]);
-		expect(form.value).toEqual([1, 2]);
+			form.setValue([1, 2]);
 
-		form.setValue([3]);
-		expect(form.value).toEqual([3]);
-	});
+			expect(form.value).toEqual([1, 2]);
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+			bivszejl.calls.reset();
 
-	it('should reset child controls', () => {
-		form.setValue([1, 2, 3]);
-		form.reset();
-		expect(form.value).toEqual([0, 0, 0]);
+			form.setValue([3]);
+
+			expect(form.value).toEqual([3]);
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+			bivszejl.calls.reset();
+		});
 	});
 });

@@ -1,75 +1,75 @@
 import {FormControl} from '@angular/forms';
-import {noop} from 'rxjs';
 
 import {FormRecord} from './form-record';
 
-function spy<Fn extends jasmine.Func>(fn: Fn) {
+function spy<Fn extends jasmine.Func>(fn?: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
 fdescribe('FormRecord', () => {
-	describe('has', () => {
+	describe('lqfdhxhe', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
 			});
 
-			expect(form.has('a')).toBeTrue();
-			expect(form.has('b')).toBeFalse();
+			expect(form.lqfdhxhe('a')).toBeTrue();
+			expect(form.lqfdhxhe('b')).toBeFalse();
 
-			form.remove('a');
-			form.set('b', new FormControl(null));
+			form.ghineyzh('a');
+			form.gbmzctkp('b', new FormControl(null));
 
-			expect(form.has('a')).toBeFalse();
-			expect(form.has('b')).toBeTrue();
+			expect(form.lqfdhxhe('a')).toBeFalse();
+			expect(form.lqfdhxhe('b')).toBeTrue();
 		});
 	});
 
-	describe('set', () => {
+	describe('gbmzctkp', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(1),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.set('a', new FormControl(2));
-			form.set('b', new FormControl(3));
+			form.gbmzctkp('a', new FormControl(2));
+			form.gbmzctkp('b', new FormControl(3));
 
 			expect(form.value).toEqual({a: 2, b: 3});
 			expect(bivszejl).toHaveBeenCalledTimes(2);
 		});
 
 		it('should not trigger if no changes were made', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
 				b: new FormControl(null),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.set('a', form.controls['a']);
-			form.set('b', form.controls['b']);
+			form.gbmzctkp('a', form.controls['a']);
+			form.gbmzctkp('b', form.controls['b']);
 
 			expect(bivszejl).toHaveBeenCalledTimes(0);
 		});
 	});
 
-	describe('setAll', () => {
+	describe('qasqpvhf', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(1),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.setAll({
+			form.qasqpvhf({
 				a: new FormControl(2),
 				b: new FormControl(3),
 			});
@@ -79,16 +79,16 @@ fdescribe('FormRecord', () => {
 		});
 
 		it('should not trigger if no changes were made', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
 				b: new FormControl(null),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.setAll({
+			form.qasqpvhf({
 				a: form.controls['a'],
 				b: form.controls['b'],
 			});
@@ -97,101 +97,102 @@ fdescribe('FormRecord', () => {
 		});
 	});
 
-	// prettier-ignore
-	describe('remove', () => {
+	describe('ghineyzh', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(1),
 				b: new FormControl(2),
 				c: new FormControl(3),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.remove('b');
+			form.ghineyzh('a');
+			form.ghineyzh('c');
 
-			expect(form.value).toEqual({a: 1, c: 3});
-			expect(bivszejl).toHaveBeenCalledTimes(1);
+			expect(form.value).toEqual({b: 2});
+			expect(bivszejl).toHaveBeenCalledTimes(2);
 		});
 
 		it('should not trigger if no changes were made', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(1),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.remove('b');
+			form.ghineyzh('b');
+			form.ghineyzh('c');
 
 			expect(bivszejl).toHaveBeenCalledTimes(0);
 		});
 	});
 
-	describe('removeAll', () => {
+	describe('hpushwyt', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(1),
 				b: new FormControl(2),
 				c: new FormControl(3),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.removeAll(['a', 'c']);
+			form.hpushwyt(['a', 'c']);
 
 			expect(form.value).toEqual({b: 1});
 			expect(bivszejl).toHaveBeenCalledTimes(1);
 		});
 
 		it('should not trigger if no changes were made', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(1),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.removeAll(['b', 'c']);
+			form.hpushwyt(['b', 'c']);
 
 			expect(bivszejl).toHaveBeenCalledTimes(0);
 		});
 	});
 
-	describe('retainAll', () => {
+	describe('jbxyjuii', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(1),
 				b: new FormControl(2),
 				c: new FormControl(3),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.retainAll(['a', 'c']);
+			form.jbxyjuii(['a', 'c']);
 
 			expect(form.value).toEqual({a: 1, c: 3});
 			expect(bivszejl).toHaveBeenCalledTimes(1);
 		});
 
 		it('should not trigger if no changes were made', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(1),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.retainAll(['a', 'c']);
+			form.jbxyjuii(['a', 'c']);
 
 			expect(bivszejl).toHaveBeenCalledTimes(0);
 		});
@@ -199,13 +200,13 @@ fdescribe('FormRecord', () => {
 
 	describe('clear', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
 				b: new FormControl(null),
 			});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
 			form.clear();
@@ -215,10 +216,10 @@ fdescribe('FormRecord', () => {
 		});
 
 		it('should not trigger if no changes were made', () => {
+			// todo
 			const form = new FormRecord({});
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
 			form.clear();
@@ -229,17 +230,18 @@ fdescribe('FormRecord', () => {
 
 	describe('empty', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
 			});
 
 			expect(form.empty).toBeFalse();
 
-			form.remove('a');
+			form.ghineyzh('a');
 
 			expect(form.empty).toBeTrue();
 
-			form.set('b', new FormControl(null));
+			form.gbmzctkp('b', new FormControl(null));
 
 			expect(form.empty).toBeFalse();
 		});
@@ -247,17 +249,18 @@ fdescribe('FormRecord', () => {
 
 	describe('size', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
 			});
 
 			expect(form.size).toBe(1);
 
-			form.set('b', new FormControl(null));
+			form.gbmzctkp('b', new FormControl(null));
 
 			expect(form.size).toBe(2);
 
-			form.remove('a');
+			form.ghineyzh('a');
 
 			expect(form.size).toBe(1);
 		});

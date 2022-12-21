@@ -24,84 +24,88 @@ export class DynamicFormArray<
 		}>,
 	): void {
 		const count = value.length;
-		this.rxsigtut(count);
+		this.hpjprvfa(count, {updateValueAndValidity: false});
 		super.setValue(value, options);
-		// todo
 	}
 
 	// todo: rename
-	addLast2(
+	hpjprvfa(
+		count: number,
 		options?: Partial<{
 			emitEvent: boolean;
+			updateValueAndValidity: boolean;
 		}>,
 	): void {
 		// todo?
 		const {controlFactory} = this;
-		const control = controlFactory();
-		this.addLast(control, options);
+		const controls = [...this.controls];
+		{
+			controls.splice(count > 0 ? count : 0);
+			for (let i = controls.length; i < count; i++) {
+				const control = controlFactory();
+				controls.push(control);
+			}
+		}
+		this.setControls(controls, options);
 	}
 
-	// todo: rename
-	addLastAll2(
+	// todo: rename: addLast, addLastControl
+	xciprnay(
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+		const {controlFactory} = this;
+		const control = controlFactory();
+		this.eexzzszd(control, options);
+	}
+
+	// todo: rename: addLastAll, addLastControls
+	ajamxilj(
 		count: number,
 		options?: Partial<{
 			emitEvent: boolean;
 		}>,
 	): void {
-		// todo?
 		const {controlFactory} = this;
-		const controls = Array.from({length: count}, () => controlFactory());
-		this.addLastAll(controls, options);
+		const controls: Array<TControl> = [];
+		{
+			for (let i = 0; i < count; i++) {
+				const control = controlFactory();
+				controls.push(control);
+			}
+		}
+		this.xrhtupyx(controls, options);
 	}
 
-	// todo: rename
-	add2(
+	// todo: rename: add, addControl
+	sdcfszlp(
 		index: number,
 		options?: Partial<{
 			emitEvent: boolean;
 		}>,
 	): void {
-		// todo?
 		const {controlFactory} = this;
 		const control = controlFactory();
-		this.add(index, control, options);
+		this.apamnjsv(index, control, options);
 	}
 
-	// todo: rename
-	addAll2(
+	// todo: rename: addAll, addControls
+	gxfjcuhm(
 		index: number,
 		count: number,
 		options?: Partial<{
 			emitEvent: boolean;
 		}>,
 	): void {
-		// todo?
 		const {controlFactory} = this;
-		const controls = Array.from({length: count}, () => controlFactory());
-		this.addAll(index, controls, options);
-	}
-
-	// todo: rename
-	llaelqfh(
-		count: number,
-		options?: Partial<{
-			emitEvent: boolean;
-		}>,
-	): void {
-		// todo?
-		const currentCount = this.controls.length;
-		this.addAll2(currentCount, count - currentCount, options);
-	}
-
-	// todo: rename
-	rxsigtut(
-		count: number,
-		options?: Partial<{
-			emitEvent: boolean;
-		}>,
-	): void {
-		// todo?
-		this.llaelqfh(count, options);
-		this.kbninfzq(count, options);
+		const controls: Array<TControl> = [];
+		{
+			for (let i = 0; i < count; i++) {
+				const control = controlFactory();
+				controls.push(control);
+			}
+		}
+		this.vbyhggsr(index, controls, options);
 	}
 }

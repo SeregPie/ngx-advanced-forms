@@ -1,117 +1,152 @@
 import {FormControl} from '@angular/forms';
-import {noop} from 'rxjs';
 
 import {FormArray} from './form-array';
 
-function spy<Fn extends jasmine.Func>(fn: Fn) {
+function spy<Fn extends jasmine.Func>(fn?: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
-fdescribe('FormArray', () => {
-	// prettier-ignore
-	describe('addLast', () => {
+describe('FormArray', () => {
+	describe('eexzzszd', () => {
 		it('should work', () => {
-			const form = new FormArray([
-				new FormControl(1),
-			]);
+			// todo
+			const form = new FormArray([new FormControl(1)]);
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.addLast(new FormControl(2));
-			form.addLast(new FormControl(3));
+			form.eexzzszd(new FormControl(2));
+			form.eexzzszd(new FormControl(3));
 
 			expect(form.value).toEqual([1, 2, 3]);
 			expect(bivszejl).toHaveBeenCalledTimes(2);
 		});
 	});
 
-	// prettier-ignore
-	describe('addLastAll', () => {
+	describe('xrhtupyx', () => {
 		it('should work', () => {
-			const form = new FormArray([
-				new FormControl(1),
-			]);
+			// todo
+			const form = new FormArray([new FormControl(1)]);
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.addLastAll([
-				new FormControl(2),
-				new FormControl(3),
-			]);
+			form.xrhtupyx([new FormControl(2), new FormControl(3)]);
 
 			expect(form.value).toEqual([1, 2, 3]);
 			expect(bivszejl).toHaveBeenCalledTimes(1);
 		});
 	});
 
-	// prettier-ignore
-	describe('remove', () => {
+	describe('apamnjsv', () => {
 		it('should work', () => {
+			// todo
+		});
+
+		it('should work with negative index', () => {
+			// todo
+		});
+
+		it('should not trigger if no changes were made', () => {
+			// todo
+		});
+	});
+
+	describe('vbyhggsr', () => {
+		it('should work', () => {
+			// todo
+		});
+
+		it('should work with negative index', () => {
+			// todo
+		});
+
+		it('should not trigger if no changes were made', () => {
+			// todo
+		});
+	});
+
+	describe('olcmwvno', () => {
+		it('should work', () => {
+			// todo
+		});
+
+		it('should work with negative index', () => {
+			// todo
+		});
+
+		it('should not trigger if no changes were made', () => {
+			// todo
+		});
+	});
+
+	describe('kohohxug', () => {
+		it('should work', () => {
+			// todo
 			const form = new FormArray([
 				new FormControl(1),
 				new FormControl(2),
 				new FormControl(3),
 			]);
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.remove(1);
+			form.kohohxug(1);
 
 			expect(form.value).toEqual([1, 3]);
 			expect(bivszejl).toHaveBeenCalledTimes(1);
 		});
 
 		it('should work with negative index', () => {
+			// todo
 			const form = new FormArray([
 				new FormControl(1),
 				new FormControl(2),
 				new FormControl(3),
 			]);
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.remove(-2);
+			form.kohohxug(-2);
 
 			expect(form.value).toEqual([1, 3]);
 			expect(bivszejl).toHaveBeenCalledTimes(1);
 		});
 
 		it('should not trigger if no changes were made', () => {
-			const form = new FormArray([
-				new FormControl(1),
-			]);
+			// todo
+			const form = new FormArray([new FormControl(1)]);
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			form.remove(1);
+			form.kohohxug(1);
 
 			expect(bivszejl).toHaveBeenCalledTimes(0);
 		});
 	});
 
 	describe('kbninfzq', () => {
-		// todo
+		it('should work', () => {
+			// todo
+		});
+
+		it('should not trigger if no changes were made', () => {
+			// todo
+		});
 	});
 
 	describe('clear', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormArray([
 				new FormControl(null),
 				new FormControl(null),
 			]);
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
 			form.clear();
@@ -121,10 +156,10 @@ fdescribe('FormArray', () => {
 		});
 
 		it('should not trigger if no changes were made', () => {
+			// todo
 			const form = new FormArray([]);
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
 			form.clear();
@@ -135,15 +170,16 @@ fdescribe('FormArray', () => {
 
 	describe('empty', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormArray([new FormControl(null)]);
 
 			expect(form.empty).toBeFalse();
 
-			form.remove(0);
+			form.kohohxug(0);
 
 			expect(form.empty).toBeTrue();
 
-			form.addLast(new FormControl(null));
+			form.eexzzszd(new FormControl(null));
 
 			expect(form.empty).toBeFalse();
 		});
@@ -151,15 +187,16 @@ fdescribe('FormArray', () => {
 
 	describe('size', () => {
 		it('should work', () => {
+			// todo
 			const form = new FormArray([new FormControl(null)]);
 
 			expect(form.size).toBe(1);
 
-			form.addLast(new FormControl(null));
+			form.eexzzszd(new FormControl(null));
 
 			expect(form.size).toBe(2);
 
-			form.remove(0);
+			form.kohohxug(0);
 
 			expect(form.size).toBe(1);
 		});

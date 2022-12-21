@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {composeAsyncValidators, composeValidators} from './compose-validators';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
 
-function spy<Fn extends jasmine.Func>(fn: Fn) {
+function spy<Fn extends jasmine.Func>(fn?: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 

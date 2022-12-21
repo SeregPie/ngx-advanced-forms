@@ -24,39 +24,8 @@ export class DynamicFormRecord<
 		}>,
 	): void {
 		const names = Object.keys(value);
-		this.hpjprvfa(names);
+		this.hpjprvfa(names, {updateValueAndValidity: false});
 		super.setValue(value, options);
-		// todo
-	}
-
-	// todo: rename
-	ensure(
-		name: string,
-		options?: Partial<{
-			emitEvent: boolean;
-		}>,
-	): void {
-		// todo?
-		const currentControls = this.controls;
-		const {controlFactory} = this;
-		const control = currentControls[name] ?? controlFactory();
-		this.set(name, control, options);
-	}
-
-	// todo: rename
-	ensureAll(
-		names: Array<string>,
-		options?: Partial<{
-			emitEvent: boolean;
-		}>,
-	): void {
-		// todo?
-		const currentControls = this.controls;
-		const {controlFactory} = this;
-		const controls = Object.fromEntries(
-			names.map((name) => [name, currentControls[name] ?? controlFactory()]),
-		);
-		this.setAll(controls, options);
 	}
 
 	// todo: rename
@@ -64,9 +33,47 @@ export class DynamicFormRecord<
 		names: Array<string>,
 		options?: Partial<{
 			emitEvent: boolean;
+			updateValueAndValidity: boolean;
 		}>,
 	): void {
-		this.ensureAll(names, options);
-		this.retainAll(names, options);
+		// todo?
+		const {controlFactory} = this;
+		const controls = {...this.controls};
+		{
+			Object.keys(controls).forEach((name) => {
+				if (!names.includes(name)) {
+					delete controls[name];
+				}
+			});
+			names.forEach((name) => {
+				if (!controls[name]) {
+					const control = controlFactory();
+					controls[name] = control;
+				}
+			});
+		}
+		this.setControls(controls, options);
+	}
+
+	// todo: rename: set, setControl
+	tkcfumni(
+		name: string,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+		const newNames = [...Object.keys(this.controls), name];
+		this.hpjprvfa(newNames, options);
+	}
+
+	// todo: rename: set, setControls
+	fzuisuhd(
+		names: Array<string>,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+		const newNames = [...Object.keys(this.controls), ...names];
+		this.hpjprvfa(newNames, options);
 	}
 }

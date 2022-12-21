@@ -1,9 +1,8 @@
 import {FormControl, FormGroup} from '@angular/forms';
-import {noop} from 'rxjs';
 
 import {updateFormState} from './update-form-state';
 
-function spy<Fn extends jasmine.Func>(fn: Fn) {
+function spy<Fn extends jasmine.Func>(fn?: Fn) {
 	return jasmine.createSpy(undefined, fn).and.callThrough();
 }
 
@@ -14,8 +13,7 @@ describe('updateFormState', () => {
 			b: new FormControl(null),
 		});
 
-		// todo: rename
-		const bivszejl = spy(noop);
+		const bivszejl = spy();
 		form.statusChanges.subscribe(bivszejl);
 
 		updateFormState(form, (wrap) => {
@@ -45,8 +43,7 @@ describe('updateFormState', () => {
 			b: new FormControl(null),
 		});
 
-		// todo: rename
-		const bivszejl = spy(noop);
+		const bivszejl = spy();
 		form.statusChanges.subscribe(bivszejl);
 
 		updateFormState(form, (wrap) => {
@@ -77,8 +74,7 @@ describe('updateFormState', () => {
 		});
 		form.disable();
 
-		// todo: rename
-		const bivszejl = spy(noop);
+		const bivszejl = spy();
 		form.statusChanges.subscribe(bivszejl);
 
 		updateFormState(form, (wrap) => {
@@ -97,8 +93,7 @@ describe('updateFormState', () => {
 		});
 		form.disable();
 
-		// todo: rename
-		const bivszejl = spy(noop);
+		const bivszejl = spy();
 		form.statusChanges.subscribe(bivszejl);
 
 		updateFormState(form, (wrap) => {
@@ -118,8 +113,7 @@ describe('updateFormState', () => {
 			});
 			form.disable();
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
 			switch (r) {
@@ -155,8 +149,7 @@ describe('updateFormState', () => {
 			});
 			form.disable();
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
 			switch (r) {
@@ -192,8 +185,7 @@ describe('updateFormState', () => {
 			});
 			form.disable();
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
 			switch (r) {
@@ -227,8 +219,7 @@ describe('updateFormState', () => {
 			});
 			form.disable();
 
-			// todo: rename
-			const bivszejl = spy(noop);
+			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
 			switch (r) {
