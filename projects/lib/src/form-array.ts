@@ -25,15 +25,7 @@ export class FormArray<
 		const addedControls: Array<AbstractControl> = [];
 		const removedControls: Array<AbstractControl> = [];
 		const currentControls = this.controls;
-		{
-			if (currentControls.length > controls.length) {
-				currentControls.splice(controls.length).forEach((control) => {
-					removedControls.push(control);
-				});
-			} else if (currentControls.length < controls.length) {
-				for (let i = currentControls.length; i)
-			}
-		}
+
 		addedControls.forEach((control) => {
 			registerControl(control, this);
 		});
@@ -48,29 +40,7 @@ export class FormArray<
 		}
 	}
 
-	// todo: rename: addLast, addLastControl
-	eexzzszd(
-		control: TControl,
-		options?: Partial<{
-			emitEvent: boolean;
-		}>,
-	) {
-		const newControls = [...this.controls, control];
-		this.setControls(newControls, options);
-	}
-
-	// todo: rename: addLastAll, addLastControls
-	xrhtupyx(
-		controls: Array<TControl>,
-		options?: Partial<{
-			emitEvent: boolean;
-		}>,
-	): void {
-		const newControls = [...this.controls, ...controls];
-		this.setControls(newControls, options);
-	}
-
-	// todo: rename: add, addControl
+	// todo: rename: add, addAt
 	apamnjsv(
 		index: number,
 		control: TControl,
@@ -83,7 +53,18 @@ export class FormArray<
 		this.setControls(newControls, options);
 	}
 
-	// todo: rename: addAll, addControls
+	// todo: rename: add, addLast
+	eexzzszd(
+		control: TControl,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	) {
+		const newControls = [...this.controls, control];
+		this.setControls(newControls, options);
+	}
+
+	// todo: rename: addAll, addAllAt
 	vbyhggsr(
 		index: number,
 		controls: Array<TControl>,
@@ -96,7 +77,18 @@ export class FormArray<
 		this.setControls(newControls, options);
 	}
 
-	// todo: rename: set, setControl
+	// todo: rename: addAll, addAllLast
+	xrhtupyx(
+		controls: Array<TControl>,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+		const newControls = [...this.controls, ...controls];
+		this.setControls(newControls, options);
+	}
+
+	// todo: rename: set, put, insert
 	olcmwvno(
 		index: number,
 		control: TControl,
@@ -109,7 +101,7 @@ export class FormArray<
 		this.setControls(newControls, options);
 	}
 
-	// todo: rename: remove, removeControl
+	// todo: rename: remove, removeAt
 	kohohxug(
 		index: number,
 		options?: Partial<{
@@ -118,6 +110,17 @@ export class FormArray<
 	): void {
 		const newControls = [...this.controls];
 		newControls.splice(index, 1);
+		this.setControls(newControls, options);
+	}
+
+	// todo: rename: removeLast
+	tejwaxqt(
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+		const newControls = [...this.controls];
+		newControls.pop();
 		this.setControls(newControls, options);
 	}
 

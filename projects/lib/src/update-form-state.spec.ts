@@ -24,6 +24,7 @@ describe('updateFormState', () => {
 		expect(form.controls.a.disabled).toBeTrue();
 		expect(form.controls.b.disabled).toBeFalse();
 		expect(bivszejl).toHaveBeenCalledTimes(1);
+
 		bivszejl.calls.reset();
 
 		updateFormState(form, (wrap) => {
@@ -34,7 +35,6 @@ describe('updateFormState', () => {
 		expect(form.controls.a.disabled).toBeFalse();
 		expect(form.controls.b.disabled).toBeTrue();
 		expect(bivszejl).toHaveBeenCalledTimes(1);
-		bivszejl.calls.reset();
 	});
 
 	it('should work with alias enabled', () => {
@@ -54,6 +54,7 @@ describe('updateFormState', () => {
 		expect(form.controls.a.enabled).toBeTrue();
 		expect(form.controls.b.enabled).toBeFalse();
 		expect(bivszejl).toHaveBeenCalledTimes(1);
+
 		bivszejl.calls.reset();
 
 		updateFormState(form, (wrap) => {
@@ -64,7 +65,6 @@ describe('updateFormState', () => {
 		expect(form.controls.a.enabled).toBeFalse();
 		expect(form.controls.b.enabled).toBeTrue();
 		expect(bivszejl).toHaveBeenCalledTimes(1);
-		bivszejl.calls.reset();
 	});
 
 	it('todo: description rzyjmfai', () => {

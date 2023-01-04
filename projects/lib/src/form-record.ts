@@ -9,11 +9,6 @@ import {
 export class FormRecord<
 	TControl extends AbstractControl = AbstractControl,
 > extends NativeFormRecord<TControl> {
-	// todo: rename: has, hasControl
-	lqfdhxhe(name: string): boolean {
-		return this.controls[name] != null;
-	}
-
 	setControls(
 		controls: Record<string, TControl>,
 		{
@@ -59,7 +54,12 @@ export class FormRecord<
 		}
 	}
 
-	// todo: rename: set, setControl
+	// todo: rename: has
+	lqfdhxhe(name: string): boolean {
+		return this.controls[name] != null;
+	}
+
+	// todo: rename: add, put
 	gbmzctkp(
 		name: string,
 		control: TControl,
@@ -71,7 +71,7 @@ export class FormRecord<
 		this.setControls(newControls, options);
 	}
 
-	// todo: rename: setAll, setControls
+	// todo: rename: addAll, putAll
 	qasqpvhf(
 		controls: Record<string, TControl>,
 		options?: Partial<{
@@ -82,7 +82,7 @@ export class FormRecord<
 		this.setControls(newControls, options);
 	}
 
-	// todo: rename: remove, removeControl
+	// todo: rename: remove
 	ghineyzh(
 		name: string,
 		options?: Partial<{
@@ -94,7 +94,7 @@ export class FormRecord<
 		this.setControls(newControls, options);
 	}
 
-	// todo: rename: removeAll, removeControls
+	// todo: rename: removeAll
 	hpushwyt(
 		names: Array<string>,
 		options?: Partial<{

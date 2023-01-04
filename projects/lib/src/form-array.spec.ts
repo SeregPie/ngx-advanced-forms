@@ -7,6 +7,51 @@ function spy<Fn extends jasmine.Func>(fn?: Fn) {
 }
 
 describe('FormArray', () => {
+	describe('setControls', () => {
+		it('should work', () => {
+			// prettier-ignore
+			const form = new FormArray([
+				new FormControl(0),
+			]);
+
+			const bivszejl = spy();
+			form.statusChanges.subscribe(bivszejl);
+
+			// prettier-ignore
+			form.setControls([
+				new FormControl(1),
+				new FormControl(2),
+			]);
+
+			expect(form.value).toEqual([1, 2]);
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+
+			bivszejl.calls.reset();
+
+			// prettier-ignore
+			form.setControls([
+				new FormControl(3),
+			]);
+
+			expect(form.value).toEqual([3]);
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+		});
+
+		it('should not trigger if no changes were made', () => {
+			const form = new FormArray([
+				new FormControl(null),
+				new FormControl(null),
+			]);
+
+			const bivszejl = spy();
+			form.statusChanges.subscribe(bivszejl);
+
+			form.setControls(form.controls);
+
+			expect(bivszejl).toHaveBeenCalledTimes(0);
+		});
+	});
+
 	describe('eexzzszd', () => {
 		it('should work', () => {
 			// todo
@@ -140,7 +185,6 @@ describe('FormArray', () => {
 
 	describe('clear', () => {
 		it('should work', () => {
-			// todo
 			const form = new FormArray([
 				new FormControl(null),
 				new FormControl(null),
@@ -156,7 +200,6 @@ describe('FormArray', () => {
 		});
 
 		it('should not trigger if no changes were made', () => {
-			// todo
 			const form = new FormArray([]);
 
 			const bivszejl = spy();
@@ -170,16 +213,21 @@ describe('FormArray', () => {
 
 	describe('empty', () => {
 		it('should work', () => {
-			// todo
-			const form = new FormArray([new FormControl(null)]);
+			const form = new FormArray([
+				new FormControl(null),
+				new FormControl(null),
+			]);
 
 			expect(form.empty).toBeFalse();
 
-			form.kohohxug(0);
+			form.clear();
 
 			expect(form.empty).toBeTrue();
 
-			form.eexzzszd(new FormControl(null));
+			// prettier-ignore
+			form.setControls([
+				new FormControl(null),
+			]);
 
 			expect(form.empty).toBeFalse();
 		});
@@ -187,16 +235,21 @@ describe('FormArray', () => {
 
 	describe('size', () => {
 		it('should work', () => {
-			// todo
-			const form = new FormArray([new FormControl(null)]);
-
-			expect(form.size).toBe(1);
-
-			form.eexzzszd(new FormControl(null));
+			const form = new FormArray([
+				new FormControl(null),
+				new FormControl(null),
+			]);
 
 			expect(form.size).toBe(2);
 
-			form.kohohxug(0);
+			form.clear();
+
+			expect(form.size).toBe(0);
+
+			// prettier-ignore
+			form.setControls([
+				new FormControl(null),
+			]);
 
 			expect(form.size).toBe(1);
 		});

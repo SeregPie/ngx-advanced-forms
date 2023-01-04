@@ -14,18 +14,18 @@ describe('composeValidators', () => {
 		const form = new FormControl(1, {
 			nonNullable: true,
 			validators: composeValidators([
-				(form) => (form.value === 1 ? {error: 1} : null),
-				(form) => (form.value === 2 ? {error: 2} : null),
+				(form) => (form.value === 1 ? {error: {n: 1}} : null),
+				(form) => (form.value === 2 ? {error: {n: 2}} : null),
 			]),
 		});
 
 		expect(form.invalid).toBeTrue();
-		expect(form.errors).toEqual({error: 1});
+		expect(form.errors).toEqual({error: {n: 1}});
 
 		form.setValue(2);
 
 		expect(form.invalid).toBeTrue();
-		expect(form.errors).toEqual({error: 2});
+		expect(form.errors).toEqual({error: {n: 2}});
 
 		form.setValue(3);
 
@@ -64,8 +64,8 @@ describe('composeAsyncValidators', () => {
 		const form = new FormControl(1, {
 			nonNullable: true,
 			asyncValidators: composeAsyncValidators([
-				async (form) => (form.value === 1 ? {error: 1} : null),
-				async (form) => (form.value === 2 ? {error: 2} : null),
+				async (form) => (form.value === 1 ? {error: {n: 1}} : null),
+				async (form) => (form.value === 2 ? {error: {n: 2}} : null),
 			]),
 		});
 
@@ -74,7 +74,7 @@ describe('composeAsyncValidators', () => {
 		tick();
 
 		expect(form.invalid).toBeTrue();
-		expect(form.errors).toEqual({error: 1});
+		expect(form.errors).toEqual({error: {n: 1}});
 
 		form.setValue(2);
 
@@ -83,7 +83,7 @@ describe('composeAsyncValidators', () => {
 		tick();
 
 		expect(form.invalid).toBeTrue();
-		expect(form.errors).toEqual({error: 2});
+		expect(form.errors).toEqual({error: {n: 2}});
 
 		form.setValue(3);
 

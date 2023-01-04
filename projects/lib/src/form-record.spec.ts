@@ -7,6 +7,48 @@ function spy<Fn extends jasmine.Func>(fn?: Fn) {
 }
 
 fdescribe('FormRecord', () => {
+	describe('setControls', () => {
+		it('should work', () => {
+			const form = new FormRecord({
+				a: new FormControl(0),
+			});
+
+			const bivszejl = spy();
+			form.statusChanges.subscribe(bivszejl);
+
+			form.setControls({
+				a: new FormControl(1),
+				b: new FormControl(2),
+			});
+
+			expect(form.value).toEqual({a: 1, b: 2});
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+
+			bivszejl.calls.reset();
+
+			form.setControls({
+				a: new FormControl(3),
+			});
+
+			expect(form.value).toEqual({a: 3});
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+		});
+
+		it('should not trigger if no changes were made', () => {
+			const form = new FormRecord({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			});
+
+			const bivszejl = spy();
+			form.statusChanges.subscribe(bivszejl);
+
+			form.setControls(form.controls);
+
+			expect(bivszejl).toHaveBeenCalledTimes(0);
+		});
+	});
+
 	describe('lqfdhxhe', () => {
 		it('should work', () => {
 			// todo
@@ -200,7 +242,6 @@ fdescribe('FormRecord', () => {
 
 	describe('clear', () => {
 		it('should work', () => {
-			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
 				b: new FormControl(null),
@@ -216,7 +257,6 @@ fdescribe('FormRecord', () => {
 		});
 
 		it('should not trigger if no changes were made', () => {
-			// todo
 			const form = new FormRecord({});
 
 			const bivszejl = spy();
@@ -230,18 +270,20 @@ fdescribe('FormRecord', () => {
 
 	describe('empty', () => {
 		it('should work', () => {
-			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
+				b: new FormControl(null),
 			});
 
 			expect(form.empty).toBeFalse();
 
-			form.ghineyzh('a');
+			form.clear();
 
 			expect(form.empty).toBeTrue();
 
-			form.gbmzctkp('b', new FormControl(null));
+			form.setControls({
+				a: new FormControl(null),
+			});
 
 			expect(form.empty).toBeFalse();
 		});
@@ -249,18 +291,20 @@ fdescribe('FormRecord', () => {
 
 	describe('size', () => {
 		it('should work', () => {
-			// todo
 			const form = new FormRecord({
 				a: new FormControl(null),
+				b: new FormControl(null),
 			});
-
-			expect(form.size).toBe(1);
-
-			form.gbmzctkp('b', new FormControl(null));
 
 			expect(form.size).toBe(2);
 
-			form.ghineyzh('a');
+			form.clear();
+
+			expect(form.size).toBe(0);
+
+			form.setControls({
+				a: new FormControl(null),
+			});
 
 			expect(form.size).toBe(1);
 		});

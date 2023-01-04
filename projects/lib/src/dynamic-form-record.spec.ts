@@ -9,33 +9,71 @@ function spy<Fn extends jasmine.Func>(fn?: Fn) {
 describe('DynamicFormRecord', () => {
 	describe('setValue', () => {
 		it('should work', () => {
-			// todo
-			const form = new DynamicFormRecord(() => new FormControl(0));
+			const form = new DynamicFormRecord(
+				() =>
+					new FormControl(0, {
+						nonNullable: true,
+					}),
+			);
 
 			const bivszejl = spy();
 			form.statusChanges.subscribe(bivszejl);
 
-			expect(form.value).toEqual({});
+			form.setValue({a: 1, b: 2});
+
+			expect(form.value).toEqual({a: 1, b: 2});
 			expect(bivszejl).toHaveBeenCalledTimes(1);
+
 			bivszejl.calls.reset();
 
-			form.setValue({a: 1});
+			form.setValue({a: 3});
+
+			expect(form.value).toEqual({a: 3});
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+		});
+	});
+
+	describe('hpjprvfa', () => {
+		it('should work', () => {
+			const form = new DynamicFormRecord(
+				() =>
+					new FormControl(0, {
+						nonNullable: true,
+					}),
+			);
+			form.setValue({a: 1, b: 2});
+
+			const bivszejl = spy();
+			form.statusChanges.subscribe(bivszejl);
+
+			form.hpjprvfa(['a', 'b', 'c']);
+
+			expect(form.value).toEqual({a: 1, b: 2, c: 0});
+			expect(bivszejl).toHaveBeenCalledTimes(1);
+
+			bivszejl.calls.reset();
+
+			form.hpjprvfa(['a']);
 
 			expect(form.value).toEqual({a: 1});
 			expect(bivszejl).toHaveBeenCalledTimes(1);
-			bivszejl.calls.reset();
+		});
 
-			form.setValue({a: 2, b: 3});
+		it('should not trigger if no changes were made', () => {
+			const form = new DynamicFormRecord(
+				() =>
+					new FormControl(0, {
+						nonNullable: true,
+					}),
+			);
+			form.setValue({a: 1, b: 2});
 
-			expect(form.value).toEqual({a: 2, b: 3});
-			expect(bivszejl).toHaveBeenCalledTimes(1);
-			bivszejl.calls.reset();
+			const bivszejl = spy();
+			form.statusChanges.subscribe(bivszejl);
 
-			form.setValue({b: 4});
+			form.hpjprvfa(['a', 'b']);
 
-			expect(form.value).toEqual({b: 4});
-			expect(bivszejl).toHaveBeenCalledTimes(1);
-			bivszejl.calls.reset();
+			expect(bivszejl).toHaveBeenCalledTimes(0);
 		});
 	});
 
@@ -50,16 +88,6 @@ describe('DynamicFormRecord', () => {
 	});
 
 	describe('fzuisuhd', () => {
-		it('should work', () => {
-			// todo
-		});
-
-		it('should not trigger if no changes were made', () => {
-			// todo
-		});
-	});
-
-	describe('hpjprvfa', () => {
 		it('should work', () => {
 			// todo
 		});
