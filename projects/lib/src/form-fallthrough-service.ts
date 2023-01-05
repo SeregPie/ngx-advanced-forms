@@ -17,8 +17,8 @@ export class FormFallthroughService {
 		return [
 			this,
 			{
-				multi: true,
 				provide: NG_VALUE_ACCESSOR,
+				multi: true,
 				useValue: gvfeyuot,
 			},
 		];

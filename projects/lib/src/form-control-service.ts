@@ -6,8 +6,17 @@ import {
 	NG_VALUE_ACCESSOR,
 	ValidationErrors,
 } from '@angular/forms';
-import {BehaviorSubject, EMPTY, Observable, Subscription} from 'rxjs';
-import {skip} from 'rxjs/operators';
+import {
+	BehaviorSubject,
+	combineLatest,
+	EMPTY,
+	noop,
+	Observable,
+	of,
+	Subject,
+	Subscription,
+} from 'rxjs';
+import {filter, map, skip, tap} from 'rxjs/operators';
 
 @Injectable()
 export class FormControlService<TValue = any>
@@ -17,19 +26,40 @@ export class FormControlService<TValue = any>
 		return [
 			this,
 			{
-				multi: true,
 				provide: NG_VALUE_ACCESSOR,
+				multi: true,
 				useExisting: this,
 			},
 			{
-				multi: true,
 				provide: NG_ASYNC_VALIDATORS,
+				multi: true,
 				useExisting: this,
 			},
 		];
 	}
 
-	constructor() {}
+	constructor() {
+		let qbadbtoo$: null | Subject<null | ValidationErrors> = null;
+		combineLatest({
+			errors: this.errors$,
+			pending: this.pending$,
+		}).subscribe(({errors, pending}) => {
+			if (pending) {
+				if (qbadbtoo$ == null) {
+					qbadbtoo$ = new Subject();
+					this.xxnccupe$.next(qbadbtoo$);
+				}
+			} else {
+				if (qbadbtoo$ == null) {
+					this.xxnccupe$.next(of(errors));
+				} else {
+					qbadbtoo$.next(errors);
+					qbadbtoo$.complete();
+					qbadbtoo$ = null;
+				}
+			}
+		});
+	}
 
 	private readonly value$ = new BehaviorSubject<null | TValue>(null);
 
@@ -83,17 +113,33 @@ export class FormControlService<TValue = any>
 		}
 	}
 
+	private readonly xxnccupe$ = new BehaviorSubject<
+		Observable<null | ValidationErrors>
+	>(EMPTY);
+
+	private readonly touch$ = new Subject<void>();
+
+	readonly touchEvents = this.touch$.pipe();
+
 	touch(): void {
-		// todo: implement
+		this.touch$.next();
 	}
 
+	private mjmhyekm = this.value;
+
 	writeValue(value: null | TValue): void {
+		this.mjmhyekm = value;
 		this.value = value;
 	}
 
 	private get onChange(): Observable<null | TValue> {
 		// todo: implement
-		return this.valueChanges;
+		return this.valueChanges.pipe(
+			filter((value) => value !== this.mjmhyekm),
+			tap(() => {
+				console.log('FormControlService.onChange');
+			}),
+		);
 	}
 
 	private onChangeSubscription = Subscription.EMPTY;
@@ -107,8 +153,7 @@ export class FormControlService<TValue = any>
 	}
 
 	private get onTouched(): Observable<void> {
-		// todo: implement
-		return EMPTY;
+		return this.touchEvents;
 	}
 
 	private onTouchedSubscription = Subscription.EMPTY;
@@ -126,13 +171,17 @@ export class FormControlService<TValue = any>
 	}
 
 	validate(): Observable<null | ValidationErrors> {
-		// todo: implement
-		return EMPTY;
+		return this.xxnccupe$.value;
 	}
 
 	private get onValidatorChange(): Observable<void> {
-		// todo: implement
-		return EMPTY;
+		return this.xxnccupe$.pipe(
+			skip(1),
+			map(noop),
+			tap(() => {
+				console.log('FormControlService.onValidatorChange');
+			}),
+		);
 	}
 
 	private onValidatorChangeSubscription = Subscription.EMPTY;

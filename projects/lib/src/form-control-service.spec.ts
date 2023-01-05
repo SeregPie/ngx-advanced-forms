@@ -5,11 +5,17 @@ import {By} from '@angular/platform-browser';
 
 import {FormControlService} from './form-control-service';
 
-describe('FormControlService', () => {
+function spy<Fn extends jasmine.Func>(fn?: Fn) {
+	return jasmine.createSpy(undefined, fn).and.callThrough();
+}
+
+fdescribe('FormControlService', () => {
 	it('should propagate value', () => {
 		const form = new FormControl(0, {
 			nonNullable: true,
 		});
+		const bivszejl = spy();
+		form.valueChanges.subscribe(bivszejl);
 
 		@Component({
 			providers: [FormControlService.provide()],
@@ -42,15 +48,25 @@ describe('FormControlService', () => {
 			.componentInstance
 		);
 
+		console.log('START');
+
 		expect(service.value).toEqual(0);
+		expect(bivszejl).toHaveBeenCalledTimes(0);
+		bivszejl.calls.reset();
 
 		service.value = 1;
 
 		expect(form.value).toEqual(1);
+		expect(bivszejl).toHaveBeenCalledTimes(1);
+		bivszejl.calls.reset();
 
+		console.log('form.setValue(2)');
 		form.setValue(2);
+		console.log('END');
 
 		expect(service.value).toEqual(2);
+		expect(bivszejl).toHaveBeenCalledTimes(1);
+		bivszejl.calls.reset();
 	});
 
 	it('should propagate disabled status', () => {
