@@ -5,17 +5,17 @@ import {By} from '@angular/platform-browser';
 
 import {FormControlService} from './form-control-service';
 
-function spy<Fn extends jasmine.Func>(fn?: Fn) {
-	return jasmine.createSpy(undefined, fn).and.callThrough();
-}
-
+// prettier-ignore
 fdescribe('FormControlService', () => {
-	it('should propagate value', () => {
-		const form = new FormControl(0, {
-			nonNullable: true,
-		});
-		const bivszejl = spy();
-		form.valueChanges.subscribe(bivszejl);
+	it('should not trigger changes initially', () => {
+		const form = new FormControl(null);
+
+		// todo: rename
+		const dsbdrxlx = jasmine.createSpy('dsbdrxlx');
+		form.valueChanges.subscribe(dsbdrxlx);
+		// todo: rename
+		const bivszejl = jasmine.createSpy('bivszejl');
+		form.statusChanges.subscribe(bivszejl);
 
 		@Component({
 			providers: [FormControlService.provide()],
@@ -41,32 +41,62 @@ fdescribe('FormControlService', () => {
 		});
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
+
+		expect(dsbdrxlx).toHaveBeenCalledTimes(0);
+		expect(bivszejl).toHaveBeenCalledTimes(0);
+	});
+
+	it('should propagate value', () => {
+		const form = new FormControl(0, {
+			nonNullable: true,
+		});
+
+		@Component({
+			providers: [FormControlService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FormControlService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = form;
+		}
+
+		TestBed.configureTestingModule({
+			imports: [MyComponent],
+		});
+		const fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
 		const {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		console.log('START');
+		expect(service.value).toBe(0);
 
-		expect(service.value).toEqual(0);
-		expect(bivszejl).toHaveBeenCalledTimes(0);
-		bivszejl.calls.reset();
+		const dsbdrxlx = jasmine.createSpy('dsbdrxlx');
+		form.valueChanges.subscribe(dsbdrxlx);
 
 		service.value = 1;
 
-		expect(form.value).toEqual(1);
-		expect(bivszejl).toHaveBeenCalledTimes(1);
-		bivszejl.calls.reset();
+		expect(form.value).toBe(1);
+		expect(dsbdrxlx).toHaveBeenCalledTimes(1);
 
-		console.log('form.setValue(2)');
+		dsbdrxlx.calls.reset();
+
 		form.setValue(2);
-		console.log('END');
 
-		expect(service.value).toEqual(2);
-		expect(bivszejl).toHaveBeenCalledTimes(1);
-		bivszejl.calls.reset();
+		expect(service.value).toBe(2);
+		expect(dsbdrxlx).toHaveBeenCalledTimes(1);
 	});
 
 	it('should propagate disabled status', () => {
@@ -96,22 +126,26 @@ fdescribe('FormControlService', () => {
 		});
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
 		const {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(service.disabled).toBeFalse();
+		const bivszejl = jasmine.createSpy('bivszejl');
+		form.statusChanges.subscribe(bivszejl);
 
 		form.disable();
 
 		expect(service.disabled).toBeTrue();
+		expect(bivszejl).toHaveBeenCalledTimes(1);
+
+		bivszejl.calls.reset();
 
 		form.enable();
 
 		expect(service.disabled).toBeFalse();
+		expect(bivszejl).toHaveBeenCalledTimes(2);
 	});
 
 	it('should propagate pending status', () => {
@@ -141,22 +175,26 @@ fdescribe('FormControlService', () => {
 		});
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
 		const {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(form.pending).toBeFalse();
+		const bivszejl = jasmine.createSpy('bivszejl');
+		form.statusChanges.subscribe(bivszejl);
 
 		service.pending = true;
 
 		expect(form.pending).toBeTrue();
+		expect(bivszejl).toHaveBeenCalledTimes(1);
+
+		bivszejl.calls.reset();
 
 		service.pending = false;
 
 		expect(form.pending).toBeFalse();
+		expect(bivszejl).toHaveBeenCalledTimes(1);
 	});
 
 	it('should propagate errors', () => {
@@ -186,21 +224,91 @@ fdescribe('FormControlService', () => {
 		});
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
 		const {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
+		const bivszejl = jasmine.createSpy('bivszejl');
+		form.statusChanges.subscribe(bivszejl);
+
 		service.errors = {error: true};
 
-		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: true});
+		expect(bivszejl).toHaveBeenCalledTimes(2);
+
+		bivszejl.calls.reset();
 
 		service.errors = null;
 
-		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
+		expect(bivszejl).toHaveBeenCalledTimes(2);
+	});
+
+	it('should propagate pending status and errors', () => {
+		const form = new FormControl(null);
+
+		@Component({
+			providers: [FormControlService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FormControlService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = form;
+		}
+
+		TestBed.configureTestingModule({
+			imports: [MyComponent],
+		});
+		const fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		const {service}: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
+
+		const bivszejl = jasmine.createSpy('bivszejl');
+		form.statusChanges.subscribe(bivszejl);
+
+		service.pending = true;
+		service.errors = {error: {n: 1}};
+
+		expect(form.pending).toBeTrue();
+		expect(bivszejl).toHaveBeenCalledTimes(1);
+
+		bivszejl.calls.reset();
+
+		service.pending = false;
+
+		expect(form.errors).toEqual({error: {n: 1}});
+		expect(bivszejl).toHaveBeenCalledTimes(1);
+
+		bivszejl.calls.reset();
+
+		service.pending = true;
+		service.errors = {error: {n: 2}};
+
+		expect(form.pending).toBeTrue();
+		expect(bivszejl).toHaveBeenCalledTimes(1);
+
+		bivszejl.calls.reset();
+
+		service.pending = false;
+
+		expect(form.errors).toEqual({error: {n: 2}});
+		expect(bivszejl).toHaveBeenCalledTimes(1);
 	});
 
 	it('should propagate touched status', () => {
@@ -230,7 +338,6 @@ fdescribe('FormControlService', () => {
 		});
 		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
 		const {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -241,16 +348,10 @@ fdescribe('FormControlService', () => {
 
 		expect(form.touched).toBeTrue();
 
-		// todo: form.markAsUntouched();
+		form.markAsUntouched();
+
+		service.touch();
+
+		expect(form.touched).toBeTrue();
 	});
-
-	// todo: test disabled & pending
-
-	// todo: test disabled & value
-
-	// todo: test disabled & errors
-
-	// todo: test pending & value
-
-	// todo: test pending & errors
 });

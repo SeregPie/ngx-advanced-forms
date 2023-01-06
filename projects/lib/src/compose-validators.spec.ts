@@ -4,10 +4,6 @@ import {FormControl} from '@angular/forms';
 import {composeAsyncValidators, composeValidators} from './compose-validators';
 import {noopAsyncValidator, noopValidator} from './noop-validator';
 
-function spy<Fn extends jasmine.Func>(fn?: Fn) {
-	return jasmine.createSpy(undefined, fn).and.callThrough();
-}
-
 // prettier-ignore
 describe('composeValidators', () => {
 	it('should work', () => {
@@ -19,32 +15,41 @@ describe('composeValidators', () => {
 			]),
 		});
 
-		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: {n: 1}});
 
 		form.setValue(2);
 
-		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: {n: 2}});
 
 		form.setValue(3);
 
-		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	});
 
 	it('should skip other validators after one fails', () => {
-		const customValidators = [
-			spy(() => null),
-			spy(() => ({error: true})),
-			spy(() => null),
-		];
+		const customValidator1 = (jasmine
+			.createSpy('customValidator1', () => null)
+			.and.callThrough()
+		);
+		const customValidator2 = (jasmine
+			.createSpy('customValidator2', () => ({error: true}))
+			.and.callThrough()
+		);
+		const customValidator3 = (jasmine
+			.createSpy('customValidator3', () => null)
+			.and.callThrough()
+		);
 		new FormControl(null, {
-			validators: composeValidators(customValidators),
+			validators: composeValidators([
+				customValidator1,
+				customValidator2,
+				customValidator3,
+			]),
 		});
 
-		expect(customValidators[0]).toHaveBeenCalledTimes(1);
-		expect(customValidators[1]).toHaveBeenCalledTimes(1);
-		expect(customValidators[2]).toHaveBeenCalledTimes(0);
+		expect(customValidator1).toHaveBeenCalledTimes(1);
+		expect(customValidator2).toHaveBeenCalledTimes(1);
+		expect(customValidator3).toHaveBeenCalledTimes(0);
 	});
 
 	it('should return same validator if only one provided', () => {
@@ -58,8 +63,8 @@ describe('composeValidators', () => {
 	});
 });
 
+// prettier-ignore
 describe('composeAsyncValidators', () => {
-	// prettier-ignore
 	it('should work', fakeAsync(() => {
 		const form = new FormControl(1, {
 			nonNullable: true,
@@ -73,7 +78,6 @@ describe('composeAsyncValidators', () => {
 
 		tick();
 
-		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: {n: 1}});
 
 		form.setValue(2);
@@ -82,7 +86,6 @@ describe('composeAsyncValidators', () => {
 
 		tick();
 
-		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: {n: 2}});
 
 		form.setValue(3);
@@ -91,35 +94,43 @@ describe('composeAsyncValidators', () => {
 
 		tick();
 
-		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	}));
 
-	// prettier-ignore
 	it('should skip other validators after one fails', fakeAsync(() => {
-		const customAsyncValidators = [
-			spy(async () => null),
-			spy(async () => ({error: true})),
-			spy(async () => null),
-		];
+		const customAsyncValidator1 = (jasmine
+			.createSpy('customAsyncValidator1', async () => null)
+			.and.callThrough()
+		);
+		const customAsyncValidator2 = (jasmine
+			.createSpy('customAsyncValidator2', async () => ({error: true}))
+			.and.callThrough()
+		);
+		const customAsyncValidator3 = (jasmine
+			.createSpy('customAsyncValidator3', async () => null)
+			.and.callThrough()
+		);
 		new FormControl(null, {
-			asyncValidators: composeAsyncValidators(customAsyncValidators),
+			asyncValidators: composeAsyncValidators([
+				customAsyncValidator1,
+				customAsyncValidator2,
+				customAsyncValidator3,
+			]),
 		});
 
 		tick();
 
-		expect(customAsyncValidators[0]).toHaveBeenCalledTimes(1);
-		expect(customAsyncValidators[1]).toHaveBeenCalledTimes(1);
-		expect(customAsyncValidators[2]).toHaveBeenCalledTimes(0);
+		expect(customAsyncValidator1).toHaveBeenCalledTimes(1);
+		expect(customAsyncValidator2).toHaveBeenCalledTimes(1);
+		expect(customAsyncValidator3).toHaveBeenCalledTimes(0);
 	}));
 
-	// prettier-ignore
 	it('should return same validator if only one provided', () => {
 		const customAsyncValidator = async () => null;
 
 		expect(composeAsyncValidators([customAsyncValidator])).toBe(customAsyncValidator);
 	});
 
-	// prettier-ignore
 	it('should return noop validator if nothing provided', () => {
 		expect(composeAsyncValidators([])).toBe(noopAsyncValidator);
 	});

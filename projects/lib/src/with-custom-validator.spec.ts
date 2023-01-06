@@ -1,14 +1,10 @@
-import {fakeAsync, flush} from '@angular/core/testing';
+import {fakeAsync, tick} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
 import {
 	withCustomAsyncValidator,
 	withCustomValidator,
 } from './with-custom-validator';
-
-function spy<Fn extends jasmine.Func>(fn?: Fn) {
-	return jasmine.createSpy(undefined, fn).and.callThrough();
-}
 
 // prettier-ignore
 describe('withCustomValidator', () => {
@@ -20,12 +16,11 @@ describe('withCustomValidator', () => {
 			(form) => (form.value % 2 ? {error: true} : null),
 		);
 
-		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: true});
 
 		form.setValue(2);
 
-		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	});
 
 	it('should contain validator', () => {
@@ -38,7 +33,10 @@ describe('withCustomValidator', () => {
 
 	it('should call validator only once', () => {
 		const form = new FormControl(null);
-		const customValidator = spy(() => null);
+		const customValidator = (jasmine
+			.createSpy('customValidator', () => null)
+			.and.callThrough()
+		);
 		withCustomValidator(form, customValidator);
 
 		expect(customValidator).toHaveBeenCalledTimes(1);
@@ -70,18 +68,17 @@ describe('withCustomAsyncValidator', () => {
 
 		expect(form.pending).toBeTrue();
 
-		flush();
+		tick();
 
-		expect(form.invalid).toBeTrue();
 		expect(form.errors).toEqual({error: true});
 
 		form.setValue(2);
 
 		expect(form.pending).toBeTrue();
 
-		flush();
+		tick();
 
-		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	}));
 
 	it('should contain validator', () => {
@@ -94,7 +91,10 @@ describe('withCustomAsyncValidator', () => {
 
 	it('should call validator only once', () => {
 		const form = new FormControl(null);
-		const customAsyncValidator = spy(async () => null);
+		const customAsyncValidator = (jasmine
+			.createSpy('customAsyncValidator', async () => null)
+			.and.callThrough()
+		);
 		withCustomAsyncValidator(form, customAsyncValidator);
 
 		expect(customAsyncValidator).toHaveBeenCalledTimes(1);
