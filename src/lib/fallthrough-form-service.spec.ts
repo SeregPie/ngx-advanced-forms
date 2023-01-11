@@ -1,5 +1,9 @@
 import {Component} from '@angular/core';
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {
+	fakeAsync,
+	TestBed,
+	tick,
+} from '@angular/core/testing';
 import {
 	FormArray,
 	FormControl,
@@ -12,252 +16,259 @@ import {By} from '@angular/platform-browser';
 import {FallthroughFormService} from './fallthrough-form-service';
 
 describe('FallthroughFormService', () => {
-	it('should work with FormControlDirective', fakeAsync(() => {
+	it('should work with FormControlDirective', () => {
+		@Component({
+			providers: [FallthroughFormService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FallthroughFormService) {}
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = new FormControl(null);
+		}
+
 		TestBed.configureTestingModule({
-			imports: [MyFormControlExampleComponent],
+			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyFormControlExampleComponent);
-		const component = fixture.componentInstance;
+		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		tick();
-		const form = fixture.debugElement.query(
-			By.directive(MyFallthroughFormExampleComponent),
-		).componentInstance.form as typeof component.form;
+		const myComponent = fixture.componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
-		expect(component.form.value).toEqual(form.value);
+		expect(mySubComponent.service.control).toBe(myComponent.form);
+	});
 
-		component.form.setValue(1);
-		tick();
-		expect(component.form.value).toEqual(form.value);
+	it('should work with FormControlNameDirective', () => {
+		@Component({
+			providers: [FallthroughFormService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FallthroughFormService) {}
+		}
 
-		form.setValue(2);
-		tick();
-		expect(component.form.value).toEqual(form.value);
-	}));
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `
+				<ng-container [formGroup]="form">
+					<my-sub formControlName="a"></my-sub>
+				</ng-container>
+			`,
+		})
+		class MyComponent {
+			form = new FormGroup({
+				a: new FormControl(null),
+			});
+		}
 
-	it('should work with FormControlNameDirective', fakeAsync(() => {
 		TestBed.configureTestingModule({
-			imports: [MyFormControlNameExampleComponent],
+			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyFormControlNameExampleComponent);
-		const component = fixture.componentInstance;
+		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		tick();
-		const form = fixture.debugElement.query(
-			By.directive(MyFallthroughFormExampleComponent),
-		).componentInstance.form as typeof component.form.controls.a;
+		const myComponent = fixture.componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
-		expect(component.form.value.a).toEqual(form.value);
+		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
+	});
 
-		component.form.setValue({a: 1});
-		tick();
-		expect(component.form.value.a).toEqual(form.value);
+	it('should work with FormGroupDirective', () => {
+		@Component({
+			providers: [FallthroughFormService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FallthroughFormService) {}
+		}
 
-		form.setValue(2);
-		tick();
-		expect(component.form.value.a).toEqual(form.value);
-	}));
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formGroup]="form"></my-sub>`,
+		})
+		class MyComponent {
+			form = new FormGroup({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			});
+		}
 
-	it('should work with FormGroupDirective', fakeAsync(() => {
 		TestBed.configureTestingModule({
-			imports: [MyFormGroupExampleComponent],
+			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyFormGroupExampleComponent);
-		const component = fixture.componentInstance;
+		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		tick();
-		const form = fixture.debugElement.query(
-			By.directive(MyFallthroughFormExampleComponent),
-		).componentInstance.form as typeof component.form;
+		const myComponent = fixture.componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
-		expect(component.form.value).toEqual(form.value);
+		expect(mySubComponent.service.control).toBe(myComponent.form);
+	});
 
-		component.form.setValue({a: 1, b: 1});
-		tick();
-		expect(component.form.value).toEqual(form.value);
+	it('should work with FormGroupNameDirective', () => {
+		@Component({
+			providers: [FallthroughFormService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FallthroughFormService) {}
+		}
 
-		form.setValue({a: 2, b: 2});
-		tick();
-		expect(component.form.value).toEqual(form.value);
-	}));
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `
+				<ng-container [formGroup]="form">
+					<my-sub formGroupName="a"></my-sub>
+				</ng-container>
+			`,
+		})
+		class MyComponent {
+			form = new FormGroup({
+				a: new FormGroup({
+					a: new FormControl(null),
+					b: new FormControl(null),
+				}),
+			});
+		}
 
-	it('should work with FormGroupNameDirective', fakeAsync(() => {
 		TestBed.configureTestingModule({
-			imports: [MyFormGroupNameExampleComponent],
+			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyFormGroupNameExampleComponent);
-		const component = fixture.componentInstance;
+		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		tick();
-		const form = fixture.debugElement.query(
-			By.directive(MyFallthroughFormExampleComponent),
-		).componentInstance.form as typeof component.form.controls.group;
+		const myComponent = fixture.componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
-		expect(component.form.value.group).toEqual(form.value);
+		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
+	});
 
-		component.form.setValue({group: {a: 1, b: 1}});
-		tick();
-		expect(component.form.value.group).toEqual(form.value);
+	it('should work with FormArrayNameDirective', () => {
+		@Component({
+			providers: [FallthroughFormService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FallthroughFormService) {}
+		}
 
-		form.setValue({a: 2, b: 2});
-		tick();
-		expect(component.form.value.group).toEqual(form.value);
-	}));
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `
+				<ng-container [formGroup]="form">
+					<my-sub formArrayName="a"></my-sub>
+				</ng-container>
+			`,
+		})
+		class MyComponent {
+			form = new FormGroup({
+				a: new FormArray([
+					new FormControl(null),
+					new FormControl(null),
+				]),
+			});
+		}
 
-	it('should work with FormArrayNameDirective', fakeAsync(() => {
 		TestBed.configureTestingModule({
-			imports: [MyFormArrayNameExampleComponent],
+			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyFormArrayNameExampleComponent);
-		const component = fixture.componentInstance;
+		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		tick();
-		const form = fixture.debugElement.query(
-			By.directive(MyFallthroughFormExampleComponent),
-		).componentInstance.form as typeof component.form.controls.items;
+		const myComponent = fixture.componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
 
-		expect(component.form.value.items).toEqual(form.value);
-
-		component.form.setValue({items: [1, 1]});
-		tick();
-		expect(component.form.value.items).toEqual(form.value);
-
-		form.setValue([2, 2]);
-		tick();
-		expect(component.form.value.items).toEqual(form.value);
-	}));
+		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
+	});
 
 	it('should work with NgModelDirective', fakeAsync(() => {
+		@Component({
+			providers: [FallthroughFormService.provide()],
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			constructor(public service: FallthroughFormService) {}
+
+			get form() {
+				return this.service.control as FormControl<number>;
+			}
+		}
+
+		@Component({
+			imports: [FormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [(ngModel)]="value"></my-sub>`,
+		})
+		class MyComponent {
+			value = 0;
+		}
+
 		TestBed.configureTestingModule({
-			imports: [MyNgModelExampleComponent],
+			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyNgModelExampleComponent);
-		const component = fixture.componentInstance;
+		const fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
+		const myComponent = fixture.componentInstance;
+		const mySubComponent: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
+
 		tick();
-		const form = fixture.debugElement.query(
-			By.directive(MyFallthroughFormExampleComponent),
-		).componentInstance.form as FormControl<typeof component.value>;
 
-		expect(component.value).toEqual(form.value);
+		expect(mySubComponent.form.value).toEqual(0);
 
-		component.value = 1;
+		mySubComponent.form.setValue(1);
+
+		tick();
+
+		expect(myComponent.value).toEqual(1);
+
+		myComponent.value = 2;
 		fixture.detectChanges();
-		tick();
-		expect(component.value).toEqual(form.value);
 
-		form.setValue(2);
 		tick();
-		expect(component.value).toEqual(form.value);
+
+		expect(mySubComponent.form.value).toEqual(2);
 	}));
 });
-
-@Component({
-	providers: [FallthroughFormService.provide()],
-	selector: 'my-fallthrough-form-example',
-	standalone: true,
-	template: '',
-})
-class MyFallthroughFormExampleComponent {
-	constructor(readonly fallthroughFormService: FallthroughFormService) {}
-
-	get form() {
-		return this.fallthroughFormService.control!;
-	}
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFallthroughFormExampleComponent],
-	selector: 'my-form-control-example',
-	standalone: true,
-	template: `<my-fallthrough-form-example
-		[formControl]="form"
-	></my-fallthrough-form-example>`,
-})
-class MyFormControlExampleComponent {
-	form = new FormControl(0);
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFallthroughFormExampleComponent],
-	selector: 'my-form-control-name-example',
-	standalone: true,
-	template: `
-		<ng-container [formGroup]="form">
-			<my-fallthrough-form-example
-				formControlName="a"
-			></my-fallthrough-form-example>
-		</ng-container>
-	`,
-})
-class MyFormControlNameExampleComponent {
-	form = new FormGroup({
-		a: new FormControl(0),
-	});
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFallthroughFormExampleComponent],
-	selector: 'my-form-group-example',
-	standalone: true,
-	template: `<my-fallthrough-form-example
-		[formGroup]="form"
-	></my-fallthrough-form-example>`,
-})
-class MyFormGroupExampleComponent {
-	form = new FormGroup({
-		a: new FormControl(0),
-		b: new FormControl(0),
-	});
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFallthroughFormExampleComponent],
-	selector: 'my-form-group-name-example',
-	standalone: true,
-	template: `
-		<ng-container [formGroup]="form">
-			<my-fallthrough-form-example
-				formGroupName="group"
-			></my-fallthrough-form-example>
-		</ng-container>
-	`,
-})
-class MyFormGroupNameExampleComponent {
-	form = new FormGroup({
-		group: new FormGroup({
-			a: new FormControl(0),
-			b: new FormControl(0),
-		}),
-	});
-}
-
-@Component({
-	imports: [ReactiveFormsModule, MyFallthroughFormExampleComponent],
-	selector: 'my-form-array-name-example',
-	standalone: true,
-	template: `
-		<ng-container [formGroup]="form">
-			<my-fallthrough-form-example
-				formArrayName="items"
-			></my-fallthrough-form-example>
-		</ng-container>
-	`,
-})
-class MyFormArrayNameExampleComponent {
-	form = new FormGroup({
-		items: new FormArray([new FormControl(0), new FormControl(0)]),
-	});
-}
-
-@Component({
-	imports: [FormsModule, MyFallthroughFormExampleComponent],
-	selector: 'my-ng-model-example',
-	standalone: true,
-	template: `<my-fallthrough-form-example
-		[(ngModel)]="value"
-	></my-fallthrough-form-example>`,
-})
-class MyNgModelExampleComponent {
-	value = 0;
-}
