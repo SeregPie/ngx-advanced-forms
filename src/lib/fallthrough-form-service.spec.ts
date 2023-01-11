@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
-import {FallthroughFormService} from './fallthrough-form';
+import {FallthroughFormService} from './fallthrough-form-service';
 
 describe('FallthroughFormService', () => {
 	it('should work with FormControlDirective', fakeAsync(() => {
