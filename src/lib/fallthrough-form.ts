@@ -6,7 +6,8 @@ import {
 	NgControl,
 } from '@angular/forms';
 
-import {NOOP_VALUE_ACCESSOR} from './control-hacks';
+import { NoopControlValueAccessor } from './noop-control-value-accessor';
+
 
 @Injectable()
 export class FallthroughFormService {
@@ -24,7 +25,7 @@ export class FallthroughFormService {
 		ngControl?: NgControl,
 	) {
 		if (ngControl) {
-			ngControl.valueAccessor = NOOP_VALUE_ACCESSOR;
+			ngControl.valueAccessor = NoopControlValueAccessor;
 		}
 		this.controlDirective = controlContainer ?? ngControl ?? null;
 	}
