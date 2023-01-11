@@ -1,7 +1,7 @@
 {
 	"scripts": {
-		"build": "ng build lib && cp README.md LICENSE dist/lib",
-		"test": "ng test lib"
+		"build": "ng build && cp README.md LICENSE dist/lib",
+		"test": "ng test"
 	},
 	"devDependencies": {
 		"@angular-devkit/build-angular": "15",
