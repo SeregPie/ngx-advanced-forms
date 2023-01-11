@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"declarationMap": true
+		"declaration": true,
+		"inlineSources": true
 	},
 	"extends": "./tsconfig.json"
 }

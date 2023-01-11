@@ -1,7 +1,21 @@
 {
+	"name": "ngx-advanced-forms",
+	"version": "1.1.1",
+	"description": "Everything to make your work with Angular forms easier.",
+	"keywords": [
+		"angular",
+		"forms",
+		"util"
+	],
+	"repository": "github:SeregPie/ngx-advanced-forms",
+	"license": "MIT",
+	"author": "Sergej Sintschilin <seregpie@gmail.com>",
 	"scripts": {
-		"build": "ng build && cp README.md LICENSE dist/lib",
+		"build": "ng build",
 		"test": "ng test"
+	},
+	"dependencies": {
+		"tslib": "^2"
 	},
 	"devDependencies": {
 		"@angular-devkit/build-angular": "15",
@@ -28,5 +42,9 @@
 		"typescript": "4.8",
 		"zone.js": "*"
 	},
-	"private": true
+	"peerDependencies": {
+		"@angular/core": ">=14",
+		"@angular/forms": ">=14",
+		"rxjs": "^7"
+	}
 }

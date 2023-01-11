@@ -1,6 +1,8 @@
 {
 	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-	"newProjectRoot": "projects",
+	"cli": {
+		"analytics": false
+	},
 	"projects": {
 		"lib": {
 			"architect": {
@@ -8,32 +10,28 @@
 					"builder": "@angular-devkit/build-angular:ng-packagr",
 					"configurations": {
 						"development": {
-							"tsConfig": "projects/lib/tsconfig.dev.json"
+							"tsConfig": "./tsconfig.lib.dev.json"
 						},
 						"production": {
-							"tsConfig": "projects/lib/tsconfig.prod.json"
+							"tsConfig": "./tsconfig.lib.prod.json"
 						}
 					},
 					"defaultConfiguration": "production",
 					"options": {
-						"project": "projects/lib/ng-package.json"
+						"project": "./ng-package.json"
 					}
 				},
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
 						"polyfills": ["zone.js", "zone.js/testing"],
-						"tsConfig": "projects/lib/tsconfig.spec.json"
+						"tsConfig": "./tsconfig.spec.json"
 					}
 				}
 			},
 			"projectType": "library",
-			"root": "projects/lib",
-			"sourceRoot": "projects/lib/src"
+			"root": "."
 		}
 	},
-	"version": 1,
-	"cli": {
-		"analytics": false
-	}
+	"version": 1
 }
