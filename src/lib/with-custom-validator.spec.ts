@@ -1,17 +1,16 @@
-import {fakeAsync, flush} from '@angular/core/testing';
-import {AsyncValidatorFn, FormControl, ValidatorFn} from '@angular/forms';
+import {
+	fakeAsync,
+	tick,
+} from '@angular/core/testing';
+import {FormControl} from '@angular/forms';
 
 import {
 	withCustomAsyncValidator,
 	withCustomValidator,
 } from './with-custom-validator';
 
-const dummyValidatorFn: ValidatorFn = () => null;
-
-const dummyAsyncValidatorFn: AsyncValidatorFn = async () => await null;
-
 describe('withCustomValidator', () => {
-	it('should validate', () => {
+	it('should work', () => {
 		const form = withCustomValidator(
 			new FormControl(1, {
 				nonNullable: true,
@@ -19,84 +18,99 @@ describe('withCustomValidator', () => {
 			(form) => (form.value % 2 ? {error: true} : null),
 		);
 
-		expect(form.invalid).toBeTrue();
+		expect(form.errors).toEqual({error: true});
 
 		form.setValue(2);
 
-		expect(form.valid).toBeTrue();
+		expect(form.errors).toBeNull();
 	});
 
 	it('should contain validator', () => {
-		const form = withCustomValidator(new FormControl(0), dummyValidatorFn);
-		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
+		const form = new FormControl(null);
+		const customValidator = () => null;
+		withCustomValidator(form, customValidator);
+
+		expect(form.hasValidator(customValidator)).toBeTrue();
 	});
 
 	it('should call validator only once', () => {
-		const customValidatorFn = jasmine
-			.createSpy(undefined, dummyValidatorFn)
-			.and.callThrough();
-		withCustomValidator(new FormControl(0), customValidatorFn);
-		expect(customValidatorFn).toHaveBeenCalledTimes(1);
+		const form = new FormControl(null);
+		const customValidator = (jasmine
+			.createSpy('customValidator', () => null)
+			.and.callThrough()
+		);
+		withCustomValidator(form, customValidator);
+
+		expect(customValidator).toHaveBeenCalledTimes(1);
 	});
 
 	it('should not replace existing validators', () => {
-		const form = withCustomValidator(
-			new FormControl(0, {
-				validators: dummyValidatorFn,
-				asyncValidators: dummyAsyncValidatorFn,
-			}),
-			() => null,
-		);
-		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
-		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
+		const customValidator = () => null;
+		const customAsyncValidator = async () => null;
+		const form = new FormControl(null, {
+			validators: customValidator,
+			asyncValidators: customAsyncValidator,
+		});
+		withCustomValidator(form, () => ({error: true}));
+
+		expect(form.hasValidator(customValidator)).toBeTrue();
+		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	});
 });
 
 describe('withCustomAsyncValidator', () => {
-	it('should validate', fakeAsync(() => {
+	it('should work', fakeAsync(() => {
 		const form = withCustomAsyncValidator(
 			new FormControl(1, {
 				nonNullable: true,
 			}),
-			async (form) => await (form.value % 2 ? {error: true} : null),
+			async (form) => (form.value % 2 ? {error: true} : null),
 		);
 
 		expect(form.pending).toBeTrue();
-		flush();
-		expect(form.invalid).toBeTrue();
+
+		tick();
+
+		expect(form.errors).toEqual({error: true});
 
 		form.setValue(2);
 
 		expect(form.pending).toBeTrue();
-		flush();
-		expect(form.valid).toBeTrue();
+
+		tick();
+
+		expect(form.errors).toBeNull();
 	}));
 
 	it('should contain validator', () => {
-		const form = withCustomAsyncValidator(
-			new FormControl(0),
-			dummyAsyncValidatorFn,
-		);
-		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
+		const form = new FormControl(null);
+		const customAsyncValidator = async () => null;
+		withCustomAsyncValidator(form, customAsyncValidator);
+
+		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	});
 
 	it('should call validator only once', () => {
-		const customAsyncValidatorFn = jasmine
-			.createSpy(undefined, dummyAsyncValidatorFn)
-			.and.callThrough();
-		withCustomAsyncValidator(new FormControl(0), customAsyncValidatorFn);
-		expect(customAsyncValidatorFn).toHaveBeenCalledTimes(1);
+		const form = new FormControl(null);
+		const customAsyncValidator = (jasmine
+			.createSpy('customAsyncValidator', async () => null)
+			.and.callThrough()
+		);
+		withCustomAsyncValidator(form, customAsyncValidator);
+
+		expect(customAsyncValidator).toHaveBeenCalledTimes(1);
 	});
 
 	it('should not replace existing validators', () => {
-		const form = withCustomAsyncValidator(
-			new FormControl(0, {
-				validators: dummyValidatorFn,
-				asyncValidators: dummyAsyncValidatorFn,
-			}),
-			async () => await null,
-		);
-		expect(form.hasValidator(dummyValidatorFn)).toBeTrue();
-		expect(form.hasAsyncValidator(dummyAsyncValidatorFn)).toBeTrue();
+		const customValidator = () => null;
+		const customAsyncValidator = async () => null;
+		const form = new FormControl(null, {
+			validators: customValidator,
+			asyncValidators: customAsyncValidator,
+		});
+		withCustomAsyncValidator(form, async () => ({error: true}));
+
+		expect(form.hasValidator(customValidator)).toBeTrue();
+		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	});
 });
