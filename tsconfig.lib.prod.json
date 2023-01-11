@@ -2,5 +2,5 @@
 	"angularCompilerOptions": {
 		"compilationMode": "partial"
 	},
-	"extends": "./tsconfig.json"
+	"extends": "./tsconfig.lib.json"
 }
