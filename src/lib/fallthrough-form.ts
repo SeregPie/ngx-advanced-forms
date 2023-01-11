@@ -1,18 +1,30 @@
-import {Injectable, Optional, Provider, Self} from '@angular/core';
+import {
+	Injectable,
+	Optional,
+	Provider,
+	Self,
+} from '@angular/core';
 import {
 	AbstractControl,
 	AbstractControlDirective,
 	ControlContainer,
 	NgControl,
+	NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
-import { NoopControlValueAccessor } from './noop-control-value-accessor';
-
+import {NoopControlValueAccessor} from './noop-control-value-accessor';
 
 @Injectable()
 export class FallthroughFormService {
 	static provide(): Provider {
-		return this;
+		return [
+			this,
+			{
+				provide: NG_VALUE_ACCESSOR,
+				multi: true,
+				useValue: NoopControlValueAccessor,
+			},
+		];
 	}
 
 	constructor(
@@ -24,9 +36,6 @@ export class FallthroughFormService {
 		@Optional()
 		ngControl?: NgControl,
 	) {
-		if (ngControl) {
-			ngControl.valueAccessor = NoopControlValueAccessor;
-		}
 		this.controlDirective = controlContainer ?? ngControl ?? null;
 	}
 
