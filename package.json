@@ -1,7 +1,6 @@
 {
 	"scripts": {
 		"build": "ng build lib && cp README.md LICENSE dist/lib",
-		"format": "prettier --write .",
 		"test": "ng test lib"
 	},
 	"devDependencies": {
@@ -23,7 +22,6 @@
 		"karma-jasmine": "^5.1.0",
 		"karma-jasmine-html-reporter": "^2.0.0",
 		"ng-packagr": "^14.2.2",
-		"prettier": "^2.7.1",
 		"puppeteer": "^19.2.2",
 		"rxjs": "^7.5.7",
 		"tslib": "^2.4.1",
