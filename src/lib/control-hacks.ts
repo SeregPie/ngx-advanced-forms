@@ -1,16 +1,8 @@
 import {
 	AbstractControl,
-	ControlValueAccessor,
 	FormArray,
 	FormGroup,
 } from '@angular/forms';
-import {noop} from 'rxjs';
-
-export const NOOP_VALUE_ACCESSOR: ControlValueAccessor = {
-	writeValue: noop,
-	registerOnChange: noop,
-	registerOnTouched: noop,
-};
 
 export function registerControl(
 	parent: FormGroup | FormArray,
