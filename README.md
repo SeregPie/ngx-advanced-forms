@@ -28,6 +28,9 @@ import {
 - `F` [withCustomValidator](#api/withCustomValidator)
 - `F` [withCustomAsyncValidator](#api/withCustomAsyncValidator)
 - `F` [composeValidators](#api/composeValidators)
+- `T` [ControlStateAccessor](#api/ControlStateAccessor)
+- `T` [CreateControlStateAccessorFn](#api/CreateControlStateAccessorFn)
+- `F` [updateFormState](#api/updateFormState)
 
 <a name="api/DynamicFormArray"></a>
 
@@ -193,4 +196,38 @@ const composeValidators: {
 const form = new FormControl<null | number>(null, {
   validators: composeValidators([Validators.required, Validators.min(0), Validators.max(100)]),
 });
+```
+
+<a name="api/ControlStateAccessor"></a>
+
+### ControlStateAccessor
+
+```ts
+interface ControlStateAccessor<TControl> {
+  readonly control: TControl;
+  get disabled(): boolean;
+  set disabled(v: boolean);
+  get enabled(): boolean;
+  set enabled(v: boolean);
+}
+```
+
+<a name="api/CreateControlStateAccessorFn"></a>
+
+### CreateControlStateAccessorFn
+
+```ts
+interface CreateControlStateAccessorFn {
+  <TControl>(control: TControl): ControlStateAccessor<TControl>;
+}
+```
+
+<a name="api/updateFormState"></a>
+
+### updateFormState
+
+```ts
+const updateFormState: {
+  <TControl>(control: TControl, fn: {(wrap: CreateControlStateAccessorFn): void}): void;
+};
 ```
