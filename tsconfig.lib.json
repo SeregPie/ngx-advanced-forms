@@ -1,0 +1,7 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"inlineSources": true
+	},
+	"extends": "./tsconfig.json"
+}

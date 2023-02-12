@@ -1,0 +1,17 @@
+/.angular
+/coverage
+/dist
+
+/src/lib/abstract-control-state-accessor.ts
+/src/lib/compose-validators.spec.ts
+/src/lib/compose-validators.ts
+/src/lib/control-state-accessor.ts
+/src/lib/create-control-state-accessor.ts
+/src/lib/custom-validator.ts
+/src/lib/dummy-control-value-accessor.ts
+/src/lib/fallthrough-form-service.spec.ts
+/src/lib/fallthrough-form-service.ts
+/src/lib/form-control-service.spec.ts
+/src/lib/noop-validator.ts
+/src/lib/with-custom-validator.spec.ts
+/src/lib/with-custom-validator.ts
