@@ -18,128 +18,50 @@ import {
 } from 'ngx-advanced-forms';
 ```
 
-## API Reference
+## API
 
-- form controls
-  - [`DynamicFormArray`](#dynamicformarray)
-  - [`DynamicFormRecord`](#dynamicformrecord)
-- injectable services
-  - [`FallthroughFormService`](#fallthroughformservice)
-- helper functions
-  - [`withCustomValidator`](#withcustomvalidator)
-  - [`withCustomAsyncValidator`](#withcustomasyncvalidator)
+- `C` [DynamicFormArray](#api/DynamicFormArray)
+- `C` [DynamicFormRecord](#api/DynamicFormRecord)
+- `C` [FallthroughFormService](#api/FallthroughFormService)
+- `T` [CustomValidatorFn](#api/CustomValidatorFn)
+- `T` [CustomAsyncValidatorFn](#api/CustomAsyncValidatorFn)
+- `F` [withCustomValidator](#api/withCustomValidator)
+- `F` [withCustomAsyncValidator](#api/withCustomAsyncValidator)
+- `F` [composeValidators](#api/composeValidators)
+
+<a name="api/DynamicFormArray"></a>
 
 ### DynamicFormArray
 
 A sup-class of `FormArray` that creates or removes sub-controls dynamically based on the passed value.
 
-#### Type
-
 ```ts
-class DynamicFormArray<
-  TControl extends AbstractControl = AbstractControl,
-> extends FormArray<TControl> {
+class DynamicFormArray<TControl>
+  extends FormArray<TControl>
+{
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
-
-  addDynamicControl(
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
-
-  addDynamicControls(
-    count: number,
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
-
-  addDynamicControlAt(
-    index: number,
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
-
-  addDynamicControlsAt(
-    index: number,
-    count: number,
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
-
-  setDynamicControls(
-    count: number,
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
 }
 ```
 
-#### To-Do
-
-- Add usage example.
-- Rename class members.
-- Add descriptions for class members.
-- Add better tests.
+<a name="api/DynamicFormRecord"></a>
 
 ### DynamicFormRecord
 
 A sup-class of `FormRecord` that creates or removes sub-controls dynamically based on the passed value.
 
-#### Type
-
 ```ts
-class DynamicFormRecord<
-  TControl extends AbstractControl = AbstractControl,
-> extends FormRecord<TControl> {
+class DynamicFormRecord<TControl>
+  extends FormRecord<TControl>
+{
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
-
-  hasControl(name: string): boolean;
-
-  addDynamicControl(
-    name: string,
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
-
-  addDynamicControls(
-    names: Array<string>,
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
-
-  setDynamicControls(
-    names: Array<string>,
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
-
-  clear(
-    options?: Partial<{
-      emitEvent: boolean;
-    }>,
-  ): void;
 }
 ```
 
-#### To-Do
-
-- Add usage example.
-- Rename class members.
-- Add descriptions for class members.
-- Add better tests.
+<a name="api/FallthroughFormService"></a>
 
 ### FallthroughFormService
 
-Passes a form control from an Angular directive through.
-
-#### Type
+Passes a control from a control directive through.
 
 ```ts
 @Injectable()
@@ -156,72 +78,119 @@ class FallthroughFormService {
 
 ```ts
 @Component({
+  imports: [ReactiveFormsModule, MyNumberInputComponent],
   providers: [FallthroughFormService.provide()],
-  /* ... */
+  standalone: true,
+  template: `
+    <my-number-input
+      [formControl]="form"
+      [label]="label"
+      [max]="100"
+      [min]="0"
+      [step]="0.1"
+      unit="%"
+    />
+  `,
+  selector: 'my-percent-input',
 })
-export class MyComponent {
-  constructor(readonly fallthroughFormService: FallthroughFormService) {}
+class MyPercentInputComponent {
+  constructor(public fallthroughFormService: FallthroughFormService) {}
 
   get form() {
-    return this.fallthroughFormService.control;
+    return this.fallthroughFormService.control as FormControl;
   }
 
-  /* ... */
+  @Input()
+  label: string = '';
 }
 ```
 
-#### To-Do
+<a name="api/CustomValidatorFn"></a>
 
-- Add better usage example.
+### CustomValidatorFn
+
+```ts
+interface CustomValidatorFn<TControl> {
+  (control: TControl): null | ValidationErrors;
+}
+```
+
+<a name="api/CustomAsyncValidatorFn"></a>
+
+### CustomAsyncValidatorFn
+
+```ts
+interface CustomAsyncValidatorFn<TControl> {
+  (control: TControl): Promise<null | ValidationErrors> | Observable<null | ValidationErrors>;
+}
+```
+
+<a name="api/withCustomValidator"></a>
 
 ### withCustomValidator
 
-Adds a custom typed synchronous validator on a control and recalculates the value and the validation status of the control.
-
-#### Type
+Adds a typed validator to a control.
 
 ```ts
-function withCustomValidator<
-  TControl extends AbstractControl = AbstractControl,
->(control: TControl, validator: TypedValidatorFn<TControl>): TControl;
+const withCustomValidator: {
+  <TControl>(control: TControl, validator: CustomValidatorFn<TControl>): TControl;
+};
 ```
 
 #### Usage
 
 ```ts
-const form = withCustomValidator(
-  new FormControl(0, {
-    nonNullable: true,
+const form = new FormGroup({
+  email: new FormControl<string>('', {
+    validators: [Validators.required, Validators.email],
   }),
-  (form) => (isPowerOfTwo(form.value) ? null : {error: true}),
-);
+  password: withCustomValidator(
+    new FormGroup({
+      actual: new FormControl<string>('', {
+        validators: [Validators.required, Validators.minLength(8)],
+      }),
+      verify: new FormControl<string>(''),
+    }),
+    (form) => {
+      if (form.controls.actual.valid) {
+        if (form.controls.actual.value !== form.controls.verify.value) {
+          return {verifyPassword: true};
+        }
+      }
+      return null;
+    },
+  ),
+});
 ```
+
+<a name="api/withCustomAsyncValidator"></a>
 
 ### withCustomAsyncValidator
 
-Adds a custom typed asynchronous validator on a control and recalculates the value and the validation status of the control.
-
-#### Type
+Adds a typed asynchronous validator to a control.
 
 ```ts
-function withCustomAsyncValidator<
-  TControl extends AbstractControl = AbstractControl,
->(control: TControl, validator: TypedAsyncValidatorFn<TControl>): TControl;
+const withCustomAsyncValidator: {
+  <TControl>(control: TControl, validator: CustomAsyncValidatorFn<TControl>): TControl;
+};
+```
+
+<a name="api/composeValidators"></a>
+
+### composeValidators
+
+Composes multiple validators into one.
+
+```ts
+const composeValidators: {
+  <TControl>(validators: Array<CustomValidatorFn<TControl>>): CustomValidatorFn<TControl>;
+};
 ```
 
 #### Usage
 
 ```ts
-const form = withCustomAsyncValidator(
-  new FormControl('', {
-    nonNullable: true,
-  }),
-  async (form) => ((await isNameAvailable(form.value)) ? null : {error: true}),
-);
+const form = new FormControl<null | number>(null, {
+  validators: composeValidators([Validators.required, Validators.min(0), Validators.max(100)]),
+});
 ```
-
-## To-Do
-
-- Add new injectable service for sub-forms.
-- Add new injectable service for better control value accessor handling.
-- Add new helpers to modify enabled/disabled status.
