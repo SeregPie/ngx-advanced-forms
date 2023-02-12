@@ -22,6 +22,7 @@ import {
 
 - `C` [DynamicFormArray](#api/DynamicFormArray)
 - `C` [DynamicFormRecord](#api/DynamicFormRecord)
+- `C` [FormControlService](#api/FormControlService)
 - `C` [FallthroughFormService](#api/FallthroughFormService)
 - `T` [CustomValidatorFn](#api/CustomValidatorFn)
 - `T` [CustomAsyncValidatorFn](#api/CustomAsyncValidatorFn)
@@ -57,6 +58,40 @@ class DynamicFormRecord<TControl>
   extends FormRecord<TControl>
 {
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
+}
+```
+
+<a name="api/FormControlService"></a>
+
+### FormControlService
+
+```ts
+@Injectable()
+class FormControlService<TValue> {
+  static provide(): Provider;
+
+  get value(): null | TValue;
+  set value(v: null | TValue);
+
+  readonly valueChanges: Observable<null | TValue>;
+
+  get disabled(): boolean;
+
+  readonly disabledChanges: Observable<boolean>;
+
+  get errors(): null | ValidationErrors;
+  set errors(v: null | ValidationErrors);
+
+  readonly errorsChanges: Observable<null | ValidationErrors>;
+
+  get pending(): boolean;
+  set pending(v: boolean);
+
+  readonly pendingChanges: Observable<boolean>;
+
+  touch(): void;
+
+  readonly touchEvents: Observable<void>;
 }
 ```
 
