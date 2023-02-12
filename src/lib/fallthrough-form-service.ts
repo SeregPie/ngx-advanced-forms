@@ -12,7 +12,7 @@ import {
 	NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
-import {NoopControlValueAccessor} from './noop-control-value-accessor';
+import {DummyControlValueAccessor} from './dummy-control-value-accessor';
 
 @Injectable()
 export class FallthroughFormService {
@@ -22,7 +22,7 @@ export class FallthroughFormService {
 			{
 				provide: NG_VALUE_ACCESSOR,
 				multi: true,
-				useValue: NoopControlValueAccessor,
+				useClass: DummyControlValueAccessor,
 			},
 		];
 	}
@@ -36,12 +36,16 @@ export class FallthroughFormService {
 		@Optional()
 		ngControl?: NgControl,
 	) {
-		this.controlDirective = controlContainer ?? ngControl ?? null;
+		this.#controlDirective = controlContainer ?? ngControl ?? null;
 	}
 
-	readonly controlDirective: null | AbstractControlDirective;
+	#controlDirective: null | AbstractControlDirective;
+
+	get controlDirective(): null | AbstractControlDirective {
+		return this.#controlDirective;
+	}
 
 	get control(): null | AbstractControl {
-		return this.controlDirective?.control ?? null;
+		return this.#controlDirective?.control ?? null;
 	}
 }
