@@ -240,8 +240,10 @@ const form = new FormControl<null | number>(null, {
 ```ts
 interface ControlStateAccessor<TControl> {
   readonly control: TControl;
+
   get disabled(): boolean;
   set disabled(v: boolean);
+
   get enabled(): boolean;
   set enabled(v: boolean);
 }
