@@ -20,50 +20,48 @@ import {
 
 ## API
 
-- `C` [DynamicFormArray](#api/DynamicFormArray)
-- `C` [DynamicFormRecord](#api/DynamicFormRecord)
-- `C` [FormControlService](#api/FormControlService)
-- `C` [FallthroughFormService](#api/FallthroughFormService)
-- `T` [CustomValidatorFn](#api/CustomValidatorFn)
-- `T` [CustomAsyncValidatorFn](#api/CustomAsyncValidatorFn)
-- `F` [withCustomValidator](#api/withCustomValidator)
-- `F` [withCustomAsyncValidator](#api/withCustomAsyncValidator)
-- `F` [composeValidators](#api/composeValidators)
-- `T` [ControlStateAccessor](#api/ControlStateAccessor)
-- `T` [CreateControlStateAccessorFn](#api/CreateControlStateAccessorFn)
-- `F` [updateFormState](#api/updateFormState)
-
-<a name="api/DynamicFormArray"></a>
+- **`C`** [DynamicFormArray](#dynamicformarray)
+- **`C`** [DynamicFormRecord](#dynamicformrecord)
+- **`C`** [FormControlService](#formcontrolservice)
+- **`C`** [FallthroughFormService](#fallthroughformservice)
+- **`T`** [CustomValidatorFn](#customvalidatorfn)
+- **`T`** [CustomAsyncValidatorFn](#customasyncvalidatorfn)
+- **`F`** [withCustomValidator](#withcustomvalidator)
+- **`F`** [withCustomAsyncValidator](#withcustomasyncvalidator)
+- **`F`** [composeValidators](#composevalidators)
+- **`T`** [ControlStateAccessor](#controlstateaccessor)
+- **`T`** [CreateControlStateAccessorFn](#createcontrolstateaccessorfn)
+- **`F`** [updateFormState](#updateformstate)
 
 ### DynamicFormArray
 
 A sup-class of `FormArray` that creates or removes sub-controls dynamically based on the passed value.
 
+#### Type
+
 ```ts
-class DynamicFormArray<TControl>
-  extends FormArray<TControl>
-{
+class DynamicFormArray<TControl> extends FormArray<TControl> {
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
 }
 ```
-
-<a name="api/DynamicFormRecord"></a>
 
 ### DynamicFormRecord
 
 A sup-class of `FormRecord` that creates or removes sub-controls dynamically based on the passed value.
 
+#### Type
+
 ```ts
-class DynamicFormRecord<TControl>
-  extends FormRecord<TControl>
-{
+class DynamicFormRecord<TControl> extends FormRecord<TControl> {
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
 }
 ```
 
-<a name="api/FormControlService"></a>
-
 ### FormControlService
+
+Implements all necessary tools to connect to the overlying control.
+
+#### Type
 
 ```ts
 @Injectable()
@@ -95,11 +93,11 @@ class FormControlService<TValue> {
 }
 ```
 
-<a name="api/FallthroughFormService"></a>
-
 ### FallthroughFormService
 
 Passes a control from a control directive through.
+
+#### Type
 
 ```ts
 @Injectable()
@@ -111,6 +109,11 @@ class FallthroughFormService {
   readonly control: null | AbstractControl;
 }
 ```
+
+#### Details
+
+- Works with any reactive and non-reactive control directive.
+- The control is available after the component is initialized.
 
 #### Usage
 
@@ -143,9 +146,9 @@ class MyPercentInputComponent {
 }
 ```
 
-<a name="api/CustomValidatorFn"></a>
-
 ### CustomValidatorFn
+
+#### Type
 
 ```ts
 interface CustomValidatorFn<TControl> {
@@ -153,9 +156,9 @@ interface CustomValidatorFn<TControl> {
 }
 ```
 
-<a name="api/CustomAsyncValidatorFn"></a>
-
 ### CustomAsyncValidatorFn
+
+#### Type
 
 ```ts
 interface CustomAsyncValidatorFn<TControl> {
@@ -163,17 +166,22 @@ interface CustomAsyncValidatorFn<TControl> {
 }
 ```
 
-<a name="api/withCustomValidator"></a>
-
 ### withCustomValidator
 
 Adds a typed validator to a control.
 
+#### Type
+
 ```ts
-const withCustomValidator: {
-  <TControl>(control: TControl, validator: CustomValidatorFn<TControl>): TControl;
-};
+function withCustomValidator<TControl>(
+  control: TControl,
+  validator: CustomValidatorFn<TControl>,
+): TControl;
 ```
+
+#### Details
+
+- Recalculates the validation status of the control.
 
 #### Usage
 
@@ -201,41 +209,49 @@ const form = new FormGroup({
 });
 ```
 
-<a name="api/withCustomAsyncValidator"></a>
-
 ### withCustomAsyncValidator
 
 Adds a typed asynchronous validator to a control.
 
+#### Type
+
 ```ts
-const withCustomAsyncValidator: {
-  <TControl>(control: TControl, validator: CustomAsyncValidatorFn<TControl>): TControl;
-};
+function withCustomAsyncValidator<TControl>(
+  control: TControl,
+  validator: CustomAsyncValidatorFn<TControl>,
+): TControl;
 ```
 
-<a name="api/composeValidators"></a>
+#### Details
+
+- Behaves the same as `withCustomValidator`.
 
 ### composeValidators
 
 Composes multiple validators into one.
 
-```ts
-const composeValidators: {
-  <TControl>(validators: Array<CustomValidatorFn<TControl>>): CustomValidatorFn<TControl>;
-};
-```
+#### Type
 
+```ts
+function composeValidators<TControl>(
+  validators: Array<CustomValidatorFn<TControl>>,
+): CustomValidatorFn<TControl>;
+```
 #### Usage
 
 ```ts
 const form = new FormControl<null | number>(null, {
-  validators: composeValidators([Validators.required, Validators.min(0), Validators.max(100)]),
+  validators: composeValidators([
+    Validators.required,
+    Validators.min(0),
+    Validators.max(100),
+  ]),
 });
 ```
 
-<a name="api/ControlStateAccessor"></a>
-
 ### ControlStateAccessor
+
+#### Type
 
 ```ts
 interface ControlStateAccessor<TControl> {
@@ -249,9 +265,9 @@ interface ControlStateAccessor<TControl> {
 }
 ```
 
-<a name="api/CreateControlStateAccessorFn"></a>
-
 ### CreateControlStateAccessorFn
+
+#### Type
 
 ```ts
 interface CreateControlStateAccessorFn {
@@ -259,12 +275,42 @@ interface CreateControlStateAccessorFn {
 }
 ```
 
-<a name="api/updateFormState"></a>
-
 ### updateFormState
 
+Provides a convenient way to manage the enabled/disabled state of multiple nested controls.
+
+#### Type
+
 ```ts
-const updateFormState: {
-  <TControl>(control: TControl, fn: {(wrap: CreateControlStateAccessorFn): void}): void;
-};
+function updateFormState<TControl>(
+  control: TControl,
+  fn: {(wrap: CreateControlStateAccessorFn): void},
+): void;
+```
+
+#### Details
+
+- Accepts only the provided control and its descendants.
+- The order of the statements doesn't matter.
+- Prevents unnecessary events from being emitted when no changes are detected.
+
+#### Usage
+
+```ts
+class {
+  form = new FormGroup({
+    unit: new FormControl<'meter' | 'feet'>('meter'),
+    valueInMeters: new FormControl<null | number>(null),
+    valueInFeet: new FormControl<null | number>(null),
+  });
+
+  ngAfterContentChecked(): void {
+    const {form} = this;
+    updateFormState(form, (wrap) => {
+      const {unit} = form.getRawValue();
+      wrap(form.controls.valueInMeters).enabled = unit === 'meter';
+      wrap(form.controls.valueInFeet).enabled = unit === 'feet';
+    });
+  }
+}
 ```
