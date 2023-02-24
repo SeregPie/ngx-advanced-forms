@@ -1,6 +1,6 @@
 import {AbstractControl} from '@angular/forms';
 
-export interface ControlStateAccessor<TControl extends AbstractControl> {
+export interface ControlStateAccessor<TControl extends AbstractControl = AbstractControl> {
 	readonly control: TControl;
 
 	get disabled(): boolean;
