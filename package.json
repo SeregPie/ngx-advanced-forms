@@ -4,8 +4,14 @@
 	"description": "Everything to make your work with Angular forms easier.",
 	"keywords": [
 		"angular",
-		"forms",
-		"util"
+		"array",
+		"bridge",
+		"control",
+		"form",
+		"record",
+		"service",
+		"util",
+		"validator"
 	],
 	"repository": "github:SeregPie/ngx-advanced-forms",
 	"license": "MIT",
