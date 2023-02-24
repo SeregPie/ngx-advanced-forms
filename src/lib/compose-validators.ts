@@ -3,9 +3,9 @@ import {AbstractControl} from '@angular/forms';
 import {CustomValidatorFn} from './custom-validator';
 import {NoopValidator} from './noop-validator';
 
-export const composeValidators: {
-	<TControl extends AbstractControl>(validators: Array<CustomValidatorFn<TControl>>): CustomValidatorFn<TControl>;
-} = (validators) => {
+export function composeValidators<TControl extends AbstractControl>(
+	validators: Array<CustomValidatorFn<TControl>>,
+): CustomValidatorFn<TControl> {
 	switch (validators.length) {
 		case 0:
 			return NoopValidator;
@@ -21,4 +21,4 @@ export const composeValidators: {
 		}
 		return null;
 	};
-};
+}
