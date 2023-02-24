@@ -13,7 +13,11 @@ import {
 import {
 	BehaviorSubject,
 	filter,
+	map,
+	merge,
+	noop,
 	Observable,
+	ReplaySubject,
 	skip,
 	Subject,
 	Subscription,
@@ -45,6 +49,8 @@ export class FormControlService<TValue = any>
 		this.#disabled = new BehaviorSubject<boolean>(false);
 		this.#errors = new BehaviorSubject<null | ValidationErrors>(null);
 		this.#pending = new BehaviorSubject<boolean>(false);
+		this.#asyncErrors = new BehaviorSubject(this.#getAsyncErrors());
+		this.#subscription.add(this.#updateAsyncErrorsSubscription);
 		this.#touch = new Subject<void>();
 		this.#outerValue = this.value;
 	}
@@ -110,6 +116,39 @@ export class FormControlService<TValue = any>
 		return this.#pending.pipe(skip(1));
 	}
 
+	#asyncErrorsSubject: null | Subject<null | ValidationErrors> = null;
+
+	#getAsyncErrors(): Observable<null | ValidationErrors> {
+		const result = (this.#asyncErrorsSubject != null ? this.#asyncErrors.value
+			: (this.#asyncErrorsSubject = new ReplaySubject(1)).asObservable()
+		);
+		if (!this.pending) {
+			const subject = this.#asyncErrorsSubject;
+			this.#asyncErrorsSubject = null;
+			subject.next(this.errors);
+			subject.complete();
+		}
+		return result;
+	}
+
+	#asyncErrors: BehaviorSubject<Observable<null | ValidationErrors>>;
+
+	#updateAsyncErrors(): void {
+		const v = this.#getAsyncErrors();
+		if (this.#asyncErrors.value !== v) {
+			this.#asyncErrors.next(v);
+		}
+	}
+
+	get #updateAsyncErrorsSubscription(): Subscription {
+		return merge(
+			this.#pending.pipe(skip(1)),
+			this.#errors.pipe(skip(1)),
+		).subscribe(() => {
+			this.#updateAsyncErrors();
+		});
+	}
+
 	#touch: Subject<void>;
 
 	touch(): void {
@@ -165,11 +204,11 @@ export class FormControlService<TValue = any>
 	}
 
 	validate(): Observable<null | ValidationErrors> {
-		throw 'not implemented yet';
+		return this.#asyncErrors.value;
 	}
 
 	get #onValidatorChange(): Observable<void> {
-		throw 'not implemented yet';
+		return this.#asyncErrors.pipe(skip(1)).pipe(map(noop));
 	}
 
 	#onValidatorChangeSubscription = Subscription.EMPTY;
