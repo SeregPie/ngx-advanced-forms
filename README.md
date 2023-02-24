@@ -29,6 +29,7 @@ import {
 - **`F`** [withCustomValidator](#withcustomvalidator)
 - **`F`** [withCustomAsyncValidator](#withcustomasyncvalidator)
 - **`F`** [composeValidators](#composevalidators)
+- **`F`** [composeAsyncValidators](#composeasyncvalidators)
 - **`T`** [ControlStateAccessor](#controlstateaccessor)
 - **`T`** [CreateControlStateAccessorFn](#createcontrolstateaccessorfn)
 - **`F`** [updateFormState](#updateformstate)
@@ -249,6 +250,22 @@ const form = new FormControl<null | number>(null, {
   ]),
 });
 ```
+
+### composeAsyncValidators
+
+Composes multiple asynchronous validators into one.
+
+#### Type
+
+```ts
+function composeAsyncValidators<TControl>(
+  validators: Array<CustomAsyncValidatorFn<TControl>>,
+): CustomAsyncValidatorFn<TControl>;
+```
+
+#### Details
+
+- Behaves the same as `composeValidators`.
 
 ### ControlStateAccessor
 
