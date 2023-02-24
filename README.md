@@ -237,6 +237,7 @@ function composeValidators<TControl>(
   validators: Array<CustomValidatorFn<TControl>>,
 ): CustomValidatorFn<TControl>;
 ```
+
 #### Usage
 
 ```ts
