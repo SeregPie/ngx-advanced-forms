@@ -3,11 +3,13 @@ import {
 	OnDestroy,
 	Provider,
 } from '@angular/core';
+import {AbstractControl} from '@angular/forms';
 import {
 	Observable,
 	Subscription,
 } from 'rxjs';
 
+import {FormBridge} from './form-bridge';
 import {FormControlService} from './form-control-service';
 
 @Injectable()
@@ -44,6 +46,10 @@ export class FormBridgeService<TValue = any>
 
 	get disabledChanges(): Observable<boolean> {
 		return this.#formControlService.disabledChanges;
+	}
+
+	use<TControl extends AbstractControl>(control: TControl): FormBridge<TControl> {
+		return {control};
 	}
 
 	#subscription = new Subscription();

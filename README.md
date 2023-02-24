@@ -23,6 +23,7 @@ import {
 - **`C`** [DynamicFormArray](#dynamicformarray)
 - **`C`** [DynamicFormRecord](#dynamicformrecord)
 - **`C`** [FormControlService](#formcontrolservice)
+- **`T`** [FormBridge](#formbridge)
 - **`C`** [FormBridgeService](#formbridgeservice)
 - **`C`** [FallthroughFormService](#fallthroughformservice)
 - **`T`** [CustomValidatorFn](#customvalidatorfn)
@@ -94,7 +95,19 @@ class FormControlService<TValue> {
 }
 ```
 
+### FormBridge
+
+#### Type
+
+```ts
+export interface FormBridge<TControl> {
+  readonly control: TControl;
+}
+```
+
 ### FormBridgeService
+
+_todo_
 
 #### Type
 
@@ -113,6 +126,10 @@ class FormBridgeService<TValue> {
   readonly disabledChanges: Observable<boolean>;
 }
 ```
+
+#### Usage
+
+_todo_
 
 ### FallthroughFormService
 
