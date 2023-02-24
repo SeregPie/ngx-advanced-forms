@@ -5,6 +5,7 @@ export * from './custom-validator';
 export * from './dynamic-form-array';
 export * from './dynamic-form-record';
 export * from './fallthrough-form-service';
+export * from './form-bridge-service';
 export * from './form-control-service';
 export * from './noop-validator';
 export * from './update-form-state';
