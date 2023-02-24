@@ -9,18 +9,20 @@ import {
 	CustomValidatorFn,
 } from './custom-validator';
 
-export const withCustomValidator: {
-	<TControl extends AbstractControl>(control: TControl, validator: CustomValidatorFn<TControl>): TControl;
-} = (control, validator) => {
+export function withCustomValidator<TControl extends AbstractControl>(
+	control: TControl,
+	validator: CustomValidatorFn<TControl>,
+): TControl {
 	control.addValidators(validator as ValidatorFn);
 	control.updateValueAndValidity();
 	return control;
-};
+}
 
-export const withCustomAsyncValidator: {
-	<TControl extends AbstractControl>(control: TControl, validator: CustomAsyncValidatorFn<TControl>): TControl;
-} = (control, validator) => {
+export function withCustomAsyncValidator<TControl extends AbstractControl>(
+	control: TControl,
+	validator: CustomAsyncValidatorFn<TControl>,
+): TControl {
 	control.addAsyncValidators(validator as AsyncValidatorFn);
 	control.updateValueAndValidity();
 	return control;
-};
+}
