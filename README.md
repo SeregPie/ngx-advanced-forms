@@ -258,6 +258,28 @@ const form = new FormControl<null | number>(null, {
 ```ts
 const Validators: {
   noop: ValidatorFn;
+
+  required: ValidatorFn;
+
+  min(n: number, excluded?: boolean): ValidatorFn;
+
+  max(n: number, excluded?: boolean): ValidatorFn;
+
+  minLength(n: number): ValidatorFn;
+
+  maxLength(n: number): ValidatorFn;
+
+  pattern(pattern: string | RegExp): ValidatorFn;
+
+  email: ValidatorFn;
+
+  ip: ValidatorFn;
+
+  ipv4: ValidatorFn;
+
+  ipv6: ValidatorFn;
+
+  port: ValidatorFn;
 };
 ```
 
