@@ -1,7 +1,13 @@
 import {AbstractControl} from '@angular/forms';
 
-import {CustomValidatorFn} from './custom-validator';
-import {NoopValidator} from './noop-validator';
+import {
+	CustomAsyncValidatorFn,
+	CustomValidatorFn,
+} from './custom-validator';
+import {
+	NoopAsyncValidator,
+	NoopValidator,
+} from './noop-validator';
 
 export function composeValidators<TControl extends AbstractControl>(
 	validators: Array<CustomValidatorFn<TControl>>,
@@ -21,4 +27,16 @@ export function composeValidators<TControl extends AbstractControl>(
 		}
 		return null;
 	};
+}
+
+export function composeAsyncValidators<TControl extends AbstractControl>(
+	validators: Array<CustomAsyncValidatorFn<TControl>>,
+): CustomAsyncValidatorFn<TControl> {
+	switch (validators.length) {
+		case 0:
+			return NoopAsyncValidator;
+		case 1:
+			return validators[0];
+	}
+	throw 'not implemented yet';
 }
