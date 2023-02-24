@@ -20,6 +20,8 @@ import {
 
 ## API
 
+- **`C`** [FormArray](#formarray)
+- **`C`** [FormRecord](#formrecord)
 - **`C`** [DynamicFormArray](#dynamicformarray)
 - **`C`** [DynamicFormRecord](#dynamicformrecord)
 - **`C`** [FormControlService](#formcontrolservice)
@@ -32,6 +34,58 @@ import {
 - **`T`** [ControlStateAccessor](#controlstateaccessor)
 - **`T`** [CreateControlStateAccessorFn](#createcontrolstateaccessorfn)
 - **`F`** [updateFormState](#updateformstate)
+
+### FormArray
+
+A sup-class of native `FormArray` with extended functionality.
+
+#### Type
+
+```ts
+class FormArray<TControl>
+  extends NativeFormArray<TControl>
+{
+  setControls(controls: Array<TControl>): void;
+
+  insertControlBefore(index: number, control: TControl): void;
+
+  insertControlsBefore(index: number, controls: Array<TControl>): void;
+
+  insertControlLast(control: TControl): void;
+
+  insertControlsLast(controls: Array<TControl>): void;
+
+  insertControlAt(index: number, control: TControl): void;
+
+  removeControlAt(index: number): void;
+
+  clearControls(): void;
+}
+```
+
+### FormRecord
+
+A sup-class of native `FormRecord` with extended functionality.
+
+#### Type
+
+```ts
+class FormRecord<TControl>
+  extends NativeFormRecord<TControl>
+{
+  setControls(controls: Record<string, TControl>): void;
+
+  insertControl(name: string, control: TControl): void;
+
+  insertControls(controls: Record<string, TControl>): void;
+
+  removeControl(name: string): void;
+
+  removeControls(names: Array<string>): void;
+
+  clearControls(): void;
+}
+```
 
 ### DynamicFormArray
 
