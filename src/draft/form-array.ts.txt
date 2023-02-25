@@ -1,0 +1,107 @@
+import {AbstractControl, FormArray as NativeFormArray} from '@angular/forms';
+
+import {Qzhhgcjt} from './qzhhgcjt';
+
+export class FormArray<
+	TControl extends AbstractControl = AbstractControl,
+> extends NativeFormArray<TControl> {
+	declare controls: Array<TControl>;
+
+	get children(): Set<AbstractControl> {
+		return new Set(this.controls);
+	}
+
+	setControls(
+		controls: Array<TControl>,
+		{
+			updateValueAndValidity = true,
+			...options
+		}: Partial<{
+			emitEvent: boolean;
+			updateValueAndValidity: boolean;
+		}> = {},
+	): void {
+		// todo: implement
+		if (!Array_equals(this.controls, controls)) {
+			const oldChildren = this.children;
+			this.controls = {...controls};
+			const newChildren = this.children;
+			{
+				let changed = false;
+				Set_difference(newChildren, oldChildren).forEach((control) => {
+					changed = true;
+					Qzhhgcjt.registerControl(self, control);
+				});
+				Set_difference(oldChildren, newChildren).forEach((control) => {
+					changed = true;
+					Qzhhgcjt.unregisterControl(self, control);
+				});
+				if (changed) {
+					Qzhhgcjt.triggerCollectionChange(self);
+				}
+			}
+			if (updateValueAndValidity) {
+				this.updateValueAndValidity(options);
+			}
+		}
+	}
+
+	// prettier-ignore
+	insertControlBefore(index: number, control: TControl, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls];
+		result.splice(index, 0, control);
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	insertControlsBefore(index: number, controls: Array<TControl>, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls];
+		result.splice(index, 0, ...controls);
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	insertControlLast(control: TControl, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls, control];
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	insertControlsLast(controls: Array<TControl>, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls, ...controls];
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	insertControlAt(index: number, control: TControl, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls];
+		result.splice(index, 1, control);
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	removeControlAt(index: number, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls];
+		result.splice(index, 1);
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	clearControls(options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		this.setControls([], options);
+	}
+}

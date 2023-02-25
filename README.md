@@ -99,6 +99,14 @@ class DynamicFormArray<TControl> extends FormArray<TControl> {
 }
 ```
 
+#### Details
+
+_todo_
+
+#### Usage
+
+_todo_
+
 ### DynamicFormRecord
 
 A sup-class of `FormRecord` that creates or removes sub-controls dynamically based on the passed value.
@@ -110,6 +118,14 @@ class DynamicFormRecord<TControl> extends FormRecord<TControl> {
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
 }
 ```
+
+#### Details
+
+_todo_
+
+#### Usage
+
+_todo_
 
 ### FormControlService
 

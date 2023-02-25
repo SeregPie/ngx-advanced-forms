@@ -1,0 +1,39 @@
+import {AbstractControl, FormArray, FormGroup} from '@angular/forms';
+
+export const Qzhhgcjt = Object.freeze({
+	registerControl(self: FormGroup | FormArray, control: AbstractControl): void {
+		control.setParent(self);
+		(control as any)._registerOnCollectionChange(
+			(self as any)._onCollectionChange,
+		);
+	},
+
+	unregisterControl(self: AbstractControl, control: AbstractControl): void {
+		if (control.parent === self) {
+			(control as any)._registerOnCollectionChange(() => {});
+		}
+	},
+
+	triggerCollectionChange(self: FormGroup | FormArray): void {
+		(self as any)._onCollectionChange();
+	},
+
+	oggzqiqb(
+		self: FormGroup | FormArray,
+		newControls: Iterable<AbstractControl>,
+		oldControls: Iterable<AbstractControl>,
+	): void {
+		let changed = false;
+		Set_difference(newControls, oldControls).forEach((control) => {
+			changed = true;
+			Qzhhgcjt.registerControl(self, control);
+		});
+		Set_difference(oldControls, newControls).forEach((control) => {
+			changed = true;
+			Qzhhgcjt.unregisterControl(self, control);
+		});
+		if (changed) {
+			Qzhhgcjt.triggerCollectionChange(self);
+		}
+	},
+});
