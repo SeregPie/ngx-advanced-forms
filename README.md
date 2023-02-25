@@ -23,6 +23,8 @@ import {
 - **`C`** [DynamicFormArray](#dynamicformarray)
 - **`C`** [DynamicFormRecord](#dynamicformrecord)
 - **`C`** [FormControlService](#formcontrolservice)
+- **`T`** [FormBridge](#formbridge)
+- **`C`** [FormBridgeService](#formbridgeservice)
 - **`C`** [FallthroughFormService](#fallthroughformservice)
 - **`T`** [CustomValidatorFn](#customvalidatorfn)
 - **`T`** [CustomAsyncValidatorFn](#customasyncvalidatorfn)
@@ -92,6 +94,42 @@ class FormControlService<TValue> {
   readonly touchEvents: Observable<void>;
 }
 ```
+
+### FormBridge
+
+#### Type
+
+```ts
+export interface FormBridge<TControl> {
+  readonly control: TControl;
+}
+```
+
+### FormBridgeService
+
+_todo_
+
+#### Type
+
+```ts
+@Injectable()
+class FormBridgeService<TValue> {
+  static provide(): Provider;
+
+  get value(): null | TValue;
+  set value(v: null | TValue);
+
+  readonly valueChanges: Observable<null | TValue>;
+
+  get disabled(): boolean;
+
+  readonly disabledChanges: Observable<boolean>;
+}
+```
+
+#### Usage
+
+_todo_
 
 ### FallthroughFormService
 
