@@ -1,0 +1,91 @@
+import {AbstractControl, FormRecord as NativeFormRecord} from '@angular/forms';
+
+import {Qzhhgcjt} from './qzhhgcjt';
+
+export class FormRecord<
+	TControl extends AbstractControl = AbstractControl,
+> extends NativeFormRecord<TControl> {
+	declare controls: Record<string, TControl>;
+
+	get children(): Set<AbstractControl> {
+		return new Set(Object.values(this.controls));
+	}
+
+	setControls(
+		controls: Record<string, TControl>,
+		{
+			updateValueAndValidity = true,
+			...options
+		}: Partial<{
+			emitEvent: boolean;
+			updateValueAndValidity: boolean;
+		}> = {},
+	): void {
+		// todo: implement
+		if (!Object_equals(this.controls, controls)) {
+			const oldChildren = this.children;
+			this.controls = {...controls};
+			const newChildren = this.children;
+			{
+				let changed = false;
+				Set_difference(newChildren, oldChildren).forEach((control) => {
+					changed = true;
+					Qzhhgcjt.registerControl(self, control);
+				});
+				Set_difference(oldChildren, newChildren).forEach((control) => {
+					changed = true;
+					Qzhhgcjt.unregisterControl(self, control);
+				});
+				if (changed) {
+					Qzhhgcjt.triggerCollectionChange(self);
+				}
+			}
+			if (updateValueAndValidity) {
+				this.updateValueAndValidity(options);
+			}
+		}
+	}
+
+	// prettier-ignore
+	insertControl(name: string, control: TControl, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = {...this.controls, [name]: control};
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	insertControls(controls: Record<string, TControl>, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = {...this.controls, ...controls};
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	override removeControl(name: string, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = {...this.controls};
+		delete result[name];
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	removeControls(names: Array<string>, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = {...this.controls};
+		(new Set(names)).forEach((name) => {
+			delete result[name];
+		});
+		this.setControls(result, options);
+	}
+
+	// prettier-ignore
+	clearControls(options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		this.setControls({}, options);
+	}
+}

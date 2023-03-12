@@ -1,44 +1,191 @@
 import {
 	AbstractControl,
 	AbstractControlOptions,
-	FormArray,
 	ɵRawValue,
 } from '@angular/forms';
 
-import {
-	registerControl,
-	triggerCollectionChange,
-	unregisterControl,
-} from './control-hacks';
+import {FormArray} from './form-array';
 
-export class DynamicFormArray<
-	TControl extends AbstractControl = AbstractControl,
-> extends FormArray<TControl> {
+export class DynamicFormArray<TControl extends AbstractControl = AbstractControl>
+	extends FormArray<TControl>
+{
 	constructor(
-		public readonly controlFactory: () => TControl,
+		controlFactory: () => TControl,
 		options?: AbstractControlOptions,
 	) {
 		super([], options);
+		this.#controlFactory = controlFactory;
 	}
 
-	private needsUpdate: boolean = false;
+	#controlFactory: () => TControl;
 
-	private collectionChanged: boolean = false;
+	get controlFactory(): () => TControl {
+		return this.#controlFactory;
+	}
 
-	override setValue(
-		value: Array<ɵRawValue<TControl>>,
+	override setValue(value: Array<ɵRawValue<TControl>>, options?: Partial<{
+		onlySelf: boolean;
+		emitEvent: boolean;
+	}>): void {
+		throw 'not implemented yet';
+		value;
+		options;
+	}
+
+	override reset(value: Array<ɵRawValue<TControl>> = [], options?: Partial<{
+		onlySelf: boolean;
+		emitEvent: boolean;
+	}>): void {
+		throw 'not implemented yet';
+		value;
+		options;
+	}
+
+	gbncjtpx(count: number, options?: Partial<{
+		emitEvent: boolean;
+		updateValueAndValidity: boolean;
+	}>): void {
+		throw 'not implemented yet';
+		count;
+		options;
+	}
+
+	insertCkjwsahkControlBefore(index: number, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const {controlFactory} = this;
+		const control = controlFactory();
+		this.insertControlBefore(index, control, options);
+	}
+
+	insertCkjwsahkControlsBefore(index: number, count: number, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const {controlFactory} = this;
+		const controls: Array<TControl> = [];
+		for (let i = 0; i < count; i++) {
+			const control = controlFactory();
+			controls.push(control);
+		}
+		this.insertControlsBefore(index, controls, options);
+	}
+
+	insertCkjwsahkControlLast(control: TControl, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls, control];
+		this.setControls(result, options);
+	}
+
+	insertCkjwsahkControlsLast(controls: Array<TControl>, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls, ...controls];
+		this.setControls(result, options);
+	}
+
+	insertControlAt(index: number, control: TControl, options?: Partial<{
+		emitEvent: boolean;
+	}>): void {
+		const result = [...this.controls];
+		result.splice(index, 1, control);
+		this.setControls(result, options);
+	}
+
+	addControlWithValueAt(
+		index: number,
+		value: ɵRawValue<TControl>,
 		options?: Partial<{
-			onlySelf: boolean;
 			emitEvent: boolean;
 		}>,
 	): void {
-		const count = value.length;
-		this._setDynamicControls(count);
-		this.needsUpdate = false;
-		super.setValue(value, options);
-		this.flushChanges();
+		const {controlFactory} = this;
+		const control = controlFactory();
+		control.setValue(value);
+		this.insertControlBefore(index, control, options);
 	}
 
+	addControlsDynamicallyAt(
+		index: number,
+		count: number,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+
+	}
+
+	addControlsWithValueAt(
+		index: number,
+		values: Array<ɵRawValue<TControl>>,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+		const {controlFactory} = this;
+		const controls: Array<TControl> = [];
+		values.forEach((value) => {
+			const control = controlFactory();
+			control.setValue(value);
+			controls.push(control);
+		});
+		this.insertControlsBefore(index, controls, options);
+	}
+
+	addControlDynamicallyLast(
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	) {
+		const {controlFactory} = this;
+		const control = controlFactory();
+		this.insertControlLast(control, options);
+	}
+
+	addControlWithValueLast(
+		value: ɵRawValue<TControl>,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	) {
+		const {controlFactory} = this;
+		const control = controlFactory();
+		control.setValue(value);
+		this.insertControlLast(control, options);
+	}
+
+	addControlsDynamicallyLast(
+		count: number,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+		const {controlFactory} = this;
+		const controls: Array<TControl> = [];
+		for (let i = 0; i < count; i++) {
+			const control = controlFactory();
+			controls.push(control);
+		}
+		this.insertControlsLast(controls, options);
+	}
+
+	addControlsWithValueLast(
+		values: Array<ɵRawValue<TControl>>,
+		options?: Partial<{
+			emitEvent: boolean;
+		}>,
+	): void {
+		const {controlFactory} = this;
+		const controls: Array<TControl> = [];
+		values.forEach((value) => {
+			const control = controlFactory();
+			control.setValue(value);
+			controls.push(control);
+		});
+		this.insertControlsLast(controls, options);
+	}
+
+	// @deprecated
 	addDynamicControl(
 		options?: Partial<{
 			emitEvent: boolean;
@@ -49,10 +196,8 @@ export class DynamicFormArray<
 		this.push(control, options);
 	}
 
-	private _addDynamicControls(count: number): void {
-		this._addDynamicControlsAt(this.length, count);
-	}
 
+	// @deprecated
 	addDynamicControls(
 		count: number,
 		options?: Partial<{
@@ -63,6 +208,7 @@ export class DynamicFormArray<
 		this.flushChanges(options);
 	}
 
+	// @deprecated
 	addDynamicControlAt(
 		index: number,
 		options?: Partial<{
@@ -74,26 +220,8 @@ export class DynamicFormArray<
 		this.insert(index, control, options);
 	}
 
-	private _addDynamicControlsAt(index: number, count: number): void {
-		let changed = false;
-		{
-			const {controlFactory, controls} = this;
-			const addedControls = Array.from({length: count}).map(() => {
-				const control = controlFactory();
-				registerControl(this, control);
-				return control;
-			});
-			controls.splice(index, 0, ...addedControls);
-			if (addedControls.length) {
-				changed = true;
-			}
-		}
-		if (changed) {
-			this.needsUpdate = true;
-			this.collectionChanged = true;
-		}
-	}
 
+	// @deprecated
 	addDynamicControlsAt(
 		index: number,
 		count: number,
@@ -101,41 +229,11 @@ export class DynamicFormArray<
 			emitEvent: boolean;
 		}>,
 	): void {
-		this._addDynamicControlsAt(index, count);
-		this.flushChanges(options);
+
 	}
 
-	private _removeControls(count: number): void {
-		this._removeControlsAt(this.length - count, count);
-	}
 
-	private _removeControlsAt(index: number, count: number): void {
-		let changed = false;
-		{
-			const {controls} = this;
-			const removedControls = controls.splice(index, count);
-			removedControls.forEach((control) => {
-				unregisterControl(control);
-			});
-			if (removedControls.length) {
-				changed = true;
-			}
-		}
-		if (changed) {
-			this.needsUpdate = true;
-			this.collectionChanged = true;
-		}
-	}
-
-	private _setDynamicControls(count: number): void {
-		const currentCount = this.controls.length;
-		if (currentCount > count) {
-			this._removeControls(currentCount - count);
-		} else {
-			this._addDynamicControls(count - currentCount);
-		}
-	}
-
+	// @deprecated
 	setDynamicControls(
 		count: number,
 		options?: Partial<{
@@ -144,20 +242,5 @@ export class DynamicFormArray<
 	): void {
 		this._setDynamicControls(count);
 		this.flushChanges(options);
-	}
-
-	private flushChanges({
-		emitEvent = true,
-	}: Partial<{
-		emitEvent: boolean;
-	}> = {}): void {
-		if (this.needsUpdate) {
-			this.needsUpdate = false;
-			this.updateValueAndValidity({emitEvent});
-		}
-		if (this.collectionChanged) {
-			this.collectionChanged = false;
-			triggerCollectionChange(this);
-		}
 	}
 }

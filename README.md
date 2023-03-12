@@ -20,6 +20,8 @@ import {
 
 ## API
 
+- **`C`** [FormArray](#formarray)
+- **`C`** [FormRecord](#formrecord)
 - **`C`** [DynamicFormArray](#dynamicformarray)
 - **`C`** [DynamicFormRecord](#dynamicformrecord)
 - **`C`** [FormControlService](#formcontrolservice)
@@ -33,6 +35,58 @@ import {
 - **`T`** [CreateControlStateAccessorFn](#createcontrolstateaccessorfn)
 - **`F`** [updateFormState](#updateformstate)
 
+### FormArray
+
+A sup-class of native `FormArray` with extended functionality.
+
+#### Type
+
+```ts
+class FormArray<TControl>
+  extends NativeFormArray<TControl>
+{
+  setControls(controls: Array<TControl>): void;
+
+  insertControlBefore(index: number, control: TControl): void;
+
+  insertControlsBefore(index: number, controls: Array<TControl>): void;
+
+  insertControlLast(control: TControl): void;
+
+  insertControlsLast(controls: Array<TControl>): void;
+
+  insertControlAt(index: number, control: TControl): void;
+
+  removeControlAt(index: number): void;
+
+  clearControls(): void;
+}
+```
+
+### FormRecord
+
+A sup-class of native `FormRecord` with extended functionality.
+
+#### Type
+
+```ts
+class FormRecord<TControl>
+  extends NativeFormRecord<TControl>
+{
+  setControls(controls: Record<string, TControl>): void;
+
+  insertControl(name: string, control: TControl): void;
+
+  insertControls(controls: Record<string, TControl>): void;
+
+  removeControl(name: string): void;
+
+  removeControls(names: Array<string>): void;
+
+  clearControls(): void;
+}
+```
+
 ### DynamicFormArray
 
 A sup-class of `FormArray` that creates or removes sub-controls dynamically based on the passed value.
@@ -45,6 +99,14 @@ class DynamicFormArray<TControl> extends FormArray<TControl> {
 }
 ```
 
+#### Details
+
+_todo_
+
+#### Usage
+
+_todo_
+
 ### DynamicFormRecord
 
 A sup-class of `FormRecord` that creates or removes sub-controls dynamically based on the passed value.
@@ -56,6 +118,14 @@ class DynamicFormRecord<TControl> extends FormRecord<TControl> {
   constructor(controlFactory: () => TControl, options?: AbstractControlOptions);
 }
 ```
+
+#### Details
+
+_todo_
+
+#### Usage
+
+_todo_
 
 ### FormControlService
 

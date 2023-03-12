@@ -1,0 +1,212 @@
+import {FormControl} from '@angular/forms';
+
+import {FormRecord} from './form-record';
+
+xdescribe('FormRecord', () => {
+	describe('setControls', () => {
+		it('should work', () => {
+			const form = new FormRecord({
+				a: new FormControl(0),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.setControls({
+				a: new FormControl(1),
+				b: new FormControl(2),
+			});
+
+			expect(form.value).toEqual({a: 1, b: 2});
+			expect(spy).toHaveBeenCalledTimes(1);
+
+			spy.calls.reset();
+
+			form.setControls({
+				a: new FormControl(3),
+			});
+
+			expect(form.value).toEqual({a: 3});
+			expect(spy).toHaveBeenCalledTimes(1);
+		});
+
+		it('should not trigger if no changes were made', () => {
+			const form = new FormRecord({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.setControls({...form.controls});
+
+			expect(spy).toHaveBeenCalledTimes(0);
+		});
+	});
+
+	describe('insertControl', () => {
+		it('should work', () => {
+			//
+			const form = new FormRecord({
+				a: new FormControl(1),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.insertControl('a', new FormControl(2));
+			form.insertControl('b', new FormControl(3));
+
+			expect(form.value).toEqual({a: 2, b: 3});
+			expect(spy).toHaveBeenCalledTimes(2);
+		});
+
+		it('should not trigger if no changes were made', () => {
+			//
+			const form = new FormRecord({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.insertControl('b', form.controls['b']);
+
+			expect(spy).toHaveBeenCalledTimes(0);
+		});
+	});
+
+	// prettier-ignore
+	describe('insertControls', () => {
+		it('should work', () => {
+			const form = new FormRecord({
+				a: new FormControl(1),
+				b: new FormControl(2),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.insertControls({
+				a: new FormControl(3),
+				c: new FormControl(4),
+			});
+
+			expect(form.value).toEqual({a: 3, b: 2, c: 4});
+			expect(spy).toHaveBeenCalledTimes(1);
+		});
+
+		it('should not trigger if no changes were made', () => {
+			const form = new FormRecord({
+				a: new FormControl(null),
+				b: new FormControl(null),
+				c: new FormControl(null),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.insertControls({
+				a: form.controls['a'],
+				c: form.controls['c'],
+			});
+
+			expect(spy).toHaveBeenCalledTimes(0);
+		});
+	});
+
+	// prettier-ignore
+	describe('removeControl', () => {
+		it('should work', () => {
+			const form = new FormRecord({
+				a: new FormControl(1),
+				b: new FormControl(2),
+				c: new FormControl(3),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.removeControl('b');
+
+			expect(form.value).toEqual({a: 1, c: 3});
+			expect(spy).toHaveBeenCalledTimes(2);
+		});
+
+		it('should not trigger if no changes were made', () => {
+			const form = new FormRecord({
+				a: new FormControl(1),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.removeControl('b');
+
+			expect(spy).toHaveBeenCalledTimes(0);
+		});
+	});
+
+	// prettier-ignore
+	describe('removeControls', () => {
+		it('should work', () => {
+			const form = new FormRecord({
+				a: new FormControl(1),
+				b: new FormControl(2),
+				c: new FormControl(3),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.removeControls(['a', 'c']);
+
+			expect(form.value).toEqual({b: 2});
+			expect(spy).toHaveBeenCalledTimes(1);
+		});
+
+		it('should not trigger if no changes were made', () => {
+			const form = new FormRecord({
+				a: new FormControl(1),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.removeControls(['b', 'c']);
+
+			expect(spy).toHaveBeenCalledTimes(0);
+		});
+	});
+
+	// prettier-ignore
+	describe('clearControls', () => {
+		it('should work', () => {
+			const form = new FormRecord({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.clearControls();
+
+			expect(form.value).toEqual({});
+			expect(spy).toHaveBeenCalledTimes(1);
+		});
+
+		it('should not trigger if no changes were made', () => {
+			const form = new FormRecord({});
+
+			const spy = jasmine.createSpy();
+			form.valueChanges.subscribe(spy);
+
+			form.clearControls();
+
+			expect(spy).toHaveBeenCalledTimes(0);
+		});
+	});
+});
