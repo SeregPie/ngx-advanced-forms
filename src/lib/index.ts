@@ -8,4 +8,5 @@ export * from './fallthrough-form-service';
 export * from './form-control-service';
 export * from './noop-validator';
 export * from './update-form-state';
+export * from './validators';
 export * from './with-custom-validator';

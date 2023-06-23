@@ -29,6 +29,7 @@ import {
 - **`F`** [withCustomValidator](#withcustomvalidator)
 - **`F`** [withCustomAsyncValidator](#withcustomasyncvalidator)
 - **`F`** [composeValidators](#composevalidators)
+- **`K`** [Validators](#validators)
 - **`T`** [ControlStateAccessor](#controlstateaccessor)
 - **`T`** [CreateControlStateAccessorFn](#createcontrolstateaccessorfn)
 - **`F`** [updateFormState](#updateformstate)
@@ -248,6 +249,38 @@ const form = new FormControl<null | number>(null, {
     Validators.max(100),
   ]),
 });
+```
+
+### Validators
+
+#### Type
+
+```ts
+const Validators: {
+  noop: ValidatorFn;
+
+  required: ValidatorFn;
+
+  min(n: number, excluded?: boolean): ValidatorFn;
+
+  max(n: number, excluded?: boolean): ValidatorFn;
+
+  minLength(n: number): ValidatorFn;
+
+  maxLength(n: number): ValidatorFn;
+
+  pattern(pattern: string | RegExp): ValidatorFn;
+
+  email: ValidatorFn;
+
+  ip: ValidatorFn;
+
+  ipv4: ValidatorFn;
+
+  ipv6: ValidatorFn;
+
+  port: ValidatorFn;
+};
 ```
 
 ### ControlStateAccessor
