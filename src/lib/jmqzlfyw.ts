@@ -1,18 +1,15 @@
-import {
-	Injectable,
-	Optional,
-	Provider,
-	Self,
-} from '@angular/core';
+// todo: name file
+
+import {Injectable, Optional, Provider, Self} from '@angular/core';
 import {
 	AbstractControl,
 	AbstractControlDirective,
 	ControlContainer,
-	NgControl,
 	NG_VALUE_ACCESSOR,
+	NgControl,
 } from '@angular/forms';
 
-import {DummyControlValueAccessor} from './dummy-control-value-accessor';
+import {NoopControlValueAccessor} from './qpemfkwt';
 
 @Injectable()
 export class FallthroughFormService {
@@ -22,7 +19,7 @@ export class FallthroughFormService {
 			{
 				provide: NG_VALUE_ACCESSOR,
 				multi: true,
-				useClass: DummyControlValueAccessor,
+				useClass: NoopControlValueAccessor,
 			},
 		];
 	}

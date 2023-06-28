@@ -1,18 +1,15 @@
 import {Component} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
-import {
-	FormControl,
-	ReactiveFormsModule,
-} from '@angular/forms';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {FormControlService} from './form-control-service';
 
 describe('FormControlService', () => {
 	it('should not trigger changes initially', () => {
-		const form = new FormControl(null);
+		let form = new FormControl(null);
 
-		const spy = jasmine.createSpy();
+		let spy = jasmine.createSpy();
 		form.valueChanges.subscribe(spy);
 		form.statusChanges.subscribe(spy);
 
@@ -38,14 +35,14 @@ describe('FormControlService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 
 		expect(spy).toHaveBeenCalledTimes(0);
 	});
 
 	it('should propagate value', () => {
-		const form = new FormControl(0, {
+		let form = new FormControl(0, {
 			nonNullable: true,
 		});
 
@@ -71,17 +68,15 @@ describe('FormControlService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
+		let {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		expect(service.value).toBe(0);
 
-		const spy = jasmine.createSpy();
+		let spy = jasmine.createSpy();
 		form.valueChanges.subscribe(spy);
 
 		service.value = 1;
@@ -98,7 +93,7 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate disabled status', () => {
-		const form = new FormControl(null);
+		let form = new FormControl(null);
 
 		@Component({
 			providers: [FormControlService.provide()],
@@ -122,15 +117,13 @@ describe('FormControlService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
+		let {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
-		const spy = jasmine.createSpy();
+		let spy = jasmine.createSpy();
 		form.statusChanges.subscribe(spy);
 
 		form.disable();
@@ -147,7 +140,7 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate pending status', () => {
-		const form = new FormControl(null);
+		let form = new FormControl(null);
 
 		@Component({
 			providers: [FormControlService.provide()],
@@ -171,15 +164,13 @@ describe('FormControlService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
+		let {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
-		const spy = jasmine.createSpy();
+		let spy = jasmine.createSpy();
 		form.statusChanges.subscribe(spy);
 
 		service.pending = true;
@@ -196,7 +187,7 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate errors', () => {
-		const form = new FormControl(null);
+		let form = new FormControl(null);
 
 		@Component({
 			providers: [FormControlService.provide()],
@@ -220,15 +211,13 @@ describe('FormControlService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
+		let {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
-		const spy = jasmine.createSpy();
+		let spy = jasmine.createSpy();
 		form.statusChanges.subscribe(spy);
 
 		service.errors = {error: true};
@@ -245,7 +234,7 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate pending status and errors', () => {
-		const form = new FormControl(null);
+		let form = new FormControl(null);
 
 		@Component({
 			providers: [FormControlService.provide()],
@@ -269,15 +258,13 @@ describe('FormControlService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
+		let {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
-		const spy = jasmine.createSpy();
+		let spy = jasmine.createSpy();
 		form.statusChanges.subscribe(spy);
 
 		service.pending = true;
@@ -310,7 +297,7 @@ describe('FormControlService', () => {
 	});
 
 	it('should propagate touched status', () => {
-		const form = new FormControl(null);
+		let form = new FormControl(null);
 
 		@Component({
 			providers: [FormControlService.provide()],
@@ -334,13 +321,11 @@ describe('FormControlService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
+		let {service}: MySubComponent = fixture.debugElement.query(
+			By.directive(MySubComponent),
+		).componentInstance;
 
 		service.touch();
 

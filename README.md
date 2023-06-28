@@ -93,6 +93,23 @@ class FormControlService<TValue> {
 }
 ```
 
+#### Usage
+
+_todo now_
+
+Provide and inject the service inside the component.
+
+```ts
+@Component({
+  providers: [FormControlService.provide()],
+})
+class {
+  constructor(formControlService: FormControlService<>) {}
+
+  formControlService.valueChanges.pipe
+}
+```
+
 ### FallthroughFormService
 
 Passes a control from a control directive through.
@@ -116,6 +133,19 @@ class FallthroughFormService {
 - The control is available after the component is initialized.
 
 #### Usage
+
+_todo now_
+
+Provide and inject the service inside the component.
+
+```ts
+@Component({
+  providers: [FallthroughFormService.provide()],
+})
+class {
+  constructor(fallthroughFormService: FallthroughFormService) {}
+}
+```
 
 ```ts
 @Component({
@@ -162,7 +192,9 @@ interface CustomValidatorFn<TControl> {
 
 ```ts
 interface CustomAsyncValidatorFn<TControl> {
-  (control: TControl): Promise<null | ValidationErrors> | Observable<null | ValidationErrors>;
+  (control: TControl):
+    | Promise<null | ValidationErrors>
+    | Observable<null | ValidationErrors>;
 }
 ```
 
@@ -238,6 +270,10 @@ function composeValidators<TControl>(
 ): CustomValidatorFn<TControl>;
 ```
 
+#### Details
+
+- _todo now_ Runs the validators sequentially until one fails.
+
 #### Usage
 
 ```ts
@@ -292,7 +328,9 @@ function updateFormState<TControl>(
 #### Details
 
 - Accepts only the provided control and its descendants.
+- _todo now_ The changes are only manifested after the execution function.
 - The order of the statements doesn't matter.
+- _todo now_ Expliziely disabled parent always disables its children.
 - Prevents unnecessary events from being emitted when no changes are detected.
 
 #### Usage
