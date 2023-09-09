@@ -4,7 +4,6 @@
 	"htmlWhitespaceSensitivity": "strict",
 	"singleAttributePerLine": true,
 	"singleQuote": true,
-	"trailingComma": "all",
 	"useTabs": true,
 	"overrides": [
 		{

@@ -1,18 +1,27 @@
-// todo: name file
-
+// todo: format imports
 import {Injectable, Optional, Provider, Self} from '@angular/core';
 import {
 	AbstractControl,
 	AbstractControlDirective,
 	ControlContainer,
+	ControlValueAccessor,
 	NG_VALUE_ACCESSOR,
 	NgControl,
 } from '@angular/forms';
 
-import {NoopControlValueAccessor} from './qpemfkwt';
+export class NoopControlValueAccessor
+	//
+	implements ControlValueAccessor
+{
+	writeValue() {}
+
+	registerOnChange() {}
+
+	registerOnTouched() {}
+}
 
 @Injectable()
-export class FallthroughFormService {
+export class FormFallthroughService {
 	static provide(): Provider {
 		return [
 			this,

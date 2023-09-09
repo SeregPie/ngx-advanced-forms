@@ -1,6 +1,0 @@
-{
-	"compilerOptions": {
-		"declarationMap": true
-	},
-	"extends": "./tsconfig.lib.json"
-}

@@ -1,0 +1,11 @@
+{
+	"angularCompilerOptions": {
+		"compilationMode": "partial"
+	},
+	"compilerOptions": {
+		"baseUrl": ".",
+		"experimentalDecorators": true,
+		"lib": ["DOM"]
+	},
+	"extends": "../tsconfig.json"
+}

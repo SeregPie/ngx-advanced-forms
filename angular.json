@@ -11,24 +11,16 @@
 			"architect": {
 				"build": {
 					"builder": "@angular-devkit/build-angular:ng-packagr",
-					"configurations": {
-						"development": {
-							"tsConfig": "./tsconfig.lib.dev.json"
-						},
-						"production": {
-							"tsConfig": "./tsconfig.lib.prod.json"
-						}
-					},
-					"defaultConfiguration": "production",
 					"options": {
-						"project": "./ng-package.json"
+						"project": "./ng-package.json",
+						"tsConfig": "./src/tsconfig.json"
 					}
 				},
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
 						"polyfills": ["zone.js", "zone.js/testing"],
-						"tsConfig": "./tsconfig.spec.json"
+						"tsConfig": "./src/tsconfig.spec.json"
 					}
 				}
 			},

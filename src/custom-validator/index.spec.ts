@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 
 // ---
 
-import {withCustomValidator} from './custom-validator';
+import {withCustomValidator} from '.';
 
 describe('withCustomValidator', () => {
 	it('should work', fakeAsync(() => {
@@ -55,7 +55,7 @@ describe('withCustomValidator', () => {
 
 // ---
 
-import {withCustomAsyncValidator} from './custom-validator';
+import {withCustomAsyncValidator} from '.';
 
 // prettier-ignore
 describe('withCustomAsyncValidator', () => {

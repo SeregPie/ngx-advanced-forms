@@ -3,5 +3,5 @@
 		"types": ["jasmine"]
 	},
 	"extends": "./tsconfig.json",
-	"include": ["**/*.spec.ts", "**/*.d.ts"]
+	"include": ["**/*.spec.ts"]
 }
