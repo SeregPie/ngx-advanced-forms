@@ -7,6 +7,31 @@ import {
 	ɵValue,
 } from '@angular/forms';
 
+/*
+	setValidators -> _assignValidators
+	setAsyncValidators -> _assignAsyncValidators
+	addValidators -> setValidators
+	addAsyncValidators -> setAsyncValidators
+	removeValidators -> setValidators
+	removeAsyncValidators -> setAsyncValidators
+	clearValidators
+	clearAsyncValidators
+	markAsTouched
+	markAllAsTouched -> markAsTouched
+	markAsUntouched
+	markAsDirty
+	markAsPristine
+	markAsPending
+	disable -> _updateValue, _updateAncestors
+	enable -> updateValueAndValidity, _updateAncestors
+	skip: _updateAncestors
+	setParent
+	abstract setValue
+	abstract patchValue
+	abstract reset
+	updateValueAndValidity -> _setInitialStatus
+*/
+
 let nkavrkuo = [
 	'disable',
 	'enable',
@@ -103,6 +128,7 @@ class GypupbvgImpl<TControl extends AbstractControl = AbstractControl> {
 	}
 }
 
+// todo: rename
 let uitjcyzr = new WeakMap();
 
 // prettier-ignore
@@ -118,6 +144,7 @@ export function rbstcmre<
 	return axekcndb;
 }
 
+// todo: rename
 export interface Gypupbvg<
 	//
 	TControl extends AbstractControl = AbstractControl,

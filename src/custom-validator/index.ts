@@ -1,14 +1,6 @@
 // todo: format imports
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 
-// todo: rename
-export type Dddmmxdl<T> = {
-	<TControl extends AbstractControl>(control: TControl): T;
-};
-
-// todo: rename
-export type Lszrkdcm<T> = Dddmmxdl<Promise<T>>;
-
 // ---
 
 import {ValidatorFn} from '@angular/forms';
@@ -20,11 +12,16 @@ export interface CustomValidatorFn<
 	(control: TControl): ReturnType<ValidatorFn>;
 }
 
-export const NoopValidator: Dddmmxdl<null> = () => null;
+export const NoopValidator: {
+	(control: AbstractControl): null;
+} = () => null;
 
 // todo: rename
 export const FailValidator: {
-	<TErrors extends ValidationErrors>(errors: TErrors): Dddmmxdl<TErrors>;
+	// prettier-ignore
+	<TErrors extends ValidationErrors>(errors: TErrors): {
+		(control: AbstractControl): TErrors;
+	};
 } = (errors) => () => errors;
 
 export function withCustomValidator<
@@ -51,11 +48,16 @@ export interface CustomAsyncValidatorFn<
 	(control: TControl): ReturnType<AsyncValidatorFn>;
 }
 
-export const NoopAsyncValidator: Lszrkdcm<null> = async () => null;
+export const NoopAsyncValidator: {
+	(control: AbstractControl): Promise<null>;
+} = async () => null;
 
 // todo: rename
 export const FailAsyncValidator: {
-	<TErrors extends ValidationErrors>(errors: TErrors): Lszrkdcm<TErrors>;
+	// prettier-ignore
+	<TErrors extends ValidationErrors>(errors: TErrors): {
+		(control: AbstractControl): Promise<TErrors>;
+	};
 } = (errors) => async () => errors;
 
 export function withCustomAsyncValidator<
