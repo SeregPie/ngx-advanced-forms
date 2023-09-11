@@ -1,11 +1,8 @@
 {
-	"angularCompilerOptions": {
-		"compilationMode": "partial"
-	},
 	"compilerOptions": {
 		"baseUrl": ".",
 		"experimentalDecorators": true,
-		"lib": ["DOM"]
+		"lib": ["ES2022", "DOM"]
 	},
 	"extends": "../tsconfig.json"
 }

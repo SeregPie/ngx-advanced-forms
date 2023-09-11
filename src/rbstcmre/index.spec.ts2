@@ -2,7 +2,7 @@ import {effect} from '@angular/core';
 import {fakeAsync, tick} from '@angular/core/testing';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 
-import {rbstcmre} from './rbstcmre';
+import {rbstcmre} from '.';
 
 describe('rbstcmre', () => {
 	it('...', async () => {
@@ -21,9 +21,7 @@ describe('rbstcmre', () => {
 		console.log(hxfvtjvp.dirty);
 		console.log(hxfvtjvp.touched);
 		console.log(hxfvtjvp.untouched);
-		console.log(hxfvtjvp.getValue());
-		console.log(hxfvtjvp.getRawValue());
-		console.log(hxfvtjvp.getErrors());
+		console.log(hxfvtjvp.value);
 
 		expect(form.errors).toEqual({error: true});
 

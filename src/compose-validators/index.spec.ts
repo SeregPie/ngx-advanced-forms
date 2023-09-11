@@ -1,8 +1,10 @@
+// todo: format imports
+
 import {fakeAsync} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
-import {composeValidators} from './compose-validators';
-import {FailValidator, NoopValidator} from './hvjtipsv';
+import {composeValidators} from '.';
+import {NoopValidator} from '../custom-validator';
 
 describe('composeValidators', () => {
 	it('should work', fakeAsync(() => {
@@ -27,31 +29,21 @@ describe('composeValidators', () => {
 
 	it('should skip other validators after one fails', fakeAsync(() => {
 		// prettier-ignore
-		let customValidator1 = (jasmine
-			.createSpy('customValidator1', NoopValidator)
+		let customValidators = [
+			() => null,
+			() => ({error: true}),
+			() => null,
+		].map((fn, i) => (jasmine
+			.createSpy(`customValidator${i}`, fn)
 			.and.callThrough()
-		);
-		// prettier-ignore
-		let customValidator2 = (jasmine
-			.createSpy('customValidator2', FailValidator({error: true}))
-			.and.callThrough()
-		);
-		// prettier-ignore
-		let customValidator3 = (jasmine
-			.createSpy('customValidator3', NoopValidator)
-			.and.callThrough()
-		);
+		));
 		new FormControl(null, {
-			validators: composeValidators([
-				customValidator1,
-				customValidator2,
-				customValidator3,
-			]),
+			validators: composeValidators(customValidators),
 		});
 
-		expect(customValidator1).toHaveBeenCalledTimes(1);
-		expect(customValidator2).toHaveBeenCalledTimes(1);
-		expect(customValidator3).toHaveBeenCalledTimes(0);
+		expect(customValidators[0]).toHaveBeenCalledTimes(1);
+		expect(customValidators[1]).toHaveBeenCalledTimes(1);
+		expect(customValidators[2]).toHaveBeenCalledTimes(0);
 	}));
 
 	it('should return same validator if only one provided', fakeAsync(() => {

@@ -1,9 +1,6 @@
 // todo: format imports
-import {AbstractControl, ValidationErrors} from '@angular/forms';
 
-// ---
-
-import {ValidatorFn} from '@angular/forms';
+import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 
 export interface CustomValidatorFn<
 	//
@@ -24,51 +21,20 @@ export const FailValidator: {
 	};
 } = (errors) => () => errors;
 
-export function withCustomValidator<
+export function withCustomValidators<
 	//
 	TControl extends AbstractControl,
 >(
 	//
 	control: TControl,
-	validator: CustomValidatorFn<TControl>,
-): TControl {
-	control.addValidators(validator as ValidatorFn);
-	control.updateValueAndValidity();
-	return control;
-}
-
-// ---
-
-import {AsyncValidatorFn} from '@angular/forms';
-
-export interface CustomAsyncValidatorFn<
-	//
-	TControl extends AbstractControl = AbstractControl,
-> {
-	(control: TControl): ReturnType<AsyncValidatorFn>;
-}
-
-export const NoopAsyncValidator: {
-	(control: AbstractControl): Promise<null>;
-} = async () => null;
-
-// todo: rename
-export const FailAsyncValidator: {
 	// prettier-ignore
-	<TErrors extends ValidationErrors>(errors: TErrors): {
-		(control: AbstractControl): Promise<TErrors>;
-	};
-} = (errors) => async () => errors;
-
-export function withCustomAsyncValidator<
-	//
-	TControl extends AbstractControl,
->(
-	//
-	control: TControl,
-	validator: CustomAsyncValidatorFn<TControl>,
+	validators:
+		| Array<CustomValidatorFn<TControl>>
+		| CustomValidatorFn<TControl>,
 ): TControl {
-	control.addAsyncValidators(validator as AsyncValidatorFn);
+	control.addValidators(validators);
 	control.updateValueAndValidity();
 	return control;
 }
+
+export * from './async';

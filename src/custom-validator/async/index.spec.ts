@@ -1,43 +1,50 @@
 // todo: format imports
 
-import {fakeAsync} from '@angular/core/testing';
+import {fakeAsync, tick} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
-import {withCustomValidators} from '.';
+import {withCustomAsyncValidators} from '.';
 
-describe('withCustomValidator', () => {
+describe('withCustomAsyncValidator', () => {
 	it('should work', fakeAsync(() => {
-		let form = withCustomValidators(
+		let form = withCustomAsyncValidators(
 			new FormControl(1, {nonNullable: true}),
-			(form) => (form.value % 2 ? {error: true} : null),
+			async (form) => (form.value % 2 ? {error: true} : null),
 		);
+
+		expect(form.pending).toBeTrue();
+
+		tick();
 
 		expect(form.errors).toEqual({error: true});
 
 		form.setValue(2);
+
+		expect(form.pending).toBeTrue();
+
+		tick();
 
 		expect(form.errors).toBeNull();
 	}));
 
 	it('should contain validators', fakeAsync(() => {
 		let form = new FormControl(null);
-		let customValidatos = [() => null, () => null];
-		let customValidator = () => null;
-		withCustomValidators(form, customValidator);
+		let customAsyncValidator = async () => null;
+		withCustomAsyncValidators(form, customAsyncValidator);
 
-		expect(form.hasValidator(customValidator)).toBeTrue();
+		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
 	}));
 
 	it('should call validators only once', fakeAsync(() => {
 		let form = new FormControl(null);
 		// prettier-ignore
-		let customValidator = (jasmine
-			.createSpy('customValidator', () => null)
+		let customAsyncValidator = (jasmine
+			.createSpy('customAsyncValidator', async () => null)
 			.and.callThrough()
 		);
-		withCustomValidators(form, customValidator);
+		withCustomAsyncValidators(form, customAsyncValidator);
 
-		expect(customValidator).toHaveBeenCalledTimes(1);
+		expect(customAsyncValidator).toHaveBeenCalledTimes(1);
 	}));
 
 	it('should not replace existing validators', fakeAsync(() => {
@@ -47,7 +54,7 @@ describe('withCustomValidator', () => {
 			validators: customValidator,
 			asyncValidators: customAsyncValidator,
 		});
-		withCustomValidators(form, () => ({error: true}));
+		withCustomAsyncValidators(form, async () => ({error: true}));
 
 		expect(form.hasValidator(customValidator)).toBeTrue();
 		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
