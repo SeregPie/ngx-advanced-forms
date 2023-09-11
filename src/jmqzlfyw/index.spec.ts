@@ -12,7 +12,7 @@ import {By} from '@angular/platform-browser';
 
 import {FormFallthroughService} from '.';
 
-xdescribe('FallthroughFormService', () => {
+describe('FallthroughFormService', () => {
 	it('should work with FormControlDirective', fakeAsync(() => {
 		@Component({
 			providers: [FormFallthroughService.provide()],
