@@ -1,8 +1,6 @@
-import {
-	Injectable,
-	OnDestroy,
-	Provider,
-} from '@angular/core';
+// todo: name file
+
+import {Injectable, OnDestroy, Provider, signal} from '@angular/core';
 import {
 	AsyncValidator,
 	ControlValueAccessor,
@@ -12,20 +10,20 @@ import {
 } from '@angular/forms';
 import {
 	BehaviorSubject,
+	Observable,
+	ReplaySubject,
+	Subject,
+	Subscription,
 	filter,
 	map,
 	merge,
 	noop,
-	Observable,
-	ReplaySubject,
 	skip,
-	Subject,
-	Subscription,
 	tap,
 } from 'rxjs';
 
 @Injectable()
-export class FormControlService<TValue = any>
+class FormControlService<TValue = any>
 	implements AsyncValidator, ControlValueAccessor, OnDestroy
 {
 	static provide(): Provider {
@@ -44,86 +42,52 @@ export class FormControlService<TValue = any>
 		];
 	}
 
-	constructor() {
-		this.#value = new BehaviorSubject<null | TValue>(null);
-		this.#disabled = new BehaviorSubject<boolean>(false);
-		this.#errors = new BehaviorSubject<null | ValidationErrors>(null);
-		this.#pending = new BehaviorSubject<boolean>(false);
-		this.#asyncErrors = new BehaviorSubject(this.#getAsyncErrors());
-		this.#subscription.add(this.#updateAsyncErrorsSubscription);
-		this.#touch = new Subject<void>();
-		this.#outerValue = this.value;
-	}
+	constructor() {}
 
-	#value: BehaviorSubject<null | TValue>;
+	#value = signal<null | TValue>(null);
 
 	get value(): null | TValue {
-		return this.#value.value;
+		return this.#value();
 	}
 	set value(v: null | TValue) {
-		if (this.#value.value !== v) {
-			this.#value.next(v);
-		}
+		this.#value.set(v);
 	}
 
-	get valueChanges(): Observable<null | TValue> {
-		return this.#value.pipe(skip(1));
-	}
-
-	#disabled: BehaviorSubject<boolean>;
-
-	#setDisabled(v: boolean): void {
-		if (this.#disabled.value !== v) {
-			this.#disabled.next(v);
-		}
-	}
+	#disabled = signal<boolean>(false);
 
 	get disabled(): boolean {
-		return this.#disabled.value;
+		return this.#disabled();
 	}
 
-	get disabledChanges(): Observable<boolean> {
-		return this.#disabled.pipe(skip(1));
-	}
-
-	#errors: BehaviorSubject<null | ValidationErrors>;
+	#errors = signal<null | ValidationErrors>(null);
 
 	get errors(): null | ValidationErrors {
-		return this.#errors.value;
+		return this.#errors();
 	}
 	set errors(v: null | ValidationErrors) {
-		if (this.#errors.value !== v) {
-			this.#errors.next(v);
-		}
+		this.#errors.set(v);
 	}
 
-	get errorsChanges(): Observable<null | ValidationErrors> {
-		return this.#errors.pipe(skip(1));
-	}
-
-	#pending: BehaviorSubject<boolean>;
+	#pending = signal<boolean>(false);
 
 	get pending(): boolean {
-		return this.#pending.value;
+		return this.#pending();
 	}
 	set pending(v: boolean) {
-		if (this.#pending.value !== v) {
-			this.#pending.next(v);
-		}
+		this.#pending.set(v);
 	}
 
-	get pendingChanges(): Observable<boolean> {
-		return this.#pending.pipe(skip(1));
-	}
+	// todo: refactor START
 
 	#asyncErrorsSubject: null | Subject<null | ValidationErrors> = null;
 
 	#getAsyncErrors(): Observable<null | ValidationErrors> {
-		const result = (this.#asyncErrorsSubject != null ? this.#asyncErrors.value
-			: (this.#asyncErrorsSubject = new ReplaySubject(1)).asObservable()
-		);
+		let result =
+			this.#asyncErrorsSubject != null
+				? this.#asyncErrors.value
+				: (this.#asyncErrorsSubject = new ReplaySubject(1)).asObservable();
 		if (!this.pending) {
-			const subject = this.#asyncErrorsSubject;
+			let subject = this.#asyncErrorsSubject;
 			this.#asyncErrorsSubject = null;
 			subject.next(this.errors);
 			subject.complete();
@@ -134,12 +98,13 @@ export class FormControlService<TValue = any>
 	#asyncErrors: BehaviorSubject<Observable<null | ValidationErrors>>;
 
 	#updateAsyncErrors(): void {
-		const v = this.#getAsyncErrors();
+		let v = this.#getAsyncErrors();
 		if (this.#asyncErrors.value !== v) {
 			this.#asyncErrors.next(v);
 		}
 	}
 
+	// todo: rename Worker, Runner, Job
 	get #updateAsyncErrorsSubscription(): Subscription {
 		return merge(
 			this.#pending.pipe(skip(1)),
@@ -149,21 +114,23 @@ export class FormControlService<TValue = any>
 		});
 	}
 
-	#touch: Subject<void>;
+	// todo: refactor END
+
+	#touched = signal<boolean>(false);
+
+	get touched(): boolean {
+		return this.#touched();
+	}
 
 	touch(): void {
-		this.#touch.next();
+		this.#touched.set(true);
 	}
 
-	get touchEvents(): Observable<void> {
-		return this.#touch.pipe();
-	}
-
-	#outerValue: null | TValue;
+	#outerValue = this.value;
 
 	writeValue(value: null | TValue): void {
 		this.#outerValue = value;
-		this.value = value;
+		this.#value.set(value);
 	}
 
 	get #onChange(): Observable<null | TValue> {
@@ -200,7 +167,7 @@ export class FormControlService<TValue = any>
 	}
 
 	setDisabledState(disabled: boolean): void {
-		this.#setDisabled(disabled);
+		this.#disabled.set(disabled);
 	}
 
 	validate(): Observable<null | ValidationErrors> {
@@ -216,7 +183,8 @@ export class FormControlService<TValue = any>
 	registerOnValidatorChange(fn: {(): void}): void {
 		if (!this.#subscription.closed) {
 			this.#onValidatorChangeSubscription.unsubscribe();
-			this.#onValidatorChangeSubscription = this.#onValidatorChange.subscribe(fn);
+			this.#onValidatorChangeSubscription =
+				this.#onValidatorChange.subscribe(fn);
 			this.#subscription.add(this.#onValidatorChangeSubscription);
 		}
 	}
@@ -227,3 +195,5 @@ export class FormControlService<TValue = any>
 		this.#subscription.unsubscribe();
 	}
 }
+
+export {FormControlService};

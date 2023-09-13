@@ -1,9 +1,5 @@
 import {Component} from '@angular/core';
-import {
-	fakeAsync,
-	TestBed,
-	tick,
-} from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {
 	FormArray,
 	FormControl,
@@ -13,10 +9,10 @@ import {
 } from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
-import {FallthroughFormService} from './fallthrough-form-service';
+import {FallthroughFormService} from './jmqzlfyw';
 
 describe('FallthroughFormService', () => {
-	it('should work with FormControlDirective', () => {
+	it('should work with FormControlDirective', fakeAsync(() => {
 		@Component({
 			providers: [FallthroughFormService.provide()],
 			selector: 'my-sub',
@@ -39,19 +35,20 @@ describe('FallthroughFormService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = (fixture
+		let myComponent = fixture.componentInstance;
+		// prettier-ignore
+		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form);
-	});
+	}));
 
-	it('should work with FormControlNameDirective', () => {
+	it('should work with FormControlNameDirective', fakeAsync(() => {
 		@Component({
 			providers: [FallthroughFormService.provide()],
 			selector: 'my-sub',
@@ -80,19 +77,20 @@ describe('FallthroughFormService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = (fixture
+		let myComponent = fixture.componentInstance;
+		// prettier-ignore
+		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
-	});
+	}));
 
-	it('should work with FormGroupDirective', () => {
+	it('should work with FormGroupDirective', fakeAsync(() => {
 		@Component({
 			providers: [FallthroughFormService.provide()],
 			selector: 'my-sub',
@@ -118,19 +116,20 @@ describe('FallthroughFormService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = (fixture
+		let myComponent = fixture.componentInstance;
+		// prettier-ignore
+		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form);
-	});
+	}));
 
-	it('should work with FormGroupNameDirective', () => {
+	it('should work with FormGroupNameDirective', fakeAsync(() => {
 		@Component({
 			providers: [FallthroughFormService.provide()],
 			selector: 'my-sub',
@@ -162,19 +161,20 @@ describe('FallthroughFormService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = (fixture
+		let myComponent = fixture.componentInstance;
+		// prettier-ignore
+		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
-	});
+	}));
 
-	it('should work with FormArrayNameDirective', () => {
+	it('should work with FormArrayNameDirective', fakeAsync(() => {
 		@Component({
 			providers: [FallthroughFormService.provide()],
 			selector: 'my-sub',
@@ -197,6 +197,7 @@ describe('FallthroughFormService', () => {
 		class MyComponent {
 			form = new FormGroup({
 				a: new FormArray([
+					//
 					new FormControl(null),
 					new FormControl(null),
 				]),
@@ -206,17 +207,18 @@ describe('FallthroughFormService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = (fixture
+		let myComponent = fixture.componentInstance;
+		// prettier-ignore
+		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
-	});
+	}));
 
 	it('should work with NgModelDirective', fakeAsync(() => {
 		@Component({
@@ -245,10 +247,11 @@ describe('FallthroughFormService', () => {
 		TestBed.configureTestingModule({
 			imports: [MyComponent],
 		});
-		const fixture = TestBed.createComponent(MyComponent);
+		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		const myComponent = fixture.componentInstance;
-		const mySubComponent: MySubComponent = (fixture
+		let myComponent = fixture.componentInstance;
+		// prettier-ignore
+		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance

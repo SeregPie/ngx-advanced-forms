@@ -1,6 +1,9 @@
+// todo: name file
+
 import {ControlValueAccessor} from '@angular/forms';
 
-export class DummyControlValueAccessor
+export class NoopControlValueAccessor
+	//
 	implements ControlValueAccessor
 {
 	writeValue() {}

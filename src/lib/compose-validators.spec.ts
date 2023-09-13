@@ -1,11 +1,12 @@
+import {fakeAsync} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
 import {composeValidators} from './compose-validators';
-import {NoopValidator} from './noop-validator';
+import {FailValidator, NoopValidator} from './hvjtipsv';
 
 describe('composeValidators', () => {
-	it('should work', () => {
-		const form = new FormControl(1, {
+	it('should work', fakeAsync(() => {
+		let form = new FormControl(1, {
 			nonNullable: true,
 			validators: composeValidators([
 				(form) => (form.value === 1 ? {error: {n: 1}} : null),
@@ -22,19 +23,22 @@ describe('composeValidators', () => {
 		form.setValue(3);
 
 		expect(form.errors).toBeNull();
-	});
+	}));
 
-	it('should skip other validators after one fails', () => {
-		const customValidator1 = (jasmine
-			.createSpy('customValidator1', () => null)
+	it('should skip other validators after one fails', fakeAsync(() => {
+		// prettier-ignore
+		let customValidator1 = (jasmine
+			.createSpy('customValidator1', NoopValidator)
 			.and.callThrough()
 		);
-		const customValidator2 = (jasmine
-			.createSpy('customValidator2', () => ({error: true}))
+		// prettier-ignore
+		let customValidator2 = (jasmine
+			.createSpy('customValidator2', FailValidator({error: true}))
 			.and.callThrough()
 		);
-		const customValidator3 = (jasmine
-			.createSpy('customValidator3', () => null)
+		// prettier-ignore
+		let customValidator3 = (jasmine
+			.createSpy('customValidator3', NoopValidator)
 			.and.callThrough()
 		);
 		new FormControl(null, {
@@ -48,15 +52,15 @@ describe('composeValidators', () => {
 		expect(customValidator1).toHaveBeenCalledTimes(1);
 		expect(customValidator2).toHaveBeenCalledTimes(1);
 		expect(customValidator3).toHaveBeenCalledTimes(0);
-	});
+	}));
 
-	it('should return same validator if only one provided', () => {
-		const customValidator = () => null;
+	it('should return same validator if only one provided', fakeAsync(() => {
+		let customValidator = () => null;
 
 		expect(composeValidators([customValidator])).toBe(customValidator);
-	});
+	}));
 
-	it('should return noop validator if nothing provided', () => {
+	it('should return noop validator if nothing provided', fakeAsync(() => {
 		expect(composeValidators([])).toBe(NoopValidator);
-	});
+	}));
 });
