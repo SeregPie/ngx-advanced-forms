@@ -1,6 +1,9 @@
-// todo: format imports
 import {Component} from '@angular/core';
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {
+	fakeAsync,
+	TestBed,
+	tick,
+} from '@angular/core/testing';
 import {
 	FormArray,
 	FormControl,
@@ -12,7 +15,7 @@ import {By} from '@angular/platform-browser';
 
 import {FormFallthroughService} from '.';
 
-describe('FallthroughFormService', () => {
+describe('FormFallthroughService', () => {
 	it('should work with FormControlDirective', fakeAsync(() => {
 		@Component({
 			providers: [FormFallthroughService.provide()],
@@ -27,19 +30,15 @@ describe('FallthroughFormService', () => {
 		@Component({
 			imports: [ReactiveFormsModule, MySubComponent],
 			standalone: true,
-			template: `<my-sub [formControl]="form"></my-sub>`,
+			template: `<my-sub [formControl]="form" />`,
 		})
 		class MyComponent {
 			form = new FormControl(null);
 		}
 
-		TestBed.configureTestingModule({
-			imports: [MyComponent],
-		});
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		let myComponent = fixture.componentInstance;
-		// prettier-ignore
 		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -65,7 +64,7 @@ describe('FallthroughFormService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub formControlName="a"></my-sub>
+					<my-sub formControlName="a" />
 				</ng-container>
 			`,
 		})
@@ -75,13 +74,9 @@ describe('FallthroughFormService', () => {
 			});
 		}
 
-		TestBed.configureTestingModule({
-			imports: [MyComponent],
-		});
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		let myComponent = fixture.componentInstance;
-		// prettier-ignore
 		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -105,7 +100,7 @@ describe('FallthroughFormService', () => {
 		@Component({
 			imports: [ReactiveFormsModule, MySubComponent],
 			standalone: true,
-			template: `<my-sub [formGroup]="form"></my-sub>`,
+			template: `<my-sub [formGroup]="form" />`,
 		})
 		class MyComponent {
 			form = new FormGroup({
@@ -114,13 +109,9 @@ describe('FallthroughFormService', () => {
 			});
 		}
 
-		TestBed.configureTestingModule({
-			imports: [MyComponent],
-		});
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		let myComponent = fixture.componentInstance;
-		// prettier-ignore
 		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -146,7 +137,7 @@ describe('FallthroughFormService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub formGroupName="a"></my-sub>
+					<my-sub formGroupName="a" />
 				</ng-container>
 			`,
 		})
@@ -159,13 +150,9 @@ describe('FallthroughFormService', () => {
 			});
 		}
 
-		TestBed.configureTestingModule({
-			imports: [MyComponent],
-		});
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		let myComponent = fixture.componentInstance;
-		// prettier-ignore
 		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -191,27 +178,22 @@ describe('FallthroughFormService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub formArrayName="a"></my-sub>
+					<my-sub formArrayName="a" />
 				</ng-container>
 			`,
 		})
 		class MyComponent {
 			form = new FormGroup({
 				a: new FormArray([
-					//
 					new FormControl(null),
 					new FormControl(null),
 				]),
 			});
 		}
 
-		TestBed.configureTestingModule({
-			imports: [MyComponent],
-		});
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		let myComponent = fixture.componentInstance;
-		// prettier-ignore
 		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -239,19 +221,15 @@ describe('FallthroughFormService', () => {
 		@Component({
 			imports: [FormsModule, MySubComponent],
 			standalone: true,
-			template: `<my-sub [(ngModel)]="value"></my-sub>`,
+			template: `<my-sub [(ngModel)]="value" />`,
 		})
 		class MyComponent {
 			value = 0;
 		}
 
-		TestBed.configureTestingModule({
-			imports: [MyComponent],
-		});
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		let myComponent = fixture.componentInstance;
-		// prettier-ignore
 		let mySubComponent: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))

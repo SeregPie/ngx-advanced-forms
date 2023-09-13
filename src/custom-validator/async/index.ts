@@ -1,5 +1,3 @@
-// todo: format imports
-
 import {
 	AbstractControl,
 	AsyncValidatorFn,
@@ -7,7 +5,6 @@ import {
 } from '@angular/forms';
 
 export interface CustomAsyncValidatorFn<
-	//
 	TControl extends AbstractControl = AbstractControl,
 > {
 	(control: TControl): ReturnType<AsyncValidatorFn>;
@@ -19,17 +16,14 @@ export const NoopAsyncValidator: {
 
 // todo: rename
 export const FailAsyncValidator: {
-	// prettier-ignore
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): Promise<TErrors>;
 	};
 } = (errors) => async () => errors;
 
 export function withCustomAsyncValidators<
-	//
 	TControl extends AbstractControl,
 >(
-	//
 	control: TControl,
 	validators:
 		| Array<CustomAsyncValidatorFn<TControl>>

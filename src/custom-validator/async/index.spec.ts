@@ -1,15 +1,16 @@
-// todo: format imports
-
-import {fakeAsync, tick} from '@angular/core/testing';
+import {
+	fakeAsync,
+	tick,
+} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
 import {withCustomAsyncValidators} from '.';
 
-describe('withCustomAsyncValidator', () => {
+describe('withCustomAsyncValidators', () => {
 	it('should work', fakeAsync(() => {
 		let form = withCustomAsyncValidators(
 			new FormControl(1, {nonNullable: true}),
-			async (form) => (form.value % 2 ? {error: true} : null),
+			async ({value}) => value % 2 ? {error: true} : null,
 		);
 
 		expect(form.pending).toBeTrue();
@@ -37,7 +38,6 @@ describe('withCustomAsyncValidator', () => {
 
 	it('should call validators only once', fakeAsync(() => {
 		let form = new FormControl(null);
-		// prettier-ignore
 		let customAsyncValidator = (jasmine
 			.createSpy('customAsyncValidator', async () => null)
 			.and.callThrough()

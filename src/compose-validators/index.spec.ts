@@ -1,5 +1,3 @@
-// todo: format imports
-
 import {fakeAsync} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
@@ -11,8 +9,8 @@ describe('composeValidators', () => {
 		let form = new FormControl(1, {
 			nonNullable: true,
 			validators: composeValidators([
-				(form) => (form.value === 1 ? {error: {n: 1}} : null),
-				(form) => (form.value === 2 ? {error: {n: 2}} : null),
+				({value}) => value === 1 ? {error: {n: 1}} : null,
+				({value}) => value === 2 ? {error: {n: 2}} : null,
 			]),
 		});
 
@@ -28,7 +26,6 @@ describe('composeValidators', () => {
 	}));
 
 	it('should skip other validators after one fails', fakeAsync(() => {
-		// prettier-ignore
 		let customValidators = [
 			() => null,
 			() => ({error: true}),

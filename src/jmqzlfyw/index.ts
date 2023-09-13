@@ -1,6 +1,9 @@
-// todo: format imports
-
-import {Injectable, Optional, Provider, Self} from '@angular/core';
+import {
+	Injectable,
+	Optional,
+	Provider,
+	Self,
+} from '@angular/core';
 import {
 	AbstractControl,
 	AbstractControlDirective,
@@ -11,7 +14,6 @@ import {
 } from '@angular/forms';
 
 export class NoopControlValueAccessor
-	//
 	implements ControlValueAccessor
 {
 	writeValue() {}

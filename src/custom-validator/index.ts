@@ -1,9 +1,10 @@
-// todo: format imports
-
-import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {
+	AbstractControl,
+	ValidationErrors,
+	ValidatorFn,
+} from '@angular/forms';
 
 export interface CustomValidatorFn<
-	//
 	TControl extends AbstractControl = AbstractControl,
 > {
 	(control: TControl): ReturnType<ValidatorFn>;
@@ -15,19 +16,15 @@ export const NoopValidator: {
 
 // todo: rename
 export const FailValidator: {
-	// prettier-ignore
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): TErrors;
 	};
 } = (errors) => () => errors;
 
 export function withCustomValidators<
-	//
 	TControl extends AbstractControl,
 >(
-	//
 	control: TControl,
-	// prettier-ignore
 	validators:
 		| Array<CustomValidatorFn<TControl>>
 		| CustomValidatorFn<TControl>,

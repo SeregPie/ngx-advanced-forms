@@ -1,14 +1,13 @@
-// todo: format imports
-
 import {AbstractControl} from '@angular/forms';
 
-import {CustomValidatorFn, NoopValidator} from '../custom-validator';
+import {
+	CustomValidatorFn,
+	NoopValidator,
+} from '../custom-validator';
 
 export function composeValidators<
-	//
 	TControl extends AbstractControl,
 >(
-	//
 	validators: Array<CustomValidatorFn<TControl>>,
 ): CustomValidatorFn<TControl> {
 	switch (validators.length) {

@@ -1,15 +1,13 @@
-// todo: format imports
-
 import {fakeAsync} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
 import {withCustomValidators} from '.';
 
-describe('withCustomValidator', () => {
+describe('withCustomValidators', () => {
 	it('should work', fakeAsync(() => {
 		let form = withCustomValidators(
 			new FormControl(1, {nonNullable: true}),
-			(form) => (form.value % 2 ? {error: true} : null),
+			({value}) => value % 2 ? {error: true} : null,
 		);
 
 		expect(form.errors).toEqual({error: true});
@@ -21,7 +19,6 @@ describe('withCustomValidator', () => {
 
 	it('should contain validators', fakeAsync(() => {
 		let form = new FormControl(null);
-		let customValidatos = [() => null, () => null];
 		let customValidator = () => null;
 		withCustomValidators(form, customValidator);
 
@@ -30,7 +27,6 @@ describe('withCustomValidator', () => {
 
 	it('should call validators only once', fakeAsync(() => {
 		let form = new FormControl(null);
-		// prettier-ignore
 		let customValidator = (jasmine
 			.createSpy('customValidator', () => null)
 			.and.callThrough()
