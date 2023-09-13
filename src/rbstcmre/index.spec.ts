@@ -8,8 +8,11 @@ import {
 import {TestBed, fakeAsync} from '@angular/core/testing';
 
 describe('rbstcmre', () => {
-	it('...', fakeAsync(() => {
-		@Component({standalone: true, template: ''})
+	it('should detect value changes', fakeAsync(() => {
+		@Component({
+			standalone: true,
+			template: '',
+		})
 		class NoopComponent {}
 		let injector = TestBed.inject(Injector);
 		let fixture = TestBed.createComponent(NoopComponent);
@@ -28,5 +31,55 @@ describe('rbstcmre', () => {
 		fixture.detectChanges();
 
 		console.log(s());
+	}));
+
+	it('should detect status changes', fakeAsync(() => {
+		@Component({
+			standalone: true,
+			template: '',
+		})
+		class NoopComponent {}
+		let injector = TestBed.inject(Injector);
+		let fixture = TestBed.createComponent(NoopComponent);
+	}));
+
+	it('should detect touched changes', fakeAsync(() => {
+		@Component({
+			standalone: true,
+			template: '',
+		})
+		class NoopComponent {}
+		let injector = TestBed.inject(Injector);
+		let fixture = TestBed.createComponent(NoopComponent);
+
+		let onTouchedChanged = (jasmine
+			.createSpy('customAsyncValidator', () => {
+				form.touched;
+			})
+			.and.callThrough()
+		);
+		let onUntouchedChanged = jasmine.createSpy('', () => {
+			form.untouched;
+		});
+		let spy2 = jasmine.createSpy('', () => {
+			form.value;
+			form.errors;
+		});
+		runInInjectionContext(injector, () => {
+			effect(spy0);
+			effect(spy1);
+		});
+
+		spy.calls.reset();
+	}));
+
+	it('should detect pristine changes', fakeAsync(() => {
+		@Component({
+			standalone: true,
+			template: '',
+		})
+		class NoopComponent {}
+		let injector = TestBed.inject(Injector);
+		let fixture = TestBed.createComponent(NoopComponent);
 	}));
 });

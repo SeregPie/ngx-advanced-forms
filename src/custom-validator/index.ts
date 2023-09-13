@@ -25,9 +25,10 @@ export function withCustomValidators<
 	TControl extends AbstractControl,
 >(
 	control: TControl,
-	validators:
+	validators: (
+		| CustomValidatorFn<TControl>
 		| Array<CustomValidatorFn<TControl>>
-		| CustomValidatorFn<TControl>,
+	),
 ): TControl {
 	control.addValidators(validators);
 	control.updateValueAndValidity();

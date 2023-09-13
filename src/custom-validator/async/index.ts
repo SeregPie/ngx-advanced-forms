@@ -25,9 +25,10 @@ export function withCustomAsyncValidators<
 	TControl extends AbstractControl,
 >(
 	control: TControl,
-	validators:
+	validators: (
+		| CustomAsyncValidatorFn<TControl>
 		| Array<CustomAsyncValidatorFn<TControl>>
-		| CustomAsyncValidatorFn<TControl>,
+	),
 ): TControl {
 	control.addAsyncValidators(validators);
 	control.updateValueAndValidity();
