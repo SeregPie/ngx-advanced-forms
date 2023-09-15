@@ -1,7 +1,4 @@
-import {
-	computed,
-	signal,
-} from '@angular/core';
+import {computed, signal} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 
 // todo: rename
@@ -37,6 +34,7 @@ let keysOfReactiveFormControlGetters = [
 let instancesOfReactiveFormAccess = new WeakMap();
 
 // todo: rename
+// prettier-ignore
 export function formPass<
 	TControl extends AbstractControl,
 >(
@@ -74,6 +72,7 @@ export function formPass<
 }
 
 // todo: rename
+// prettier-ignore
 export interface ReactiveFormAccess<
 	TControl extends AbstractControl = AbstractControl,
 >
