@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {TestBed, fakeAsync} from '@angular/core/testing';
 
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {formPass} from '.';
 
 describe('rbstcmre', () => {
@@ -54,25 +55,31 @@ describe('rbstcmre', () => {
 		let injector = TestBed.inject(Injector);
 		let fixture = TestBed.createComponent(NoopComponent);
 
+		let form = new FormGroup({
+			a: new FormArray([
+				//
+				new FormControl<number>(0),
+			]),
+		});
 		// prettier-ignore
 		let vmvazpjf = (jasmine
 			.createSpy('vmvazpjf', () => {
-				formPass(form).touched;
+				formPass(form.controls.a).touched;
 			})
 			.and.callThrough()
 		);
 		// prettier-ignore
 		let dubrkuwp = (jasmine
 			.createSpy('dubrkuwp', () => {
-				formPass(form).untouched;
+				formPass(form.controls.a).untouched;
 			})
 			.and.callThrough()
 		);
 		// prettier-ignore
 		let mwkdxmjn = (jasmine
 			.createSpy('mwkdxmjn', () => {
-				formPass(form).value;
-				formPass(form).status;
+				formPass(form.controls.a).value;
+				formPass(form.controls.a).status;
 			})
 			.and.callThrough()
 		);
@@ -96,7 +103,11 @@ describe('rbstcmre', () => {
 		expect(vmvazpjf).toHaveBeenCalledTimes(1);
 		vmvazpjf.calls.reset();
 		expect(dubrkuwp).toHaveBeenCalledTimes(1);
+		dubrkuwp.calls.reset();
 		expect(mwkdxmjn).toHaveBeenCalledTimes(0);
+		mwkdxmjn.calls.reset();
+
+		form.controls.a.push(new FormControl());
 	}));
 
 	it('should detect pristine changes', fakeAsync(() => {
