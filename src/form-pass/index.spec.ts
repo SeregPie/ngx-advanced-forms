@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import {TestBed, fakeAsync} from '@angular/core/testing';
 
+import {formPass} from '.';
+
 describe('rbstcmre', () => {
 	it('should detect value changes', fakeAsync(() => {
 		@Component({
@@ -52,25 +54,49 @@ describe('rbstcmre', () => {
 		let injector = TestBed.inject(Injector);
 		let fixture = TestBed.createComponent(NoopComponent);
 
-		let onTouchedChanged = (jasmine
-			.createSpy('customAsyncValidator', () => {
-				form.touched;
+		// prettier-ignore
+		let vmvazpjf = (jasmine
+			.createSpy('vmvazpjf', () => {
+				formPass(form).touched;
 			})
 			.and.callThrough()
 		);
-		let onUntouchedChanged = jasmine.createSpy('', () => {
-			form.untouched;
-		});
-		let spy2 = jasmine.createSpy('', () => {
-			form.value;
-			form.errors;
-		});
+		// prettier-ignore
+		let dubrkuwp = (jasmine
+			.createSpy('dubrkuwp', () => {
+				formPass(form).untouched;
+			})
+			.and.callThrough()
+		);
+		// prettier-ignore
+		let mwkdxmjn = (jasmine
+			.createSpy('mwkdxmjn', () => {
+				formPass(form).value;
+				formPass(form).status;
+			})
+			.and.callThrough()
+		);
 		runInInjectionContext(injector, () => {
-			effect(spy0);
-			effect(spy1);
+			effect(vmvazpjf);
+			effect(dubrkuwp);
+			effect(mwkdxmjn);
 		});
+		fixture.detectChanges();
+		vmvazpjf.calls.reset();
+		dubrkuwp.calls.reset();
+		mwkdxmjn.calls.reset();
 
-		spy.calls.reset();
+		form.markAsTouched();
+
+		expect(formPass(form).touched).toBeTrue();
+		expect(formPass(form).untouched).toBeFalse();
+
+		fixture.detectChanges();
+
+		expect(vmvazpjf).toHaveBeenCalledTimes(1);
+		vmvazpjf.calls.reset();
+		expect(dubrkuwp).toHaveBeenCalledTimes(1);
+		expect(mwkdxmjn).toHaveBeenCalledTimes(0);
 	}));
 
 	it('should detect pristine changes', fakeAsync(() => {

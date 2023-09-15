@@ -1,8 +1,6 @@
 export * from './compose-validators';
 export * from './custom-validator';
-
-// todo: rename
-export * from './jmqzlfyw';
+export * from './form-pass';
 
 // todo: rename
 //export * from './rbstcmre';
