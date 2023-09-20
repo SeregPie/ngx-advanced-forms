@@ -5,7 +5,7 @@ import {composeValidators} from '.';
 import {NoopValidator} from '../custom-validator';
 
 describe('composeValidators', () => {
-	it('should work', fakeAsync(() => {
+	it('should work', fakeAsync(async () => {
 		let form = new FormControl(1, {
 			nonNullable: true,
 			validators: composeValidators([
@@ -25,7 +25,7 @@ describe('composeValidators', () => {
 		expect(form.errors).toBeNull();
 	}));
 
-	it('should skip other validators after one fails', fakeAsync(() => {
+	it('should skip other validators after one fails', fakeAsync(async () => {
 		let customValidators = [
 			() => null,
 			() => ({error: true}),
@@ -43,13 +43,13 @@ describe('composeValidators', () => {
 		expect(customValidators[2]).toHaveBeenCalledTimes(0);
 	}));
 
-	it('should return same validator if only one provided', fakeAsync(() => {
+	it('should return same validator if only one provided', fakeAsync(async () => {
 		let customValidator = () => null;
 
 		expect(composeValidators([customValidator])).toBe(customValidator);
 	}));
 
-	it('should return noop validator if nothing provided', fakeAsync(() => {
+	it('should return noop validator if nothing provided', fakeAsync(async () => {
 		expect(composeValidators([])).toBe(NoopValidator);
 	}));
 });

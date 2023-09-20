@@ -1,8 +1,7 @@
 import {
 	Injectable,
-	Optional,
 	Provider,
-	Self,
+	inject,
 } from '@angular/core';
 import {
 	AbstractControl,
@@ -13,6 +12,7 @@ import {
 	NgControl,
 } from '@angular/forms';
 
+// todo: rename? Noop/Dummy(Control)ValueAccessor
 export class NoopControlValueAccessor
 	implements ControlValueAccessor
 {
@@ -23,6 +23,7 @@ export class NoopControlValueAccessor
 	registerOnTouched() {}
 }
 
+// todo: rename?
 @Injectable()
 export class FormFallthroughService {
 	static provide(): Provider {
@@ -36,19 +37,19 @@ export class FormFallthroughService {
 		];
 	}
 
-	constructor(
-		@Self()
-		@Optional()
-		controlContainer?: ControlContainer,
+	constructor() {}
 
-		@Self()
-		@Optional()
-		ngControl?: NgControl,
-	) {
-		this.#controlDirective = controlContainer ?? ngControl ?? null;
-	}
-
-	#controlDirective: null | AbstractControlDirective;
+	#controlDirective = (
+		inject(ControlContainer, {
+			optional: true,
+			self: true,
+		}) ??
+		inject(NgControl, {
+			optional: true,
+			self: true,
+		}) ??
+		null
+	);
 
 	get controlDirective(): null | AbstractControlDirective {
 		return this.#controlDirective;

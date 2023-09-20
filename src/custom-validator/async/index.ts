@@ -10,12 +10,12 @@ export interface CustomAsyncValidatorFn<
 	(control: TControl): ReturnType<AsyncValidatorFn>;
 }
 
-export const NoopAsyncValidator: {
+export let NoopAsyncValidator: {
 	(control: AbstractControl): Promise<null>;
 } = async () => null;
 
 // todo: rename
-export const FailAsyncValidator: {
+export let FailAsyncValidator: {
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): Promise<TErrors>;
 	};

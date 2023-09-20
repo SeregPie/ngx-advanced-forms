@@ -16,7 +16,7 @@ import {By} from '@angular/platform-browser';
 import {FormFallthroughService} from '.';
 
 describe('FormFallthroughService', () => {
-	it('should work with FormControlDirective', fakeAsync(() => {
+	it('should work with FormControlDirective', fakeAsync(async () => {
 		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'my-sub',
@@ -48,7 +48,7 @@ describe('FormFallthroughService', () => {
 		expect(mySubComponent.service.control).toBe(myComponent.form);
 	}));
 
-	it('should work with FormControlNameDirective', fakeAsync(() => {
+	it('should work with FormControlNameDirective', fakeAsync(async() => {
 		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'my-sub',
@@ -86,7 +86,7 @@ describe('FormFallthroughService', () => {
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
 	}));
 
-	it('should work with FormGroupDirective', fakeAsync(() => {
+	it('should work with FormGroupDirective', fakeAsync(async () => {
 		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'my-sub',
@@ -121,7 +121,7 @@ describe('FormFallthroughService', () => {
 		expect(mySubComponent.service.control).toBe(myComponent.form);
 	}));
 
-	it('should work with FormGroupNameDirective', fakeAsync(() => {
+	it('should work with FormGroupNameDirective', fakeAsync(async () => {
 		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'my-sub',
@@ -162,7 +162,7 @@ describe('FormFallthroughService', () => {
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
 	}));
 
-	it('should work with FormArrayNameDirective', fakeAsync(() => {
+	it('should work with FormArrayNameDirective', fakeAsync(async () => {
 		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'my-sub',
@@ -203,7 +203,7 @@ describe('FormFallthroughService', () => {
 		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
 	}));
 
-	it('should work with NgModelDirective', fakeAsync(() => {
+	it('should work with NgModelDirective', fakeAsync(async () => {
 		@Component({
 			providers: [FormFallthroughService.provide()],
 			selector: 'my-sub',
@@ -236,20 +236,20 @@ describe('FormFallthroughService', () => {
 			.componentInstance
 		);
 
-		tick();
+		await tick();
 
 		expect(mySubComponent.form.value).toEqual(0);
 
 		mySubComponent.form.setValue(1);
 
-		tick();
+		await tick();
 
 		expect(myComponent.value).toEqual(1);
 
 		myComponent.value = 2;
 		fixture.detectChanges();
 
-		tick();
+		await tick();
 
 		expect(mySubComponent.form.value).toEqual(2);
 	}));

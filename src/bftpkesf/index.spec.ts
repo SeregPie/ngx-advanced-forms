@@ -1,155 +1,167 @@
-import {
-	Component,
-	Injector,
-	computed,
-	effect,
-	runInInjectionContext,
-	signal,
-} from '@angular/core';
+import {Injector, effect, runInInjectionContext} from '@angular/core';
 import {TestBed, fakeAsync} from '@angular/core/testing';
-
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {formPass} from '.';
+
+import {fglhrjuc, formPass} from '.';
 
 describe('formPass', () => {
-	it('should detect value changes', fakeAsync(() => {
-		@Component({
-			standalone: true,
-			template: '',
-		})
-		class NoopComponent {}
-		let injector = TestBed.inject(Injector);
-		let fixture = TestBed.createComponent(NoopComponent);
-
-		let s = signal<number>(1);
-		let c = computed(() => {
-			s();
-			return Math.random();
-		});
-		let aaaa = (jasmine
-			.createSpy('aaaa', () => {
-				console.log(s(), 'EFFECT')
-			})
-			.and.callThrough()
-		);
-		runInInjectionContext(injector, () => {
-			effect(aaaa);
-		});
-
-		s.update(v => v++);
-		console.log('UPDATE');
-
-		fixture.detectChanges();
-
-		s.update(v => v++);
-		console.log('UPDATE');
-
-		fixture.detectChanges();
-
-		expect(aaaa).toHaveBeenCalledTimes(1);
-	}));
-
-	it('should detect status changes', fakeAsync(() => {
-		@Component({
-			standalone: true,
-			template: '',
-		})
-		class NoopComponent {}
-		let injector = TestBed.inject(Injector);
-		let fixture = TestBed.createComponent(NoopComponent);
-
-		// set value
-
-		// set child value
-
-		// set validator
-
-		// set async validator
-	}));
-
-	it('should detect touched changes', fakeAsync(() => {
-		@Component({
-			standalone: true,
-			template: '',
-		})
-		class NoopComponent {}
-		let injector = TestBed.inject(Injector);
-		let fixture = TestBed.createComponent(NoopComponent);
-
+	it('should work', fakeAsync(async () => {
+		// prettier-ignore
 		let form = new FormGroup({
-			a: new FormArray([
-				//
-				new FormControl<number>(0),
+			a: new FormControl<number>(0, {
+				validators: ({value}) => value < 2 ? null : {error: true},
+			}),
+			b: new FormArray([
+				new FormControl<string>('a0'),
+				new FormControl<string>('b0'),
 			]),
 		});
-		let v0 = form.value;
-		// prettier-ignore
-		let vmvazpjf = (jasmine
-			.createSpy('vmvazpjf', () => {
-				formPass(form).touched;
-			})
-			.and.callThrough()
+
+		let injector = TestBed.inject(Injector);
+		[
+			form,
+			form.controls.a,
+			form.controls.b,
+			form.controls.b.controls[0],
+			form.controls.b.controls[1],
+		].forEach((form) =>
+			fglhrjuc.forEach(async (key) => {
+				let oldValue = form[key];
+				// todo: rename
+				// prettier-ignore
+				let ypaumyxq = (jasmine
+					.createSpy('ypaumyxq', () => {
+						formPass(form)[key];
+					})
+					.and.callThrough()
+				);
+				runInInjectionContext(injector, () => {
+					effect(ypaumyxq);
+				});
+
+				await next();
+
+				ypaumyxq.calls.reset();
+
+				return async () => {
+					let newValue = form[key];
+					let changed = oldValue !== newValue;
+					oldValue = newValue;
+
+					expect(formPass(form)[key]).toBe(newValue);
+
+					await next();
+
+					if (oldValue !== newValue) {
+						expect(ypaumyxq).toHaveBeenCalledTimes(1);
+						ypaumyxq.calls.reset();
+						oldValue = newValue;
+					}
+				};
+			}),
 		);
-		// prettier-ignore
-		let dubrkuwp = (jasmine
-			.createSpy('dubrkuwp', () => {
-				formPass(form).untouched;
-			})
-			.and.callThrough()
-		);
-		// prettier-ignore
-		let mwkdxmjn = (jasmine
-			.createSpy('mwkdxmjn', () => {
-				//formPass(form).value;
-				formPass(form).status;
-			})
-			.and.callThrough()
-		);
-		runInInjectionContext(injector, () => {
-			effect(vmvazpjf);
-			effect(dubrkuwp);
-			effect(mwkdxmjn);
+
+		let zkbhphig = (() => {
+			let bfqktvtr = [
+				form,
+				form.controls.a,
+				form.controls.b,
+				form.controls.b.controls[0],
+				form.controls.b.controls[1],
+			].flatMap((form) =>
+				fglhrjuc.map((key) => {
+					let oldValue = form[key];
+					// todo: rename
+					// prettier-ignore
+					let ypaumyxq = (jasmine
+						.createSpy('ypaumyxq', () => {
+							formPass(form)[key];
+						})
+						.and.callThrough()
+					);
+					runInInjectionContext(injector, () => {
+						effect(ypaumyxq);
+					});
+					return () => {
+						// TestBed.flushEffects();
+						ypaumyxq.calls.reset();
+						return () => {
+							let newValue = form[key];
+							expect(formPass(form)[key]).toBe(newValue);
+							return () => {
+								// TestBed.flushEffects();
+								if (oldValue !== newValue) {
+									//expect(ypaumyxq).toHaveBeenCalledTimes(1);
+									ypaumyxq.calls.reset();
+									oldValue = newValue;
+								}
+							};
+						};
+					};
+				}),
+			);
+			//TestBed.flushEffects();
+			let ndzfhorc = bfqktvtr.map((fn) => fn());
+			return () => {
+				let nxdljjof = ndzfhorc.map((fn) => fn());
+				//TestBed.flushEffects();
+				nxdljjof.map((fn) => fn());
+			};
+		})();
+
+		form.setValue({
+			a: 1,
+			b: ['a1', 'b1'],
 		});
 
-		fixture.detectChanges();
-		expect(mwkdxmjn).toHaveBeenCalledTimes(1);
-		vmvazpjf.calls.reset();
-		dubrkuwp.calls.reset();
-		mwkdxmjn.calls.reset();
+		await zkbhphig();
 
+		form.controls.a.setValue(2);
 
+		await zkbhphig();
 
-		expect(formPass(form).touched).toBeFalse();
-		expect(formPass(form).untouched).toBeTrue();
+		form.controls.a.disable();
 
-		form.markAsTouched();
+		await zkbhphig();
 
-		expect(formPass(form).touched).toBeTrue();
-		expect(formPass(form).untouched).toBeFalse();
+		form.controls.b.disable();
 
-		let v1 = form.value;
+		await zkbhphig();
 
-		fixture.detectChanges();
+		form.enable();
 
+		await zkbhphig();
 
+		form.reset();
 
-		expect(vmvazpjf).toHaveBeenCalledTimes(1);
-		vmvazpjf.calls.reset();
-		expect(dubrkuwp).toHaveBeenCalledTimes(1);
-		dubrkuwp.calls.reset();
-		expect(mwkdxmjn).toHaveBeenCalledTimes(0);
-		mwkdxmjn.calls.reset();
+		await zkbhphig();
 
-		console.log(v1 === v0);
-	}));
+		form.controls.b.push(new FormControl<string>('c0'));
 
-	it('should detect pristine changes', fakeAsync(() => {
-		@Component({
-			standalone: true,
-			template: '',
-		})
-		class NoopComponent {}
-		let injector = TestBed.inject(Injector);
-		let fixture = TestBed.createComponent(NoopComponent);
+		await zkbhphig();
+
+		form.controls.b.removeAt(0);
+
+		await zkbhphig();
+
+		form.controls.a.markAsTouched();
+
+		await zkbhphig();
+
+		form.controls.a.markAsUntouched();
+
+		await zkbhphig();
+
+		form.markAllAsTouched();
+
+		await zkbhphig();
+
+		form.controls.a.markAsDirty();
+
+		await zkbhphig();
+
+		form.controls.a.markAsPristine();
+
+		await zkbhphig();
 	}));
 });

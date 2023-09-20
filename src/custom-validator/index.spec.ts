@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {withCustomValidators} from '.';
 
 describe('withCustomValidators', () => {
-	it('should work', fakeAsync(() => {
+	it('should work', fakeAsync(async () => {
 		let form = withCustomValidators(
 			new FormControl(1, {nonNullable: true}),
 			({value}) => value % 2 ? {error: true} : null,
@@ -17,7 +17,7 @@ describe('withCustomValidators', () => {
 		expect(form.errors).toBeNull();
 	}));
 
-	it('should contain validators', fakeAsync(() => {
+	it('should contain validators', fakeAsync(async () => {
 		let form = new FormControl(null);
 		let customValidator = () => null;
 		withCustomValidators(form, customValidator);
@@ -25,7 +25,7 @@ describe('withCustomValidators', () => {
 		expect(form.hasValidator(customValidator)).toBeTrue();
 	}));
 
-	it('should call validators only once', fakeAsync(() => {
+	it('should call validators only once', fakeAsync(async () => {
 		let form = new FormControl(null);
 		let customValidator = (jasmine
 			.createSpy('customValidator', () => null)
@@ -36,7 +36,7 @@ describe('withCustomValidators', () => {
 		expect(customValidator).toHaveBeenCalledTimes(1);
 	}));
 
-	it('should not replace existing validators', fakeAsync(() => {
+	it('should not replace existing validators', fakeAsync(async () => {
 		let customValidator = () => null;
 		let customAsyncValidator = async () => null;
 		let form = new FormControl(null, {

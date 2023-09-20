@@ -10,12 +10,12 @@ export interface CustomValidatorFn<
 	(control: TControl): ReturnType<ValidatorFn>;
 }
 
-export const NoopValidator: {
+export let NoopValidator: {
 	(control: AbstractControl): null;
 } = () => null;
 
 // todo: rename
-export const FailValidator: {
+export let FailValidator: {
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): TErrors;
 	};
