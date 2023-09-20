@@ -2,7 +2,7 @@ import {Injector, effect, runInInjectionContext} from '@angular/core';
 import {TestBed, fakeAsync} from '@angular/core/testing';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 
-import {fglhrjuc, formPass} from '.';
+import {Fglhrjuc, formPass} from '.';
 
 describe('formPass', () => {
 	it('should work', fakeAsync(async () => {
@@ -25,7 +25,7 @@ describe('formPass', () => {
 			form.controls.b.controls[0],
 			form.controls.b.controls[1],
 		].forEach((form) =>
-			fglhrjuc.forEach(async (key) => {
+			Fglhrjuc.forEach(async (key) => {
 				let oldValue = form[key];
 				// todo: rename
 				// prettier-ignore
@@ -69,7 +69,7 @@ describe('formPass', () => {
 				form.controls.b.controls[0],
 				form.controls.b.controls[1],
 			].flatMap((form) =>
-				fglhrjuc.map((key) => {
+				Fglhrjuc.map((key) => {
 					let oldValue = form[key];
 					// todo: rename
 					// prettier-ignore
