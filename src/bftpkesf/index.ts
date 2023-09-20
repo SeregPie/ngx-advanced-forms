@@ -20,7 +20,7 @@ export let fglhrjuc = [
 export type Lavetcki = (typeof fglhrjuc)[number];
 
 // todo: rename
-export const formPass = (() => {
+export const {formPass} = (() => {
 	let instances = new WeakMap();
 
 	// todo: rename
@@ -39,11 +39,11 @@ export const formPass = (() => {
 	let gettersKeys = fglhrjuc;
 
 	// prettier-ignore
-	return <
+	function formPass<
 		TControl extends AbstractControl,
 	>(
 		control: TControl,
-	): ReactiveFormAccess<TControl> => {
+	): ReactiveFormAccess<TControl> {
 		let instance = instances.get(control);
 		if (instance == null) {
 			instances.set(control, instance = Object.create(null));
@@ -74,6 +74,8 @@ export const formPass = (() => {
 		}
 		return instance;
 	}
+
+	return {formPass};
 })();
 
 // todo: rename
