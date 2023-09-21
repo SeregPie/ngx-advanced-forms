@@ -12,8 +12,7 @@ import {
 	NgControl,
 } from '@angular/forms';
 
-// todo: rename? Noop/Dummy(Control)ValueAccessor
-export class NoopControlValueAccessor
+export class NoopValueAccessor
 	implements ControlValueAccessor
 {
 	writeValue() {}
@@ -32,7 +31,7 @@ export class FormFallthroughService {
 			{
 				provide: NG_VALUE_ACCESSOR,
 				multi: true,
-				useClass: NoopControlValueAccessor,
+				useClass: NoopValueAccessor,
 			},
 		];
 	}
