@@ -21,7 +21,7 @@ export let FailValidator: {
 	};
 } = (errors) => () => errors;
 
-export function withCustomValidators<
+export function withValidators<
 	TControl extends AbstractControl,
 >(
 	control: TControl,

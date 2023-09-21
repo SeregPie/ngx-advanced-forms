@@ -3,7 +3,7 @@ import {AbstractControl} from '@angular/forms';
 import {
 	CustomValidatorFn,
 	NoopValidator,
-} from '../custom-validator';
+} from '../validators';
 
 export function composeValidators<
 	TControl extends AbstractControl,

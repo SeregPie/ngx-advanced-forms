@@ -1,11 +1,11 @@
 import {fakeAsync} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
-import {withCustomValidators} from '.';
+import {withValidators} from '.';
 
-describe('withCustomValidators', () => {
+describe('withValidators', () => {
 	it('should work', fakeAsync(async () => {
-		let form = withCustomValidators(
+		let form = withValidators(
 			new FormControl(1, {nonNullable: true}),
 			({value}) => value % 2 ? {error: true} : null,
 		);
@@ -19,33 +19,33 @@ describe('withCustomValidators', () => {
 
 	it('should contain validators', fakeAsync(async () => {
 		let form = new FormControl(null);
-		let customValidator = () => null;
-		withCustomValidators(form, customValidator);
+		let validator = () => null;
+		withValidators(form, validator);
 
-		expect(form.hasValidator(customValidator)).toBeTrue();
+		expect(form.hasValidator(validator)).toBeTrue();
 	}));
 
 	it('should call validators only once', fakeAsync(async () => {
 		let form = new FormControl(null);
-		let customValidator = (jasmine
+		let validator = (jasmine
 			.createSpy('customValidator', () => null)
 			.and.callThrough()
 		);
-		withCustomValidators(form, customValidator);
+		withValidators(form, validator);
 
-		expect(customValidator).toHaveBeenCalledTimes(1);
+		expect(validator).toHaveBeenCalledTimes(1);
 	}));
 
 	it('should not replace existing validators', fakeAsync(async () => {
-		let customValidator = () => null;
-		let customAsyncValidator = async () => null;
+		let initialValidator = () => null;
+		let initialAsyncValidator = async () => null;
 		let form = new FormControl(null, {
-			validators: customValidator,
-			asyncValidators: customAsyncValidator,
+			validators: initialValidator,
+			asyncValidators: initialAsyncValidator,
 		});
-		withCustomValidators(form, () => ({error: true}));
+		withValidators(form, () => ({error: true}));
 
-		expect(form.hasValidator(customValidator)).toBeTrue();
-		expect(form.hasAsyncValidator(customAsyncValidator)).toBeTrue();
+		expect(form.hasValidator(initialValidator)).toBeTrue();
+		expect(form.hasAsyncValidator(initialAsyncValidator)).toBeTrue();
 	}));
 });

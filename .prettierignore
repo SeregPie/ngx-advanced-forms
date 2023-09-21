@@ -1,9 +1,9 @@
 /src/compose-validators/index.ts
 /src/compose-validators/index.spec.ts
-/src/custom-validator/index.ts
-/src/custom-validator/index.spec.ts
-/src/custom-validator/async/index.ts
-/src/custom-validator/async/index.spec.ts
+/src/validators/index.ts
+/src/validators/index.spec.ts
+/src/validators/async/index.ts
+/src/validators/async/index.spec.ts
 
 /src/jmqzlfyw/index.ts
 /src/jmqzlfyw/index.spec.ts

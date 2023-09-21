@@ -1,5 +1,5 @@
 export * from './compose-validators';
-export * from './custom-validator';
+export * from './validators';
 
 // todo: rename
 export * from './bftpkesf';

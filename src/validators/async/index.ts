@@ -21,7 +21,7 @@ export let FailAsyncValidator: {
 	};
 } = (errors) => async () => errors;
 
-export function withCustomAsyncValidators<
+export function withAsyncValidators<
 	TControl extends AbstractControl,
 >(
 	control: TControl,

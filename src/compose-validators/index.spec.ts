@@ -2,7 +2,7 @@ import {fakeAsync} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
 import {composeValidators} from '.';
-import {NoopValidator} from '../custom-validator';
+import {NoopValidator} from '../validators';
 
 describe('composeValidators', () => {
 	it('should work', fakeAsync(async () => {
@@ -26,27 +26,27 @@ describe('composeValidators', () => {
 	}));
 
 	it('should skip other validators after one fails', fakeAsync(async () => {
-		let customValidators = [
+		let validators = [
 			() => null,
 			() => ({error: true}),
 			() => null,
 		].map((fn, i) => (jasmine
-			.createSpy(`customValidator${i}`, fn)
+			.createSpy(`validator${i}`, fn)
 			.and.callThrough()
 		));
 		new FormControl(null, {
-			validators: composeValidators(customValidators),
+			validators: composeValidators(validators),
 		});
 
-		expect(customValidators[0]).toHaveBeenCalledTimes(1);
-		expect(customValidators[1]).toHaveBeenCalledTimes(1);
-		expect(customValidators[2]).toHaveBeenCalledTimes(0);
+		expect(validators[0]).toHaveBeenCalledTimes(1);
+		expect(validators[1]).toHaveBeenCalledTimes(1);
+		expect(validators[2]).toHaveBeenCalledTimes(0);
 	}));
 
 	it('should return same validator if only one provided', fakeAsync(async () => {
-		let customValidator = () => null;
+		let validator = () => null;
 
-		expect(composeValidators([customValidator])).toBe(customValidator);
+		expect(composeValidators([validator])).toBe(validator);
 	}));
 
 	it('should return noop validator if nothing provided', fakeAsync(async () => {

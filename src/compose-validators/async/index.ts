@@ -1,9 +1,6 @@
 import {AbstractControl} from '@angular/forms';
 
-import {
-	CustomAsyncValidatorFn,
-	NoopAsyncValidator,
-} from '../../custom-validator';
+import {CustomAsyncValidatorFn, NoopAsyncValidator} from '../../validators';
 
 export function composeAsyncValidators<
 	//
