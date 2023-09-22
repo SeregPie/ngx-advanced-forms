@@ -12,7 +12,7 @@ import {
 	NgControl,
 } from '@angular/forms';
 
-export class NoopValueAccessor
+export class NoopControlValueAccessor
 	implements ControlValueAccessor
 {
 	constructor() {}
@@ -24,16 +24,15 @@ export class NoopValueAccessor
 	registerOnTouched() {}
 }
 
-// todo: rename?
 @Injectable()
-export class FormFallthroughService {
+export class ControlFallthroughService {
 	static provide(): Provider {
 		return [
 			this,
 			{
 				provide: NG_VALUE_ACCESSOR,
 				multi: true,
-				useClass: NoopValueAccessor,
+				useClass: NoopControlValueAccessor,
 			},
 		];
 	}

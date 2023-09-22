@@ -13,18 +13,18 @@ import {
 } from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
-import {FormFallthroughService} from '.';
+import {ControlFallthroughService} from '.';
 
-describe('FormFallthroughService', () => {
+describe('ControlFallthroughService', () => {
 	it('should work with FormControlDirective', fakeAsync(async () => {
 		@Component({
-			providers: [FormFallthroughService.provide()],
+			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormFallthroughService) {}
+			constructor(public service: ControlFallthroughService) {}
 		}
 
 		@Component({
@@ -50,13 +50,13 @@ describe('FormFallthroughService', () => {
 
 	it('should work with FormControlNameDirective', fakeAsync(async() => {
 		@Component({
-			providers: [FormFallthroughService.provide()],
+			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormFallthroughService) {}
+			constructor(public service: ControlFallthroughService) {}
 		}
 
 		@Component({
@@ -88,13 +88,13 @@ describe('FormFallthroughService', () => {
 
 	it('should work with FormGroupDirective', fakeAsync(async () => {
 		@Component({
-			providers: [FormFallthroughService.provide()],
+			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormFallthroughService) {}
+			constructor(public service: ControlFallthroughService) {}
 		}
 
 		@Component({
@@ -123,13 +123,13 @@ describe('FormFallthroughService', () => {
 
 	it('should work with FormGroupNameDirective', fakeAsync(async () => {
 		@Component({
-			providers: [FormFallthroughService.provide()],
+			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormFallthroughService) {}
+			constructor(public service: ControlFallthroughService) {}
 		}
 
 		@Component({
@@ -164,13 +164,13 @@ describe('FormFallthroughService', () => {
 
 	it('should work with FormArrayNameDirective', fakeAsync(async () => {
 		@Component({
-			providers: [FormFallthroughService.provide()],
+			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormFallthroughService) {}
+			constructor(public service: ControlFallthroughService) {}
 		}
 
 		@Component({
@@ -205,13 +205,13 @@ describe('FormFallthroughService', () => {
 
 	it('should work with NgModelDirective', fakeAsync(async () => {
 		@Component({
-			providers: [FormFallthroughService.provide()],
+			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormFallthroughService) {}
+			constructor(public service: ControlFallthroughService) {}
 
 			get form() {
 				return this.service.control as FormControl<number>;
