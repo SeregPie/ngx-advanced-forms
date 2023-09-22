@@ -12,7 +12,7 @@ import {
 	NgControl,
 } from '@angular/forms';
 
-export class NoopControlValueAccessor
+export class NoopValueAccessor
 	implements ControlValueAccessor
 {
 	constructor() {}
@@ -32,7 +32,7 @@ export class ControlFallthroughService {
 			{
 				provide: NG_VALUE_ACCESSOR,
 				multi: true,
-				useClass: NoopControlValueAccessor,
+				useClass: NoopValueAccessor,
 			},
 		];
 	}
