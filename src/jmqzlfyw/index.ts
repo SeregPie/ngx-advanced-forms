@@ -15,6 +15,8 @@ import {
 export class NoopValueAccessor
 	implements ControlValueAccessor
 {
+	constructor() {}
+
 	writeValue() {}
 
 	registerOnChange() {}
