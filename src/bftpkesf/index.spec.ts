@@ -52,11 +52,8 @@ describe('formPass', () => {
 
 					await next();
 
-					if (oldValue !== newValue) {
-						expect(ypaumyxq).toHaveBeenCalledTimes(1);
-						ypaumyxq.calls.reset();
-						oldValue = newValue;
-					}
+					expect(ypaumyxq).toHaveBeenCalledTimes(changed ? 1 : 0);
+					ypaumyxq.calls.reset();
 				};
 			}),
 		);
