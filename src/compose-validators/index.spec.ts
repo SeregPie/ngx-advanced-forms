@@ -49,7 +49,7 @@ describe('composeValidators', () => {
 		expect(composeValidators([validator])).toBe(validator);
 	}));
 
-	it('should return noop validator if nothing provided', fakeAsync(async () => {
+	it('should return no-op validator if nothing provided', fakeAsync(async () => {
 		expect(composeValidators([])).toBe(NoopValidator);
 	}));
 });
