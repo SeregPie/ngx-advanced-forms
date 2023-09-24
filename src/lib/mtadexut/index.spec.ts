@@ -29,7 +29,7 @@ describe('withValidators', () => {
 	it('should call validators only once', fakeAsync(async () => {
 		let form = new FormControl(null);
 		let validator = (jasmine
-			.createSpy('customValidator', () => null)
+			.createSpy(undefined, () => null)
 			.and.callThrough()
 		);
 		withValidators(form, validator);
@@ -79,7 +79,7 @@ describe('composeValidators', () => {
 			() => ({error: true}),
 			() => null,
 		].map((fn, i) => (jasmine
-			.createSpy(`validator${i}`, fn)
+			.createSpy(undefined, fn)
 			.and.callThrough()
 		));
 		new FormControl(null, {
