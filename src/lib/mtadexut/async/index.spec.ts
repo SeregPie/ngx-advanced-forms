@@ -1,11 +1,9 @@
-import {
-	fakeAsync,
-	tick,
-} from '@angular/core/testing';
+import {fakeAsync, tick} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
 import {withAsyncValidators} from '.';
 
+// prettier-ignore
 describe('withAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(

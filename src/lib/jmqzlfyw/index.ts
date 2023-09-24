@@ -1,8 +1,4 @@
-import {
-	Injectable,
-	Provider,
-	inject,
-} from '@angular/core';
+import {Injectable, Provider, inject} from '@angular/core';
 import {
 	AbstractControl,
 	AbstractControlDirective,
@@ -12,11 +8,10 @@ import {
 	NgControl,
 } from '@angular/forms';
 
+// prettier-ignore
 export class NoopValueAccessor
 	implements ControlValueAccessor
 {
-	constructor() {}
-
 	writeValue() {}
 
 	registerOnChange() {}
@@ -24,6 +19,7 @@ export class NoopValueAccessor
 	registerOnTouched() {}
 }
 
+// prettier-ignore
 @Injectable()
 export class ControlFallthroughService {
 	static provide(): Provider {

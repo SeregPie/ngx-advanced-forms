@@ -1,9 +1,5 @@
 import {Component} from '@angular/core';
-import {
-	fakeAsync,
-	TestBed,
-	tick,
-} from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {
 	FormArray,
 	FormControl,
@@ -15,6 +11,7 @@ import {By} from '@angular/platform-browser';
 
 import {ControlFallthroughService} from '.';
 
+// prettier-ignore
 describe('ControlFallthroughService', () => {
 	it('should work with FormControlDirective', fakeAsync(async () => {
 		@Component({
