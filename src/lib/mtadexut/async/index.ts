@@ -3,6 +3,7 @@ import {
 	AsyncValidatorFn,
 	ValidationErrors,
 } from '@angular/forms';
+import {isObservable, lastValueFrom} from 'rxjs';
 
 // prettier-ignore
 export interface CustomAsyncValidatorFn<
@@ -52,8 +53,16 @@ export function composeAsyncValidators<
 		case 1:
 			return validators[0];
 	}
-	return (control) => {
-		// todo: implement
-		throw 'not implemented yet';
+	return async (control) => {
+		// todo
+		for (let validator of validators) {
+			let errors = await ((v) => (isObservable(v) ? lastValueFrom(v) : v))(
+				validator(control),
+			);
+			if (errors != null) {
+				return errors;
+			}
+		}
+		return null;
 	};
 }

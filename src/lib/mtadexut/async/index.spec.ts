@@ -65,8 +65,8 @@ describe('withAsyncValidators', () => {
 	}));
 });
 
-// prettier-ignore
-xdescribe('composeAsyncValidators', () => {
+describe('composeAsyncValidators', () => {
+	// prettier-ignore
 	it('should work', fakeAsync(async () => {
 		let form = new FormControl<number>(1, {
 			nonNullable: true,
@@ -99,6 +99,7 @@ xdescribe('composeAsyncValidators', () => {
 		expect(form.errors).toBeNull();
 	}));
 
+	// prettier-ignore
 	it('should skip other validators after one fails', fakeAsync(async () => {
 		let validators = [
 			async () => null,
@@ -128,4 +129,6 @@ xdescribe('composeAsyncValidators', () => {
 	it('should return no-op validator if nothing provided', fakeAsync(async () => {
 		expect(composeAsyncValidators([])).toBe(NoopAsyncValidator);
 	}));
+
+	// todo: test observables
 });

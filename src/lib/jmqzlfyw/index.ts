@@ -1,14 +1,25 @@
-import {Injectable, Provider, inject} from '@angular/core';
+import {Injectable, OnDestroy, Provider, inject} from '@angular/core';
 import {
 	AbstractControl,
 	AbstractControlDirective,
+	AsyncValidator,
 	ControlContainer,
 	ControlValueAccessor,
+	NG_ASYNC_VALIDATORS,
 	NG_VALUE_ACCESSOR,
 	NgControl,
 	ValidationErrors,
 } from '@angular/forms';
-import {Observable} from 'rxjs';
+import {
+	BehaviorSubject,
+	Observable,
+	Subscription,
+	distinctUntilChanged,
+	filter,
+	of,
+	skip,
+	tap,
+} from 'rxjs';
 
 // prettier-ignore
 export class NoopValueAccessor
@@ -59,65 +70,151 @@ export class ControlFallthroughService {
 }
 
 @Injectable()
+class Lbtrqpyk<TValue>
+	implements AsyncValidator, ControlValueAccessor, OnDestroy
+{
+	constructor() {}
+
+	_value = new BehaviorSubject<TValue>(undefined as any);
+
+	_disabled = new BehaviorSubject<boolean>(false);
+
+	_errors = new BehaviorSubject<null | ValidationErrors>(null);
+
+	_pending = new BehaviorSubject<boolean>(false);
+
+	_touched = new BehaviorSubject<boolean>(false);
+
+	#kcjqxkev = this._value.value;
+
+	writeValue(value: TValue): void {
+		this.#kcjqxkev = value;
+		this._value.next(value);
+	}
+
+	#onChange = this._value.pipe(skip(1)).pipe(
+		filter((value) => value !== this.#kcjqxkev),
+		tap((value) => {
+			this.#kcjqxkev = value;
+		}),
+	);
+
+	#onChangeSubscription = Subscription.EMPTY;
+
+	registerOnChange(fn: {(value: TValue): void}): void {
+		if (!this.#subscription.closed) {
+			this.#onChangeSubscription.unsubscribe();
+			this.#onChangeSubscription = this.#onChange.subscribe(fn);
+			this.#subscription.add(this.#onChangeSubscription);
+		}
+	}
+
+	setDisabledState(disabled): void {
+		this._disabled.next(disabled);
+	}
+
+	validate(): Observable<null | ValidationErrors> {
+		return of(null);
+	}
+
+	registerOnValidatorChange(): void {}
+
+	registerOnTouched(): void {}
+
+	#subscription = new Subscription();
+
+	ngOnDestroy(): void {
+		this.#subscription.unsubscribe();
+	}
+}
+
+@Injectable()
 // todo: rename
 export class FormControlService<TValue = any> {
 	static provide(): Provider {
 		// todo
-		return [this];
+		return [
+			this,
+			Lbtrqpyk,
+			{
+				provide: NG_VALUE_ACCESSOR,
+				multi: true,
+				useExisting: Lbtrqpyk,
+			},
+			{
+				provide: NG_ASYNC_VALIDATORS,
+				multi: true,
+				useExisting: Lbtrqpyk,
+			},
+		];
 	}
 
 	constructor() {}
 
+	#lbtrqpyk = inject<Lbtrqpyk<TValue>>(Lbtrqpyk);
+
+	#value = this.#lbtrqpyk._value;
+
 	get value(): TValue {
-		throw 'not implemented yet';
+		return this.#value.value;
 	}
 	set value(v: TValue) {
-		throw 'not implemented yet';
+		if (this.#value.value !== v) {
+			this.#value.next(v);
+		}
 	}
 
 	get valueChanges(): Observable<TValue> {
-		throw 'not implemented yet';
+		return this.#value.pipe(skip(1));
 	}
 
+	#disabled = this.#lbtrqpyk._disabled;
+
 	get disabled(): boolean {
-		throw 'not implemented yet';
+		return this.#disabled.value;
 	}
 
 	get disabledChanges(): Observable<boolean> {
-		throw 'not implemented yet';
+		return this.#disabled.pipe(skip(1));
 	}
 
+	#errors = this.#lbtrqpyk._errors;
+
 	get errors(): null | ValidationErrors {
-		throw 'not implemented yet';
+		return this.#errors.value;
 	}
 	set errors(v: null | ValidationErrors) {
-		throw 'not implemented yet';
+		this.#errors.next(v);
 	}
 
 	get errorsChanges(): Observable<null | ValidationErrors> {
-		throw 'not implemented yet';
+		return this.#errors.pipe(skip(1));
 	}
 
+	#pending = this.#lbtrqpyk._pending;
+
 	get pending(): boolean {
-		throw 'not implemented yet';
+		return this.#pending.value;
 	}
 	set pending(v: boolean) {
-		throw 'not implemented yet';
+		this.#pending.next(v);
 	}
 
 	get pendingChanges(): Observable<boolean> {
-		throw 'not implemented yet';
+		return this.#disabled.pipe(skip(1));
 	}
 
+	#touched = this.#lbtrqpyk._touched;
+
 	get touched(): boolean {
-		throw 'not implemented yet';
+		return this.#touched.value;
 	}
 
 	get touchedChanges(): Observable<boolean> {
-		throw 'not implemented yet';
+		return this.#touched.pipe(distinctUntilChanged(), skip(1));
 	}
 
 	touch(): void {
-		throw 'not implemented yet';
+		this.#touched.next(true);
 	}
 }
