@@ -112,9 +112,6 @@ export class FormControlService<TValue = any> {
 	get touched(): boolean {
 		throw 'not implemented yet';
 	}
-	set touched(v: boolean) {
-		throw 'not implemented yet';
-	}
 
 	get touchedChanges(): Observable<boolean> {
 		throw 'not implemented yet';

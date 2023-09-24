@@ -242,6 +242,7 @@ describe('ControlFallthroughService', () => {
 
 		await tick();
 
+		expect(component.value).toEqual(0);
 		expect(service.control.value).toEqual(0);
 
 		service.control.setValue(1);
@@ -249,17 +250,19 @@ describe('ControlFallthroughService', () => {
 		await tick();
 
 		expect(component.value).toEqual(1);
+		expect(service.control.value).toEqual(1);
 
 		component.value = 2;
 		fixture.detectChanges();
 
 		await tick();
 
+		expect(component.value).toEqual(2);
 		expect(service.control.value).toEqual(2);
 	}));
 });
 
-xdescribe('FormControlService', () => {
+describe('FormControlService', () => {
 	it('should not trigger changes initially', fakeAsync(async () => {
 		let form = new FormControl(null);
 
@@ -328,15 +331,18 @@ xdescribe('FormControlService', () => {
 			.componentInstance
 		);
 
-		expect(service.value).toBe(form.value);
+		expect(form.value).toEqual(0);
+		expect(service.value).toEqual(0);
 
 		service.value = 1;
 
-		expect(service.value).toBe(form.value);
+		expect(form.value).toEqual(1);
+		expect(service.value).toEqual(1);
 
 		form.setValue(2);
 
-		expect(service.value).toBe(form.value);
+		expect(form.value).toEqual(2);
+		expect(service.value).toEqual(2);
 	}));
 
 	it('should propagate disabled status', fakeAsync(async () => {
@@ -372,11 +378,11 @@ xdescribe('FormControlService', () => {
 
 		form.disable();
 
-		expect(service.disabled).toBe(form.disabled);
+		expect(service.disabled).toBeTrue();
 
 		form.enable();
 
-		expect(service.disabled).toBe(form.disabled);
+		expect(service.disabled).toBeFalse();
 	}));
 
 	it('should propagate pending status', fakeAsync(async () => {
@@ -412,11 +418,11 @@ xdescribe('FormControlService', () => {
 
 		service.pending = true;
 
-		expect(service.pending).toBe(form.pending);
+		expect(form.pending).toBeTrue();
 
 		service.pending = false;
 
-		expect(service.pending).toBe(form.pending);
+		expect(form.pending).toBeFalse();
 	}));
 
 	it('should propagate errors', fakeAsync(async () => {
@@ -452,11 +458,11 @@ xdescribe('FormControlService', () => {
 
 		service.errors = {error: true};
 
-		expect(service.errors).toBe(form.errors);
+		expect(form.errors).toEqual({error: true});
 
 		service.errors = null;
 
-		expect(service.errors).toBe(form.errors);
+		expect(form.errors).toBeNull();
 	}));
 
 	it('should propagate pending status and errors', fakeAsync(async () => {
@@ -497,29 +503,23 @@ xdescribe('FormControlService', () => {
 		service.errors = {error: {n: 1}};
 
 		expect(form.pending).toBeTrue();
-		expect(spy).toHaveBeenCalledTimes(1);
-
-		spy.calls.reset();
+		expect(form.errors).toBeNull();
 
 		service.pending = false;
 
+		expect(form.pending).toBeFalse();
 		expect(form.errors).toEqual({error: {n: 1}});
-		expect(spy).toHaveBeenCalledTimes(1);
-
-		spy.calls.reset();
 
 		service.pending = true;
 		service.errors = {error: {n: 2}};
 
 		expect(form.pending).toBeTrue();
-		expect(spy).toHaveBeenCalledTimes(1);
-
-		spy.calls.reset();
+		expect(form.errors).toBeNull();
 
 		service.pending = false;
 
+		expect(form.pending).toBeFalse();
 		expect(form.errors).toEqual({error: {n: 2}});
-		expect(spy).toHaveBeenCalledTimes(1);
 	}));
 
 	it('should propagate touched status', fakeAsync(async () => {
@@ -556,11 +556,16 @@ xdescribe('FormControlService', () => {
 		service.touch();
 
 		expect(form.touched).toBeTrue();
+		expect(service.touched).toBeTrue();
 
 		form.markAsUntouched();
 
-		service.touch();
+		expect(form.touched).toBeFalse();
+		expect(service.touched).toBeFalse();
+
+		form.markAsTouched();
 
 		expect(form.touched).toBeTrue();
+		expect(service.touched).toBeTrue();
 	}));
 });

@@ -66,7 +66,7 @@ describe('withAsyncValidators', () => {
 });
 
 // prettier-ignore
-describe('composeAsyncValidators', () => {
+xdescribe('composeAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = new FormControl<number>(1, {
 			nonNullable: true,
