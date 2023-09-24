@@ -88,7 +88,7 @@ describe('composeValidators', () => {
 
 		expect(validators[0]).toHaveBeenCalledTimes(1);
 		expect(validators[1]).toHaveBeenCalledTimes(1);
-		expect(validators[2]).toHaveBeenCalledTimes(0);
+		expect(validators[2]).not.toHaveBeenCalled();
 	}));
 
 	it('should return same validator if only one provided', fakeAsync(async () => {

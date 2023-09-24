@@ -16,8 +16,8 @@ export let NoopAsyncValidator: {
 	(control: AbstractControl): Promise<null>;
 } = async () => null;
 
-// todo: rename
 // prettier-ignore
+// todo: rename
 export let FailAsyncValidator: {
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): Promise<TErrors>;
@@ -54,7 +54,6 @@ export function composeAsyncValidators<
 	}
 	return (control) => {
 		// todo: implement
-		control;
 		throw 'not implemented yet';
 	};
 }
