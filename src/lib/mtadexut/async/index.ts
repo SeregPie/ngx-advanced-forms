@@ -52,8 +52,9 @@ export function composeAsyncValidators<
 		case 1:
 			return validators[0];
 	}
-	return (_control) => {
+	return (control) => {
 		// todo: implement
+		control;
 		throw 'not implemented yet';
 	};
 }
