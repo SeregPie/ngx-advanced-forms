@@ -11,7 +11,9 @@ import {
 describe('withAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(
-			new FormControl(1, {nonNullable: true}),
+			new FormControl<number>(1, {
+				nonNullable: true,
+			}),
 			async ({value}) => value % 2 ? {error: true} : null,
 		);
 
@@ -66,7 +68,7 @@ describe('withAsyncValidators', () => {
 // prettier-ignore
 describe('composeAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
-		let form = new FormControl(1, {
+		let form = new FormControl<number>(1, {
 			nonNullable: true,
 			asyncValidators: composeAsyncValidators([
 				async ({value}) => value === 1 ? {error: {n: 1}} : null,

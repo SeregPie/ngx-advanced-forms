@@ -7,7 +7,9 @@ import {NoopValidator, composeValidators, withValidators} from '.';
 describe('withValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withValidators(
-			new FormControl(1, {nonNullable: true}),
+			new FormControl<number>(1, {
+				nonNullable: true,
+			}),
 			({value}) => value % 2 ? {error: true} : null,
 		);
 
@@ -54,7 +56,7 @@ describe('withValidators', () => {
 // prettier-ignore
 describe('composeValidators', () => {
 	it('should work', fakeAsync(async () => {
-		let form = new FormControl(1, {
+		let form = new FormControl<number>(1, {
 			nonNullable: true,
 			validators: composeValidators([
 				({value}) => value === 1 ? {error: {n: 1}} : null,

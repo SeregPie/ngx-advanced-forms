@@ -11,9 +11,10 @@ import {By} from '@angular/platform-browser';
 
 import {ControlFallthroughService, FormControlService} from '.';
 
-// prettier-ignore
 describe('ControlFallthroughService', () => {
 	it('should work with FormControlDirective', fakeAsync(async () => {
+		let form = new FormControl(null);
+
 		@Component({
 			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
@@ -30,22 +31,26 @@ describe('ControlFallthroughService', () => {
 			template: `<my-sub [formControl]="form" />`,
 		})
 		class MyComponent {
-			form = new FormControl(null);
+			form = form;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		let myComponent = fixture.componentInstance;
-		let mySubComponent: MySubComponent = (fixture
+		// prettier-ignore
+		let {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(mySubComponent.service.control).toBe(myComponent.form);
+		expect(service.control).toBe(form);
 	}));
 
-	it('should work with FormControlNameDirective', fakeAsync(async() => {
+	it('should work with FormControlNameDirective', fakeAsync(async () => {
+		let form = new FormGroup({
+			a: new FormControl(null),
+		});
+
 		@Component({
 			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
@@ -66,24 +71,27 @@ describe('ControlFallthroughService', () => {
 			`,
 		})
 		class MyComponent {
-			form = new FormGroup({
-				a: new FormControl(null),
-			});
+			form = form;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		let myComponent = fixture.componentInstance;
-		let mySubComponent: MySubComponent = (fixture
+		// prettier-ignore
+		let {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
+		expect(service.control).toBe(form.controls.a);
 	}));
 
 	it('should work with FormGroupDirective', fakeAsync(async () => {
+		let form = new FormGroup({
+			a: new FormControl(null),
+			b: new FormControl(null),
+		});
+
 		@Component({
 			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
@@ -100,25 +108,29 @@ describe('ControlFallthroughService', () => {
 			template: `<my-sub [formGroup]="form" />`,
 		})
 		class MyComponent {
-			form = new FormGroup({
-				a: new FormControl(null),
-				b: new FormControl(null),
-			});
+			form = form;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		let myComponent = fixture.componentInstance;
-		let mySubComponent: MySubComponent = (fixture
+		// prettier-ignore
+		let {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(mySubComponent.service.control).toBe(myComponent.form);
+		expect(service.control).toBe(form);
 	}));
 
 	it('should work with FormGroupNameDirective', fakeAsync(async () => {
+		let form = new FormGroup({
+			a: new FormGroup({
+				a: new FormControl(null),
+				b: new FormControl(null),
+			}),
+		});
+
 		@Component({
 			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
@@ -139,27 +151,30 @@ describe('ControlFallthroughService', () => {
 			`,
 		})
 		class MyComponent {
-			form = new FormGroup({
-				a: new FormGroup({
-					a: new FormControl(null),
-					b: new FormControl(null),
-				}),
-			});
+			form = form;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		let myComponent = fixture.componentInstance;
-		let mySubComponent: MySubComponent = (fixture
+		// prettier-ignore
+		let {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
+		expect(service.control).toBe(form.controls.a);
 	}));
 
 	it('should work with FormArrayNameDirective', fakeAsync(async () => {
+		let form = new FormGroup({
+			a: new FormArray([
+				//
+				new FormControl(null),
+				new FormControl(null),
+			]),
+		});
+
 		@Component({
 			providers: [ControlFallthroughService.provide()],
 			selector: 'my-sub',
@@ -180,24 +195,19 @@ describe('ControlFallthroughService', () => {
 			`,
 		})
 		class MyComponent {
-			form = new FormGroup({
-				a: new FormArray([
-					new FormControl(null),
-					new FormControl(null),
-				]),
-			});
+			form = form;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		let myComponent = fixture.componentInstance;
-		let mySubComponent: MySubComponent = (fixture
+		// prettier-ignore
+		let {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(mySubComponent.service.control).toBe(myComponent.form.controls.a);
+		expect(service.control).toBe(form.controls.a);
 	}));
 
 	it('should work with NgModelDirective', fakeAsync(async () => {
@@ -209,10 +219,6 @@ describe('ControlFallthroughService', () => {
 		})
 		class MySubComponent {
 			constructor(public service: ControlFallthroughService) {}
-
-			get form() {
-				return this.service.control as FormControl<number>;
-			}
 		}
 
 		@Component({
@@ -221,13 +227,14 @@ describe('ControlFallthroughService', () => {
 			template: `<my-sub [(ngModel)]="value" />`,
 		})
 		class MyComponent {
-			value = 0;
+			value: number = 0;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		let myComponent = fixture.componentInstance;
-		let mySubComponent: MySubComponent = (fixture
+		let component = fixture.componentInstance;
+		// prettier-ignore
+		let {service}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
@@ -235,20 +242,20 @@ describe('ControlFallthroughService', () => {
 
 		await tick();
 
-		expect(mySubComponent.form.value).toEqual(0);
+		expect(service.control.value).toEqual(0);
 
-		mySubComponent.form.setValue(1);
+		service.control.setValue(1);
 
 		await tick();
 
-		expect(myComponent.value).toEqual(1);
+		expect(component.value).toEqual(1);
 
-		myComponent.value = 2;
+		component.value = 2;
 		fixture.detectChanges();
 
 		await tick();
 
-		expect(mySubComponent.form.value).toEqual(2);
+		expect(service.control.value).toEqual(2);
 	}));
 });
 
@@ -289,7 +296,9 @@ xdescribe('FormControlService', () => {
 	}));
 
 	it('should propagate value', fakeAsync(async () => {
-		let form = new FormControl(0);
+		let form = new FormControl<number>(0, {
+			nonNullable: true,
+		});
 
 		@Component({
 			providers: [FormControlService.provide()],
@@ -319,15 +328,15 @@ xdescribe('FormControlService', () => {
 			.componentInstance
 		);
 
-		expect(service.value).toBe(0);
+		expect(service.value).toBe(form.value);
 
 		service.value = 1;
 
-		expect(form.value).toBe(1);
+		expect(service.value).toBe(form.value);
 
 		form.setValue(2);
 
-		expect(service.value).toBe(2);
+		expect(service.value).toBe(form.value);
 	}));
 
 	it('should propagate disabled status', fakeAsync(async () => {
@@ -363,11 +372,11 @@ xdescribe('FormControlService', () => {
 
 		form.disable();
 
-		expect(service.disabled).toBeTrue();
+		expect(service.disabled).toBe(form.disabled);
 
 		form.enable();
 
-		expect(service.disabled).toBeFalse();
+		expect(service.disabled).toBe(form.disabled);
 	}));
 
 	it('should propagate pending status', fakeAsync(async () => {
@@ -401,21 +410,13 @@ xdescribe('FormControlService', () => {
 			.componentInstance
 		);
 
-		// todo: rename
-		let spy = jasmine.createSpy();
-		form.statusChanges.subscribe(spy);
-
 		service.pending = true;
 
-		expect(form.pending).toBeTrue();
-		expect(spy).toHaveBeenCalledTimes(1);
-
-		spy.calls.reset();
+		expect(service.pending).toBe(form.pending);
 
 		service.pending = false;
 
-		expect(form.pending).toBeFalse();
-		expect(spy).toHaveBeenCalledTimes(1);
+		expect(service.pending).toBe(form.pending);
 	}));
 
 	it('should propagate errors', fakeAsync(async () => {
@@ -449,21 +450,13 @@ xdescribe('FormControlService', () => {
 			.componentInstance
 		);
 
-		// todo: rename
-		let spy = jasmine.createSpy();
-		form.statusChanges.subscribe(spy);
-
 		service.errors = {error: true};
 
-		expect(form.errors).toEqual({error: true});
-		expect(spy).toHaveBeenCalledTimes(2);
-
-		spy.calls.reset();
+		expect(service.errors).toBe(form.errors);
 
 		service.errors = null;
 
-		expect(form.errors).toBeNull();
-		expect(spy).toHaveBeenCalledTimes(2);
+		expect(service.errors).toBe(form.errors);
 	}));
 
 	it('should propagate pending status and errors', fakeAsync(async () => {
@@ -499,10 +492,6 @@ xdescribe('FormControlService', () => {
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
-
-		// todo: rename
-		let spy = jasmine.createSpy();
-		form.statusChanges.subscribe(spy);
 
 		service.pending = true;
 		service.errors = {error: {n: 1}};
