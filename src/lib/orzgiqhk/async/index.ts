@@ -3,6 +3,7 @@ import {
 	AsyncValidatorFn,
 	ValidationErrors,
 } from '@angular/forms';
+import {isObservable, lastValueFrom} from 'rxjs';
 
 // prettier-ignore
 export interface CustomAsyncValidatorFn<
@@ -24,17 +25,29 @@ export let FailAsyncValidator: {
 	};
 } = (errors) => async () => errors;
 
-// prettier-ignore
-export function withAsyncValidators<
+export function composeAsyncValidators<
+	//
 	TControl extends AbstractControl,
 >(
-	control: TControl,
-	validators: (
-		| CustomAsyncValidatorFn<TControl>
-		| Array<CustomAsyncValidatorFn<TControl>>
-	),
-): TControl {
-	control.addAsyncValidators(validators);
-	control.updateValueAndValidity();
-	return control;
+	//
+	validators: Array<CustomAsyncValidatorFn<TControl>>,
+): CustomAsyncValidatorFn<TControl> {
+	switch (validators.length) {
+		case 0:
+			return NoopAsyncValidator;
+		case 1:
+			return validators[0];
+	}
+	return async (control) => {
+		// todo
+		for (let validator of validators) {
+			let errors = await ((v) => (isObservable(v) ? lastValueFrom(v) : v))(
+				validator(control),
+			);
+			if (errors != null) {
+				return errors;
+			}
+		}
+		return null;
+	};
 }

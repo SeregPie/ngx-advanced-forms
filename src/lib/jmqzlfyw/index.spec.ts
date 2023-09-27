@@ -9,20 +9,20 @@ import {
 } from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
-import {ControlFallthroughService, FormControlService} from '.';
+import {ControlFallthroughProvider, useControlFallthrough} from '.';
 
 describe('ControlFallthroughService', () => {
 	it('should work with FormControlDirective', fakeAsync(async () => {
 		let form = new FormControl(null);
 
 		@Component({
-			providers: [ControlFallthroughService.provide()],
+			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: ControlFallthroughService) {}
+			htpqiipg = useControlFallthrough();
 		}
 
 		@Component({
@@ -37,13 +37,13 @@ describe('ControlFallthroughService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {htpqiipg}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(service.control).toBe(form);
+		expect(htpqiipg.control).toBe(form);
 	}));
 
 	it('should work with FormControlNameDirective', fakeAsync(async () => {
@@ -52,13 +52,13 @@ describe('ControlFallthroughService', () => {
 		});
 
 		@Component({
-			providers: [ControlFallthroughService.provide()],
+			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: ControlFallthroughService) {}
+			htpqiipg = useControlFallthrough();
 		}
 
 		@Component({
@@ -77,13 +77,13 @@ describe('ControlFallthroughService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {htpqiipg}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(service.control).toBe(form.controls.a);
+		expect(htpqiipg.control).toBe(form.controls.a);
 	}));
 
 	it('should work with FormGroupDirective', fakeAsync(async () => {
@@ -93,13 +93,13 @@ describe('ControlFallthroughService', () => {
 		});
 
 		@Component({
-			providers: [ControlFallthroughService.provide()],
+			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: ControlFallthroughService) {}
+			htpqiipg = useControlFallthrough();
 		}
 
 		@Component({
@@ -114,13 +114,13 @@ describe('ControlFallthroughService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {htpqiipg}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(service.control).toBe(form);
+		expect(htpqiipg.control).toBe(form);
 	}));
 
 	it('should work with FormGroupNameDirective', fakeAsync(async () => {
@@ -132,13 +132,13 @@ describe('ControlFallthroughService', () => {
 		});
 
 		@Component({
-			providers: [ControlFallthroughService.provide()],
+			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: ControlFallthroughService) {}
+			htpqiipg = useControlFallthrough();
 		}
 
 		@Component({
@@ -157,13 +157,13 @@ describe('ControlFallthroughService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {htpqiipg}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(service.control).toBe(form.controls.a);
+		expect(htpqiipg.control).toBe(form.controls.a);
 	}));
 
 	it('should work with FormArrayNameDirective', fakeAsync(async () => {
@@ -176,13 +176,13 @@ describe('ControlFallthroughService', () => {
 		});
 
 		@Component({
-			providers: [ControlFallthroughService.provide()],
+			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: ControlFallthroughService) {}
+			htpqiipg = useControlFallthrough();
 		}
 
 		@Component({
@@ -201,24 +201,24 @@ describe('ControlFallthroughService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {htpqiipg}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(service.control).toBe(form.controls.a);
+		expect(htpqiipg.control).toBe(form.controls.a);
 	}));
 
 	it('should work with NgModelDirective', fakeAsync(async () => {
 		@Component({
-			providers: [ControlFallthroughService.provide()],
+			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: ControlFallthroughService) {}
+			htpqiipg = useControlFallthrough();
 		}
 
 		@Component({
@@ -234,7 +234,7 @@ describe('ControlFallthroughService', () => {
 		fixture.detectChanges();
 		let component = fixture.componentInstance;
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {htpqiipg}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
@@ -243,14 +243,14 @@ describe('ControlFallthroughService', () => {
 		await tick();
 
 		expect(component.value).toEqual(0);
-		expect(service.control.value).toEqual(0);
+		expect(htpqiipg.control.value).toEqual(0);
 
-		service.control.setValue(1);
+		htpqiipg.control.setValue(1);
 
 		await tick();
 
 		expect(component.value).toEqual(1);
-		expect(service.control.value).toEqual(1);
+		expect(htpqiipg.control.value).toEqual(1);
 
 		component.value = 2;
 		fixture.detectChanges();
@@ -258,314 +258,6 @@ describe('ControlFallthroughService', () => {
 		await tick();
 
 		expect(component.value).toEqual(2);
-		expect(service.control.value).toEqual(2);
-	}));
-});
-
-describe('FormControlService', () => {
-	it('should not trigger changes initially', fakeAsync(async () => {
-		let form = new FormControl(null);
-
-		// todo: rename
-		let spy = jasmine.createSpy();
-		form.valueChanges.subscribe(spy);
-		form.statusChanges.subscribe(spy);
-
-		@Component({
-			providers: [FormControlService.provide()],
-			selector: 'my-sub',
-			standalone: true,
-			template: '',
-		})
-		class MySubComponent {
-			constructor(public service: FormControlService) {}
-		}
-
-		@Component({
-			imports: [ReactiveFormsModule, MySubComponent],
-			standalone: true,
-			template: `<my-sub [formControl]="form" />`,
-		})
-		class MyComponent {
-			form = form;
-		}
-
-		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
-
-		await tick();
-
-		expect(spy).not.toHaveBeenCalled();
-	}));
-
-	it('should propagate value', fakeAsync(async () => {
-		let form = new FormControl<number>(0, {
-			nonNullable: true,
-		});
-
-		@Component({
-			providers: [FormControlService.provide()],
-			selector: 'my-sub',
-			standalone: true,
-			template: '',
-		})
-		class MySubComponent {
-			constructor(public service: FormControlService) {}
-		}
-
-		@Component({
-			imports: [ReactiveFormsModule, MySubComponent],
-			standalone: true,
-			template: `<my-sub [formControl]="form" />`,
-		})
-		class MyComponent {
-			form = form;
-		}
-
-		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
-		// prettier-ignore
-		let {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
-
-		expect(form.value).toEqual(0);
-		expect(service.value).toEqual(0);
-
-		service.value = 1;
-
-		expect(form.value).toEqual(1);
-		expect(service.value).toEqual(1);
-
-		form.setValue(2);
-
-		expect(form.value).toEqual(2);
-		expect(service.value).toEqual(2);
-	}));
-
-	it('should propagate disabled status', fakeAsync(async () => {
-		let form = new FormControl(null);
-
-		@Component({
-			providers: [FormControlService.provide()],
-			selector: 'my-sub',
-			standalone: true,
-			template: '',
-		})
-		class MySubComponent {
-			constructor(public service: FormControlService) {}
-		}
-
-		@Component({
-			imports: [ReactiveFormsModule, MySubComponent],
-			standalone: true,
-			template: `<my-sub [formControl]="form" />`,
-		})
-		class MyComponent {
-			form = form;
-		}
-
-		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
-		// prettier-ignore
-		let {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
-
-		form.disable();
-
-		expect(service.disabled).toBeTrue();
-
-		form.enable();
-
-		expect(service.disabled).toBeFalse();
-	}));
-
-	it('should propagate pending status', fakeAsync(async () => {
-		let form = new FormControl(null);
-
-		@Component({
-			providers: [FormControlService.provide()],
-			selector: 'my-sub',
-			standalone: true,
-			template: '',
-		})
-		class MySubComponent {
-			constructor(public service: FormControlService) {}
-		}
-
-		@Component({
-			imports: [ReactiveFormsModule, MySubComponent],
-			standalone: true,
-			template: `<my-sub [formControl]="form" />`,
-		})
-		class MyComponent {
-			form = form;
-		}
-
-		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
-		// prettier-ignore
-		let {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
-
-		service.pending = true;
-
-		expect(form.pending).toBeTrue();
-
-		service.pending = false;
-
-		expect(form.pending).toBeFalse();
-	}));
-
-	it('should propagate errors', fakeAsync(async () => {
-		let form = new FormControl(null);
-
-		@Component({
-			providers: [FormControlService.provide()],
-			selector: 'my-sub',
-			standalone: true,
-			template: '',
-		})
-		class MySubComponent {
-			constructor(public service: FormControlService) {}
-		}
-
-		@Component({
-			imports: [ReactiveFormsModule, MySubComponent],
-			standalone: true,
-			template: `<my-sub [formControl]="form" />`,
-		})
-		class MyComponent {
-			form = form;
-		}
-
-		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
-		// prettier-ignore
-		let {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
-
-		service.errors = {error: true};
-
-		expect(form.errors).toEqual({error: true});
-
-		service.errors = null;
-
-		expect(form.errors).toBeNull();
-	}));
-
-	it('should propagate pending status and errors', fakeAsync(async () => {
-		let form = new FormControl(null);
-
-		@Component({
-			providers: [FormControlService.provide()],
-			selector: 'my-sub',
-			standalone: true,
-			template: '',
-		})
-		class MySubComponent {
-			constructor(public service: FormControlService) {}
-		}
-
-		@Component({
-			imports: [ReactiveFormsModule, MySubComponent],
-			standalone: true,
-			template: `<my-sub [formControl]="form" />`,
-		})
-		class MyComponent {
-			form = form;
-		}
-
-		TestBed.configureTestingModule({
-			imports: [MyComponent],
-		});
-		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
-		// prettier-ignore
-		let {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
-
-		service.pending = true;
-		service.errors = {error: {n: 1}};
-
-		expect(form.pending).toBeTrue();
-		expect(form.errors).toBeNull();
-
-		service.pending = false;
-
-		expect(form.pending).toBeFalse();
-		expect(form.errors).toEqual({error: {n: 1}});
-
-		service.pending = true;
-		service.errors = {error: {n: 2}};
-
-		expect(form.pending).toBeTrue();
-		expect(form.errors).toBeNull();
-
-		service.pending = false;
-
-		expect(form.pending).toBeFalse();
-		expect(form.errors).toEqual({error: {n: 2}});
-	}));
-
-	it('should propagate touched status', fakeAsync(async () => {
-		let form = new FormControl(null);
-
-		@Component({
-			providers: [FormControlService.provide()],
-			selector: 'my-sub',
-			standalone: true,
-			template: '',
-		})
-		class MySubComponent {
-			constructor(public service: FormControlService) {}
-		}
-
-		@Component({
-			imports: [ReactiveFormsModule, MySubComponent],
-			standalone: true,
-			template: `<my-sub [formControl]="form" />`,
-		})
-		class MyComponent {
-			form = form;
-		}
-
-		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
-		// prettier-ignore
-		let {service}: MySubComponent = (fixture
-			.debugElement
-			.query(By.directive(MySubComponent))
-			.componentInstance
-		);
-
-		service.touch();
-
-		expect(form.touched).toBeTrue();
-		expect(service.touched).toBeTrue();
-
-		form.markAsUntouched();
-
-		expect(form.touched).toBeFalse();
-		expect(service.touched).toBeFalse();
-
-		form.markAsTouched();
-
-		expect(form.touched).toBeTrue();
-		expect(service.touched).toBeTrue();
+		expect(htpqiipg.control.value).toEqual(2);
 	}));
 });
