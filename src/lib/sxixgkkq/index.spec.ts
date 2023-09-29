@@ -3,7 +3,7 @@ import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
-import {FormControlService} from '.';
+import {SxixgkkqProvider, useSxixgkkq} from '.';
 
 describe('FormControlService', () => {
 	it('should not trigger changes initially', fakeAsync(async () => {
@@ -15,13 +15,13 @@ describe('FormControlService', () => {
 		form.statusChanges.subscribe(spy);
 
 		@Component({
-			providers: [FormControlService.provide()],
+			providers: [SxixgkkqProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormControlService) {}
+			umbcyimu = useSxixgkkq();
 		}
 
 		@Component({
@@ -47,13 +47,13 @@ describe('FormControlService', () => {
 		});
 
 		@Component({
-			providers: [FormControlService.provide()],
+			providers: [SxixgkkqProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormControlService) {}
+			umbcyimu = useSxixgkkq();
 		}
 
 		@Component({
@@ -68,37 +68,37 @@ describe('FormControlService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {umbcyimu}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
 		expect(form.value).toEqual(0);
-		expect(service.value).toEqual(0);
+		expect(umbcyimu.value).toEqual(0);
 
-		service.value = 1;
+		umbcyimu.value = 1;
 
 		expect(form.value).toEqual(1);
-		expect(service.value).toEqual(1);
+		expect(umbcyimu.value).toEqual(1);
 
 		form.setValue(2);
 
 		expect(form.value).toEqual(2);
-		expect(service.value).toEqual(2);
+		expect(umbcyimu.value).toEqual(2);
 	}));
 
 	it('should propagate disabled status', fakeAsync(async () => {
 		let form = new FormControl(null);
 
 		@Component({
-			providers: [FormControlService.provide()],
+			providers: [SxixgkkqProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormControlService) {}
+			umbcyimu = useSxixgkkq();
 		}
 
 		@Component({
@@ -113,7 +113,7 @@ describe('FormControlService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {umbcyimu}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
@@ -121,24 +121,24 @@ describe('FormControlService', () => {
 
 		form.disable();
 
-		expect(service.disabled).toBeTrue();
+		expect(umbcyimu.disabled).toBeTrue();
 
 		form.enable();
 
-		expect(service.disabled).toBeFalse();
+		expect(umbcyimu.disabled).toBeFalse();
 	}));
 
 	it('should propagate pending status', fakeAsync(async () => {
 		let form = new FormControl(null);
 
 		@Component({
-			providers: [FormControlService.provide()],
+			providers: [SxixgkkqProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormControlService) {}
+			umbcyimu = useSxixgkkq();
 		}
 
 		@Component({
@@ -153,17 +153,17 @@ describe('FormControlService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {umbcyimu}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		service.pending = true;
+		umbcyimu.pending = true;
 
 		expect(form.pending).toBeTrue();
 
-		service.pending = false;
+		umbcyimu.pending = false;
 
 		expect(form.pending).toBeFalse();
 	}));
@@ -172,13 +172,13 @@ describe('FormControlService', () => {
 		let form = new FormControl(null);
 
 		@Component({
-			providers: [FormControlService.provide()],
+			providers: [SxixgkkqProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormControlService) {}
+			umbcyimu = useSxixgkkq();
 		}
 
 		@Component({
@@ -193,17 +193,17 @@ describe('FormControlService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {umbcyimu}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		service.errors = {error: true};
+		umbcyimu.errors = {error: true};
 
 		expect(form.errors).toEqual({error: true});
 
-		service.errors = null;
+		umbcyimu.errors = null;
 
 		expect(form.errors).toBeNull();
 	}));
@@ -212,13 +212,13 @@ describe('FormControlService', () => {
 		let form = new FormControl(null);
 
 		@Component({
-			providers: [FormControlService.provide()],
+			providers: [SxixgkkqProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormControlService) {}
+			umbcyimu = useSxixgkkq();
 		}
 
 		@Component({
@@ -236,30 +236,30 @@ describe('FormControlService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {umbcyimu}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		service.pending = true;
-		service.errors = {error: {n: 1}};
+		umbcyimu.pending = true;
+		umbcyimu.errors = {error: {n: 1}};
 
 		expect(form.pending).toBeTrue();
 		expect(form.errors).toBeNull();
 
-		service.pending = false;
+		umbcyimu.pending = false;
 
 		expect(form.pending).toBeFalse();
 		expect(form.errors).toEqual({error: {n: 1}});
 
-		service.pending = true;
-		service.errors = {error: {n: 2}};
+		umbcyimu.pending = true;
+		umbcyimu.errors = {error: {n: 2}};
 
 		expect(form.pending).toBeTrue();
 		expect(form.errors).toBeNull();
 
-		service.pending = false;
+		umbcyimu.pending = false;
 
 		expect(form.pending).toBeFalse();
 		expect(form.errors).toEqual({error: {n: 2}});
@@ -269,13 +269,13 @@ describe('FormControlService', () => {
 		let form = new FormControl(null);
 
 		@Component({
-			providers: [FormControlService.provide()],
+			providers: [SxixgkkqProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			constructor(public service: FormControlService) {}
+			umbcyimu = useSxixgkkq();
 		}
 
 		@Component({
@@ -290,25 +290,25 @@ describe('FormControlService', () => {
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
 		// prettier-ignore
-		let {service}: MySubComponent = (fixture
+		let {umbcyimu}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		service.touch();
+		umbcyimu.touch();
 
 		expect(form.touched).toBeTrue();
-		expect(service.touched).toBeTrue();
+		expect(umbcyimu.touched).toBeTrue();
 
 		form.markAsUntouched();
 
 		expect(form.touched).toBeFalse();
-		expect(service.touched).toBeFalse();
+		expect(umbcyimu.touched).toBeFalse();
 
 		form.markAsTouched();
 
 		expect(form.touched).toBeTrue();
-		expect(service.touched).toBeTrue();
+		expect(umbcyimu.touched).toBeTrue();
 	}));
 });

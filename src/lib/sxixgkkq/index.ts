@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy, Provider, inject} from '@angular/core';
+import {Injectable, OnDestroy, Provider, inject, signal} from '@angular/core';
 import {
 	AsyncValidator,
 	ControlValueAccessor,
@@ -16,6 +16,8 @@ import {
 	skip,
 	tap,
 } from 'rxjs';
+
+describe('', () => {});
 
 export const SxixgkkqProvider: Provider = [
 	this,
@@ -49,7 +51,47 @@ export interface Sxixgkkq<TValue = any> {
 	touch(): void;
 }
 
-export function useSxixgkkq(): Sxixgkkq {}
+export function useSxixgkkq<TValue>(): Sxixgkkq<TValue> {
+	let value$ = signal<TValue>(null as any);
+	let disabled$ = signal<boolean>(false);
+	let errors$ = signal<null | ValidationErrors>(null);
+	let pending$ = signal<boolean>(false);
+	let touched$ = signal<boolean>(false);
+	return {
+		get value() {
+			return value$();
+		},
+		set value(v) {
+			value$.set(v);
+		},
+
+		get disabled() {
+			return disabled$();
+		},
+
+		get errors() {
+			return errors$();
+		},
+		set errors(v) {
+			errors$.set(v);
+		},
+
+		get pending() {
+			return pending$();
+		},
+		set pending(v) {
+			pending$.set(v);
+		},
+
+		get touched() {
+			return touched$();
+		},
+
+		touch() {
+			touched$.set(true);
+		},
+	};
+}
 
 @Injectable()
 class Lbtrqpyk<TValue>
@@ -113,24 +155,6 @@ class Lbtrqpyk<TValue>
 @Injectable()
 // todo: rename
 export class FormControlService<TValue = any> {
-	static provide(): Provider {
-		// todo
-		return [
-			this,
-			Lbtrqpyk,
-			{
-				provide: NG_VALUE_ACCESSOR,
-				multi: true,
-				useExisting: Lbtrqpyk,
-			},
-			{
-				provide: NG_ASYNC_VALIDATORS,
-				multi: true,
-				useExisting: Lbtrqpyk,
-			},
-		];
-	}
-
 	constructor() {}
 
 	#lbtrqpyk = inject<Lbtrqpyk<TValue>>(Lbtrqpyk);

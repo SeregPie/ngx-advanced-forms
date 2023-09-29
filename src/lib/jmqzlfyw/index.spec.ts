@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {Component, signal} from '@angular/core';
+import {TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {
 	FormArray,
 	FormControl,
 	FormGroup,
+	FormRecord,
 	FormsModule,
 	ReactiveFormsModule,
 } from '@angular/forms';
@@ -13,7 +14,11 @@ import {ControlFallthroughProvider, useControlFallthrough} from '.';
 
 describe('ControlFallthroughService', () => {
 	it('should work with FormControlDirective', fakeAsync(async () => {
-		let form = new FormControl(null);
+		let form = new FormRecord({
+			a: new FormControl(null),
+			b: new FormControl(null),
+		});
+		let eoyazczv = signal<null | string>(null);
 
 		@Component({
 			providers: [ControlFallthroughProvider],
@@ -28,10 +33,11 @@ describe('ControlFallthroughService', () => {
 		@Component({
 			imports: [ReactiveFormsModule, MySubComponent],
 			standalone: true,
-			template: `<my-sub [formControl]="form" />`,
+			template: `<my-sub [formControl]="form.controls[eoyazczv()]" />`,
 		})
 		class MyComponent {
 			form = form;
+			eoyazczv = eoyazczv;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
@@ -43,13 +49,23 @@ describe('ControlFallthroughService', () => {
 			.componentInstance
 		);
 
-		expect(htpqiipg.control).toBe(form);
+		expect(htpqiipg()).toBeNull();
+
+		eoyazczv.set('a');
+
+		expect(htpqiipg()).toBe(form.controls.a);
+
+		eoyazczv.set('b');
+
+		expect(htpqiipg()).toBe(form.controls.b);
 	}));
 
 	it('should work with FormControlNameDirective', fakeAsync(async () => {
 		let form = new FormGroup({
 			a: new FormControl(null),
+			b: new FormControl(null),
 		});
+		let eoyazczv = signal<null | string>(null);
 
 		@Component({
 			providers: [ControlFallthroughProvider],
@@ -66,12 +82,13 @@ describe('ControlFallthroughService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub formControlName="a" />
+					<my-sub [formControlName]="eoyazczv()" />
 				</ng-container>
 			`,
 		})
 		class MyComponent {
 			form = form;
+			eoyazczv = eoyazczv;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
@@ -83,7 +100,15 @@ describe('ControlFallthroughService', () => {
 			.componentInstance
 		);
 
-		expect(htpqiipg.control).toBe(form.controls.a);
+		expect(htpqiipg()).toBeNull();
+
+		eoyazczv.set('a');
+
+		expect(htpqiipg()).toBe(form.controls.a);
+
+		eoyazczv.set('b');
+
+		expect(htpqiipg()).toBe(form.controls.b);
 	}));
 
 	it('should work with FormGroupDirective', fakeAsync(async () => {
@@ -120,7 +145,7 @@ describe('ControlFallthroughService', () => {
 			.componentInstance
 		);
 
-		expect(htpqiipg.control).toBe(form);
+		expect(htpqiipg()).toBe(form);
 	}));
 
 	it('should work with FormGroupNameDirective', fakeAsync(async () => {
@@ -218,7 +243,9 @@ describe('ControlFallthroughService', () => {
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useControlFallthrough();
+			htpqiipg = useControlFallthrough({
+				required: true,
+			});
 		}
 
 		@Component({
@@ -243,14 +270,14 @@ describe('ControlFallthroughService', () => {
 		await tick();
 
 		expect(component.value).toEqual(0);
-		expect(htpqiipg.control.value).toEqual(0);
+		expect(htpqiipg().value).toEqual(0);
 
-		htpqiipg.control.setValue(1);
+		htpqiipg().setValue(1);
 
 		await tick();
 
 		expect(component.value).toEqual(1);
-		expect(htpqiipg.control.value).toEqual(1);
+		expect(htpqiipg().value).toEqual(1);
 
 		component.value = 2;
 		fixture.detectChanges();
@@ -258,6 +285,6 @@ describe('ControlFallthroughService', () => {
 		await tick();
 
 		expect(component.value).toEqual(2);
-		expect(htpqiipg.control.value).toEqual(2);
+		expect(htpqiipg().value).toEqual(2);
 	}));
 });

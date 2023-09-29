@@ -1,7 +1,9 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
+		"strict": true,
 		"lib": ["ES2022", "DOM"]
 	},
-	"extends": "../tsconfig.json"
+	"extends": "../tsconfig.json",
+	"files": ["./public_api.ts"]
 }
