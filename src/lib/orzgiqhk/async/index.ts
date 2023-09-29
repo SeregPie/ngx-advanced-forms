@@ -25,6 +25,21 @@ export let FailAsyncValidator: {
 	};
 } = (errors) => async () => errors;
 
+// prettier-ignore
+export function withAsyncValidators<
+	TControl extends AbstractControl,
+>(
+	control: TControl,
+	validators: (
+		| CustomAsyncValidatorFn<TControl>
+		| Array<CustomAsyncValidatorFn<TControl>>
+	),
+): TControl {
+	control.addAsyncValidators(validators as AsyncValidatorFn | Array<AsyncValidatorFn>);
+	control.updateValueAndValidity();
+	return control;
+}
+
 export function composeAsyncValidators<
 	//
 	TControl extends AbstractControl,

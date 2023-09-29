@@ -7,22 +7,28 @@ import {
 	NgControl,
 } from '@angular/forms';
 
-export function useControlFallthrough<TControl extends AbstractControl>(
-	options?: Partial<{
-		required: boolean;
-	}>,
-): Signal<null | TControl>;
+export type ControlFallthroughOptions = Partial<{
+	required: boolean;
+}>;
+
 export function useControlFallthrough<
-	TControl extends AbstractControl,
->(options: {
 	//
-	required: true;
-}): Signal<TControl>;
+	TControl extends AbstractControl,
+>(
+	options: ControlFallthroughOptions & {
+		required: true;
+	},
+): Signal<TControl>;
+export function useControlFallthrough<
+	//
+	TControl extends AbstractControl,
+>(
+	//
+	options?: ControlFallthroughOptions,
+): Signal<null | TControl>;
 export function useControlFallthrough({
 	required = false,
-}: Partial<{
-	required: boolean;
-}> = {}): Signal<null | AbstractControl> {
+}: ControlFallthroughOptions = {}): Signal<null | AbstractControl> {
 	// prettier-ignore
 	const controlDirective = (
 		inject(ControlContainer, {
@@ -32,11 +38,10 @@ export function useControlFallthrough({
 		inject(NgControl, {
 			optional: true,
 			self: true,
-		}) ??
-		null
+		})
 	);
 	return computed(() => {
-		let control = controlDirective?.control ?? null;
+		let control = controlDirective?.control;
 		if (control != null) {
 			return control;
 		}

@@ -21,6 +21,21 @@ export let FailValidator: {
 } = (errors) => () => errors;
 
 // prettier-ignore
+export function withValidators<
+	TControl extends AbstractControl,
+>(
+	control: TControl,
+	validators: (
+		| CustomValidatorFn<TControl>
+		| Array<CustomValidatorFn<TControl>>
+	),
+): TControl {
+	control.addValidators(validators as ValidatorFn | Array<ValidatorFn>);
+	control.updateValueAndValidity();
+	return control;
+}
+
+// prettier-ignore
 export function composeValidators<
 	TControl extends AbstractControl,
 >(

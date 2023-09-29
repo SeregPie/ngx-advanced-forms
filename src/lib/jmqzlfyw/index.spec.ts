@@ -27,7 +27,7 @@ describe('ControlFallthroughService', () => {
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useControlFallthrough();
+			htpqiipg = useControlFallthrough({required: true});
 		}
 
 		@Component({
@@ -243,7 +243,7 @@ describe('ControlFallthroughService', () => {
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useControlFallthrough({
+			htpqiipg = useControlFallthrough<FormControl<number>>({
 				required: true,
 			});
 		}
