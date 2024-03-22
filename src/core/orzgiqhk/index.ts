@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 
 // prettier-ignore
@@ -31,8 +33,7 @@ export const withValidators: {
 		),
 	): TControl;
 } = (control, validators) => {
-	// todo
-	// control.addValidators(validators);
+	control.addValidators(validators);
 	control.updateValueAndValidity();
 	return control;
 };

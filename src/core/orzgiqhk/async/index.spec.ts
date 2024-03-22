@@ -68,13 +68,15 @@ xdescribe('withAsyncValidators', () => {
 describe('composeAsyncValidators', () => {
 	// prettier-ignore
 	it('should work', fakeAsync(async () => {
-		let form = new FormControl<number>(1, {
-			nonNullable: true,
-			asyncValidators: composeAsyncValidators([
+		let form = withAsyncValidators(
+			new FormControl<number>(1, {
+				nonNullable: true,
+			}),
+			composeAsyncValidators([
 				async ({value}) => value === 1 ? {error: {n: 1}} : null,
 				async ({value}) => value === 2 ? {error: {n: 2}} : null,
 			]),
-		});
+		);
 
 		expect(form.pending).toBeTrue();
 

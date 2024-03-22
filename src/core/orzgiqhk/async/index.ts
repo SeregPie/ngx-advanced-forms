@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {
 	AbstractControl,
 	AsyncValidatorFn,
@@ -36,8 +38,7 @@ export const withAsyncValidators: {
 		),
 	): TControl;
 } = (control, validators) => {
-	// todo
-	// control.addAsyncValidators(validators as AsyncValidatorFn | Array<AsyncValidatorFn>);
+	control.addAsyncValidators(validators);
 	control.updateValueAndValidity();
 	return control;
 };

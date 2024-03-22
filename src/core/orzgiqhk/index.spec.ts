@@ -56,13 +56,15 @@ xdescribe('withValidators', () => {
 // prettier-ignore
 describe('composeValidators', () => {
 	it('should work', fakeAsync(async () => {
-		let form = new FormControl<number>(1, {
-			nonNullable: true,
-			validators: composeValidators([
+		let form = withValidators(
+			new FormControl<number>(1, {
+				nonNullable: true,
+			}),
+			composeValidators([
 				({value}) => value === 1 ? {error: {n: 1}} : null,
 				({value}) => value === 2 ? {error: {n: 2}} : null,
 			]),
-		});
+		);
 
 		expect(form.errors).toEqual({error: {n: 1}});
 
