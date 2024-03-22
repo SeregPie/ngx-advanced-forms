@@ -1,26 +1,18 @@
 // @ts-nocheck
 
-import {
-	AbstractControl,
-	AsyncValidatorFn,
-	ValidationErrors,
-} from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, ValidationErrors} from '@angular/forms';
 import {isObservable, lastValueFrom} from 'rxjs';
 
-// prettier-ignore
 export interface CustomAsyncValidatorFn<
 	TControl extends AbstractControl = AbstractControl,
 > {
 	(control: TControl): ReturnType<AsyncValidatorFn>;
 }
 
-// prettier-ignore
 export const NoopAsyncValidator: {
 	(control: AbstractControl): Promise<null>;
 } = async () => null;
 
-// todo: rename
-// prettier-ignore
 export const FailAsyncValidator: {
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): Promise<TErrors>;
@@ -30,7 +22,6 @@ export const FailAsyncValidator: {
 export const withAsyncValidators: {
 	<TControl extends AbstractControl>(
 		control: TControl,
-		// prettier-ignore
 		validators: (
 			| CustomAsyncValidatorFn<TControl>
 			| Readonly<Array<CustomAsyncValidatorFn<TControl>>>
@@ -42,7 +33,6 @@ export const withAsyncValidators: {
 	return control;
 };
 
-// prettier-ignore
 export const composeAsyncValidators: {
 	<TControl extends AbstractControl>(
 		validators: Readonly<Array<CustomAsyncValidatorFn<TControl>>>,

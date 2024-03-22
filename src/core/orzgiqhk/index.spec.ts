@@ -3,7 +3,6 @@ import {FormControl} from '@angular/forms';
 
 import {NoopValidator, composeValidators, withValidators} from '.';
 
-// prettier-ignore
 describe('withValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withValidators(
@@ -82,10 +81,10 @@ describe('composeValidators', () => {
 			() => null,
 			() => ({error: true}),
 			() => null,
-		].map((fn) => (jasmine
+		].map((fn) => jasmine
 			.createSpy(undefined, fn)
 			.and.callThrough()
-		));
+		);
 		new FormControl(null, {
 			validators: composeValidators(validators),
 		});

@@ -1,13 +1,8 @@
 import {fakeAsync, tick} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
-import {
-	NoopAsyncValidator,
-	composeAsyncValidators,
-	withAsyncValidators,
-} from '.';
+import {NoopAsyncValidator, composeAsyncValidators, withAsyncValidators} from '.';
 
-// prettier-ignore
 describe('withAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(
@@ -66,7 +61,6 @@ describe('withAsyncValidators', () => {
 });
 
 describe('composeAsyncValidators', () => {
-	// prettier-ignore
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(
 			new FormControl<number>(1, {
@@ -101,16 +95,15 @@ describe('composeAsyncValidators', () => {
 		expect(form.errors).toBeNull();
 	}));
 
-	// prettier-ignore
 	it('should skip other validators after one fails', fakeAsync(async () => {
 		let validators = [
 			async () => null,
 			async () => ({error: true}),
 			async () => null,
-		].map((fn) => (jasmine
+		].map((fn) => jasmine
 			.createSpy(undefined, fn)
 			.and.callThrough()
-		));
+		);
 		new FormControl(null, {
 			asyncValidators: composeAsyncValidators(validators),
 		});
