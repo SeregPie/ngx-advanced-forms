@@ -10,24 +10,24 @@ import {
 } from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
-import {ControlFallthroughProvider, useFormFallthrough} from '.';
+import {useFormBridge, useFormFallthrough} from '.';
 
-describe('ControlFallthroughService', () => {
+// prettier-ignore
+describe('useFormFallthrough', () => {
 	it('should work with FormControlDirective', fakeAsync(async () => {
 		let form = new FormRecord({
 			a: new FormControl(null),
 			b: new FormControl(null),
 		});
-		let eoyazczv = signal<string>('a');
+		let formSwitch$ = signal<string>('a');
 
 		@Component({
-			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useFormFallthrough();
+			result = useFormFallthrough();
 		}
 
 		@Component({
@@ -36,24 +36,25 @@ describe('ControlFallthroughService', () => {
 			template: `<my-sub [formControl]="form()" />`,
 		})
 		class MyComponent {
-			form = computed(() => form.controls[eoyazczv()]);
+			form = computed(() => form.controls[formSwitch$()]);
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
-		let {htpqiipg}: MySubComponent = (fixture
+		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(htpqiipg()).toBe(form.controls.a);
+		expect(result()).toBe(form.controls.a);
 
-		eoyazczv.set('b');
+		formSwitch$.set('b');
+
 		fixture.detectChanges();
+		tick();
 
-		expect(htpqiipg()).toBe(form.controls.b);
+		expect(result()).toBe(form.controls.b);
 	}));
 
 	it('should work with FormControlNameDirective', fakeAsync(async () => {
@@ -61,16 +62,15 @@ describe('ControlFallthroughService', () => {
 			a: new FormControl(null),
 			b: new FormControl(null),
 		});
-		let eoyazczv = signal<string>('a');
+		let formSwitch$ = signal<string>('a');
 
 		@Component({
-			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useFormFallthrough();
+			result = useFormFallthrough();
 		}
 
 		@Component({
@@ -78,51 +78,47 @@ describe('ControlFallthroughService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub [formControlName]="eoyazczv()" />
+					<my-sub [formControlName]="formSwitch()" />
 				</ng-container>
 			`,
 		})
 		class MyComponent {
 			form = form;
-			eoyazczv = eoyazczv;
+			formSwitch = formSwitch$;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
-		let {htpqiipg}: MySubComponent = (fixture
+		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(htpqiipg()).toBe(form.get('a'));
+		expect(result()).toBe(form.controls.a);
 
-		console.log('CHANGES 1');
-		eoyazczv.set('b');
+		formSwitch$.set('b');
+
 		fixture.detectChanges();
-		console.log('CHANGES 2');
+		tick();
 
-		await tick(2000);
-
-		expect(htpqiipg()).toBe(form.get('b'));
+		expect(result()).toBe(form.controls.a);
 	}));
 
 	it('should work with FormGroupDirective', fakeAsync(async () => {
 		let form = new FormRecord({
-			a: new FormGroup({yeihcmpq: new FormControl(null)}),
-			b: new FormGroup({yeihcmpq: new FormControl(null)}),
+			a: new FormGroup({a: new FormControl(null)}),
+			b: new FormGroup({a: new FormControl(null)}),
 		});
-		let eoyazczv = signal<string>('a');
+		let formSwitch$ = signal<string>('a');
 
 		@Component({
-			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useFormFallthrough();
+			result = useFormFallthrough();
 		}
 
 		@Component({
@@ -131,41 +127,41 @@ describe('ControlFallthroughService', () => {
 			template: `<my-sub [formGroup]="form()" />`,
 		})
 		class MyComponent {
-			form = computed(() => form.controls[eoyazczv()]);
+			form = computed(() => form.controls[formSwitch$()]);
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
-		let {htpqiipg}: MySubComponent = (fixture
+		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(htpqiipg()).toBe(form.get('a'));
+		expect(result()).toBe(form.controls.a);
 
-		eoyazczv.set('b');
+		formSwitch$.set('b');
+
 		fixture.detectChanges();
+		tick();
 
-		expect(htpqiipg()).toBe(form.get('b'));
+		expect(result()).toBe(form.controls.b);
 	}));
 
 	it('should work with FormGroupNameDirective', fakeAsync(async () => {
 		let form = new FormRecord({
-			a: new FormGroup({yeihcmpq: new FormControl(null)}),
-			b: new FormGroup({yeihcmpq: new FormControl(null)}),
+			a: new FormGroup({a: new FormControl(null)}),
+			b: new FormGroup({a: new FormControl(null)}),
 		});
-		let eoyazczv = signal<string>('a');
+		let formSwitch$ = signal<string>('a');
 
 		@Component({
-			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useFormFallthrough();
+			result = useFormFallthrough();
 		}
 
 		@Component({
@@ -173,30 +169,31 @@ describe('ControlFallthroughService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub [formGroupName]="eoyazczv()" />
+					<my-sub [formGroupName]="formSwitch()" />
 				</ng-container>
 			`,
 		})
 		class MyComponent {
 			form = form;
-			eoyazczv = eoyazczv;
+			formSwitch = formSwitch$;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
-		let {htpqiipg}: MySubComponent = (fixture
+		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(htpqiipg()).toBe(form.controls.a);
+		expect(result()).toBe(form.controls.a);
 
-		eoyazczv.set('b');
+		formSwitch$.set('b');
+
 		fixture.detectChanges();
+		tick();
 
-		expect(htpqiipg()).toBe(form.controls.b);
+		expect(result()).toBe(form.controls.b);
 	}));
 
 	it('should work with FormArrayNameDirective', fakeAsync(async () => {
@@ -204,16 +201,15 @@ describe('ControlFallthroughService', () => {
 			a: new FormArray([new FormControl(null)]),
 			b: new FormArray([new FormControl(null)]),
 		});
-		let eoyazczv = signal<string>('a');
+		let formSwitch$ = signal<string>('a');
 
 		@Component({
-			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useFormFallthrough();
+			result = useFormFallthrough();
 		}
 
 		@Component({
@@ -221,43 +217,43 @@ describe('ControlFallthroughService', () => {
 			standalone: true,
 			template: `
 				<ng-container [formGroup]="form">
-					<my-sub [formArrayName]="eoyazczv()" />
+					<my-sub [formArrayName]="formSwitch()" />
 				</ng-container>
 			`,
 		})
 		class MyComponent {
 			form = form;
-			eoyazczv = eoyazczv;
+			formSwitch = formSwitch$;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		// prettier-ignore
-		let {htpqiipg}: MySubComponent = (fixture
+		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
 
-		expect(htpqiipg()).toBe(form.controls.a);
+		expect(result()).toBe(form.controls.a);
 
-		eoyazczv.set('b');
+		formSwitch$.set('b');
+
 		fixture.detectChanges();
+		tick();
 
-		expect(htpqiipg()).toBe(form.controls.b);
+		expect(result()).toBe(form.controls.b);
 	}));
 
 	it('should work with NgModelDirective', fakeAsync(async () => {
+		let value$ = signal<number>(0);
+
 		@Component({
-			providers: [ControlFallthroughProvider],
 			selector: 'my-sub',
 			standalone: true,
 			template: '',
 		})
 		class MySubComponent {
-			htpqiipg = useFormFallthrough<FormControl<number>>({
-				required: true,
-			});
+			result = useFormFallthrough.required<FormControl<number>>();
 		}
 
 		@Component({
@@ -266,35 +262,109 @@ describe('ControlFallthroughService', () => {
 			template: `<my-sub [(ngModel)]="value" />`,
 		})
 		class MyComponent {
-			value: number = 0;
+			value = value$;
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
 		fixture.detectChanges();
-		let component = fixture.componentInstance;
-		// prettier-ignore
-		let {htpqiipg}: MySubComponent = (fixture
+		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
 			.componentInstance
 		);
-		let form = htpqiipg();
+		let form = result();
 
-		await tick();
+		fixture.detectChanges();
+		tick();
 
 		expect(form.value).toEqual(0);
 
 		form.setValue(1);
 
-		await tick();
-
-		expect(component.value).toEqual(1);
-
-		component.value = 2;
 		fixture.detectChanges();
+		tick();
 
-		await tick();
+		expect(value$()).toEqual(1);
+
+		value$.set(2);
+
+		fixture.detectChanges();
+		tick();
 
 		expect(form.value).toEqual(2);
+	}));
+
+	it('should return null if not available', fakeAsync(async () => {
+		@Component({
+			standalone: true,
+			template: '',
+		})
+		class MyComponent {
+			result = useFormFallthrough();
+		}
+
+		let fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		let {result} = fixture.componentInstance;
+
+		expect(result()).toBeNull();
+	}));
+
+	it('should throw if required and not available', fakeAsync(async () => {
+		@Component({
+			standalone: true,
+			template: '',
+		})
+		class MyComponent {
+			result = useFormFallthrough.required();
+		}
+
+		let fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		let {result} = fixture.componentInstance;
+
+		expect(result).toThrow();
+	}));
+});
+
+describe('useFormBridge', () => {
+	it('should work', fakeAsync(async () => {
+		let form = new FormControl<number>(1);
+		let value$ = signal<null | number>(null);
+		let disabled$ = signal<boolean>(false);
+
+		@Component({
+			selector: 'my-sub',
+			standalone: true,
+			template: '',
+		})
+		class MySubComponent {
+			result = useFormBridge(value$, {
+				disabled: disabled$,
+			});
+		}
+
+		@Component({
+			imports: [ReactiveFormsModule, MySubComponent],
+			standalone: true,
+			template: `<my-sub [formControl]="form" />`,
+		})
+		class MyComponent {
+			form = form;
+		}
+
+		let fixture = TestBed.createComponent(MyComponent);
+		fixture.detectChanges();
+		// prettier-ignore
+		let {result}: MySubComponent = (fixture
+			.debugElement
+			.query(By.directive(MySubComponent))
+			.componentInstance
+		);
+
+		expect(value$()).toBe(1);
+
+		fixture.detectChanges();
+		tick();
 	}));
 });

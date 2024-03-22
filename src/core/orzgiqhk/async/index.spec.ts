@@ -1,8 +1,4 @@
-import {
-	//
-	fakeAsync,
-	tick,
-} from '@angular/core/testing';
+import {fakeAsync, tick} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
 import {
@@ -23,7 +19,7 @@ xdescribe('withAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await tick();
+		tick();
 
 		expect(form.errors).toEqual({error: true});
 
@@ -31,7 +27,7 @@ xdescribe('withAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await tick();
+		tick();
 
 		expect(form.errors).toBeNull();
 	}));
@@ -82,7 +78,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await tick();
+		tick();
 
 		expect(form.errors).toEqual({error: {n: 1}});
 
@@ -90,7 +86,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await tick();
+		tick();
 
 		expect(form.errors).toEqual({error: {n: 2}});
 
@@ -98,7 +94,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await tick();
+		tick();
 
 		expect(form.errors).toBeNull();
 	}));
@@ -117,7 +113,7 @@ describe('composeAsyncValidators', () => {
 			asyncValidators: composeAsyncValidators(validators),
 		});
 
-		await tick();
+		tick();
 
 		expect(validators[0]).toHaveBeenCalledTimes(1);
 		expect(validators[1]).toHaveBeenCalledTimes(1);
@@ -133,6 +129,4 @@ describe('composeAsyncValidators', () => {
 	it('should return no-op validator if nothing provided', fakeAsync(async () => {
 		expect(composeAsyncValidators([])).toBe(NoopAsyncValidator);
 	}));
-
-	// todo: test observables
 });

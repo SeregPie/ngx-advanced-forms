@@ -1,54 +1,86 @@
 // @ts-nocheck
 
-import {
-	//
-	Provider,
-	Signal,
-	computed,
-	inject,
-} from '@angular/core';
-import {
-	//
-	AbstractControl,
-	ControlContainer,
-	ControlValueAccessor,
-	NG_VALUE_ACCESSOR,
-	NgControl,
-} from '@angular/forms';
+import {WritableSignal, effect, inject} from '@angular/core';
+import {AbstractControl, ControlContainer, NgControl} from '@angular/forms';
 
 export const useFormFallthrough: {
-	<TControl extends AbstractControl>(): Signal<null | TControl>;
+	<TControl extends AbstractControl>(): {(): null | TControl};
 	required: {
-		<TControl extends AbstractControl>(): Signal<TControl>;
+		<TControl extends AbstractControl>(): {(): TControl};
 	};
 } = () => {
-	// todo
-	let ref =
-		inject(ControlContainer, {optional: true, self: true}) ??
-		inject(NgControl, {optional: true, self: true});
-	return computed(() => ref?.control);
+	let ref = inject(NgControl, {self: true, optional: true});
+	if (ref != null) {
+		ref.valueAccessor ??= {
+			writeValue() {},
+			registerOnChange() {},
+			registerOnTouched() {},
+		};
+	} else {
+		ref = inject(ControlContainer, {self: true, optional: true});
+	}
+	return () => ref?.control ?? null;
 };
 
 useFormFallthrough.required = () => {
-	let value$ = useFormFallthrough();
-	return computed(() => {
-		let value = value$();
-		if (value == null) {
-			// todo: error message
-			throw new Error();
+	let result$ = useFormFallthrough();
+	return () => {
+		let result = result$();
+		if (result == null) {
+			throw new Error(`required but not available`);
 		}
-		return value;
-	});
+		return result;
+	};
 };
 
-export const ControlFallthroughProvider: Provider = {
-	provide: NG_VALUE_ACCESSOR,
-	multi: true,
-	useClass: class implements ControlValueAccessor {
-		writeValue() {}
+export type FormBridge = {};
 
-		registerOnChange() {}
+export type FormBridgeOptions = Partial<{
+	disabled: WritableSignal<boolean>;
+}>;
 
-		registerOnTouched() {}
-	},
+export const useFormBridge: {
+	<TValue>(
+		value: WritableSignal<TValue>,
+		options?: FormBridgeOptions,
+	): FormBridge;
+} = (value$, {disabled: disabled$ = signal(false)}) => {
+	let ref = inject(NgControl, {self: true, optional: true});
+	if (ref != null) {
+		let value = value$();
+		let handleOnChange = () => {};
+		// prettier-ignore
+		effect(() => {
+			let v = value$();
+			if (value !== v) {
+				handleOnChange(value = v);
+			}
+		}, {allowSignalWrites: true});
+		let handleOnTouched = () => {};
+		effect(
+			() => {
+				// todo
+			},
+			{allowSignalWrites: true},
+		);
+		ref.valueAccessor = {
+			writeValue(v) {
+				console.log('writeValue', v);
+				// prettier-ignore
+				value$.set(value = v);
+			},
+			registerOnChange(fn) {
+				handleOnChange = fn;
+			},
+			registerOnTouched(fn) {
+				handleOnTouched = fn;
+			},
+			setDisabledState(v) {
+				disabled$.set(v);
+			},
+		};
+	}
+	return {
+		disabled: disabled$.asReadonly(),
+	};
 };

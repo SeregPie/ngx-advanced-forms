@@ -1,23 +1,20 @@
-import {
-	//
-	AbstractControl,
-	ValidationErrors,
-	ValidatorFn,
-} from '@angular/forms';
+import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 
+// prettier-ignore
 export interface CustomValidatorFn<
 	TControl extends AbstractControl = AbstractControl,
 > {
 	(control: TControl): ReturnType<ValidatorFn>;
 }
 
+// prettier-ignore
 export const NoopValidator: {
 	(control: AbstractControl): null;
 } = () => null;
 
 // todo: rename
+// prettier-ignore
 export const FailValidator: {
-	// prettier-ignore
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): TErrors;
 	};
@@ -39,12 +36,12 @@ export const withValidators: {
 	return control;
 };
 
-export function composeValidators<
-	//
-	TControl extends AbstractControl,
->(
-	validators: Readonly<Array<CustomValidatorFn<TControl>>>,
-): CustomValidatorFn<TControl> {
+// prettier-ignore
+export const composeValidators: {
+	<TControl extends AbstractControl>(
+		validators: Readonly<Array<CustomValidatorFn<TControl>>>,
+	): CustomValidatorFn<TControl>;
+} = (validators) => {
 	switch (validators.length) {
 		case 0:
 			return NoopValidator;
@@ -60,6 +57,6 @@ export function composeValidators<
 		}
 		return null;
 	};
-}
+};
 
 export * from './async';
