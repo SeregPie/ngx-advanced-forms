@@ -1,7 +1,12 @@
 // @ts-nocheck
 
-import {WritableSignal, effect, inject} from '@angular/core';
-import {AbstractControl, ControlContainer, NgControl} from '@angular/forms';
+import {WritableSignal, effect, inject, signal} from '@angular/core';
+import {
+	AbstractControl,
+	ControlContainer,
+	NgControl,
+	ValidationErrors,
+} from '@angular/forms';
 
 export const useFormFallthrough: {
 	<TControl extends AbstractControl>(): {(): null | TControl};
@@ -33,7 +38,12 @@ useFormFallthrough.required = () => {
 	};
 };
 
-export type FormBridge = {};
+export type FormBridgeResult = {
+	touched: Signal<boolean>;
+	disabled: Signal<boolean>;
+	pending: Signal<boolean>;
+	errors: Signal<null | ValidationErrors>;
+};
 
 export type FormBridgeOptions = Partial<{
 	disabled: WritableSignal<boolean>;
@@ -43,8 +53,8 @@ export const useFormBridge: {
 	<TValue>(
 		value: WritableSignal<TValue>,
 		options?: FormBridgeOptions,
-	): FormBridge;
-} = (value$, {disabled: disabled$ = signal(false)}) => {
+	): FormBridgeResult;
+} = (value$, {disabled: disabled$ = signal(false)} = {}) => {
 	let ref = inject(NgControl, {self: true, optional: true});
 	if (ref != null) {
 		let value = value$();
@@ -65,7 +75,6 @@ export const useFormBridge: {
 		);
 		ref.valueAccessor = {
 			writeValue(v) {
-				console.log('writeValue', v);
 				// prettier-ignore
 				value$.set(value = v);
 			},

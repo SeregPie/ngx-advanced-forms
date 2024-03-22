@@ -331,7 +331,6 @@ describe('useFormBridge', () => {
 	it('should work', fakeAsync(async () => {
 		let form = new FormControl<number>(1);
 		let value$ = signal<null | number>(null);
-		let disabled$ = signal<boolean>(false);
 
 		@Component({
 			selector: 'my-sub',
@@ -339,9 +338,7 @@ describe('useFormBridge', () => {
 			template: '',
 		})
 		class MySubComponent {
-			result = useFormBridge(value$, {
-				disabled: disabled$,
-			});
+			result = useFormBridge(value$);
 		}
 
 		@Component({
@@ -364,7 +361,11 @@ describe('useFormBridge', () => {
 
 		expect(value$()).toBe(1);
 
+		form.disable();
+
 		fixture.detectChanges();
 		tick();
+
+		expect(result.disabled()).toBeTrue();
 	}));
 });

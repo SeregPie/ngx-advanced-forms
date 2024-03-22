@@ -12,6 +12,7 @@ export interface CustomAsyncValidatorFn<
 	(control: TControl): ReturnType<AsyncValidatorFn>;
 }
 
+// todo: rename
 // prettier-ignore
 export const NoopAsyncValidator: {
 	(control: AbstractControl): Promise<null>;
