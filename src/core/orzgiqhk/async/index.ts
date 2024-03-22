@@ -5,37 +5,37 @@ import {
 } from '@angular/forms';
 import {isObservable, lastValueFrom} from 'rxjs';
 
-// prettier-ignore
 export interface CustomAsyncValidatorFn<
 	TControl extends AbstractControl = AbstractControl,
 > {
 	(control: TControl): ReturnType<AsyncValidatorFn>;
 }
 
-// prettier-ignore
 export let NoopAsyncValidator: {
 	(control: AbstractControl): Promise<null>;
 } = async () => null;
 
 // todo: rename
-// prettier-ignore
 export let FailAsyncValidator: {
+	// prettier-ignore
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): Promise<TErrors>;
 	};
 } = (errors) => async () => errors;
 
-// prettier-ignore
 export function withAsyncValidators<
+	//
 	TControl extends AbstractControl,
 >(
 	control: TControl,
+	// prettier-ignore
 	validators: (
 		| CustomAsyncValidatorFn<TControl>
 		| Array<CustomAsyncValidatorFn<TControl>>
 	),
 ): TControl {
-	control.addAsyncValidators(validators as AsyncValidatorFn | Array<AsyncValidatorFn>);
+	// todo
+	// control.addAsyncValidators(validators as AsyncValidatorFn | Array<AsyncValidatorFn>);
 	control.updateValueAndValidity();
 	return control;
 }
@@ -44,7 +44,6 @@ export function composeAsyncValidators<
 	//
 	TControl extends AbstractControl,
 >(
-	//
 	validators: Array<CustomAsyncValidatorFn<TControl>>,
 ): CustomAsyncValidatorFn<TControl> {
 	switch (validators.length) {

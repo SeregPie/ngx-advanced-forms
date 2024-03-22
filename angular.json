@@ -25,7 +25,8 @@
 				}
 			},
 			"projectType": "library",
-			"root": "."
+			"root": ".",
+			"sourceRoot": "./src"
 		}
 	},
 	"version": 1

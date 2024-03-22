@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"strict": false,
 		"types": ["jasmine"]
 	},
 	"extends": "./tsconfig.json",
