@@ -82,7 +82,7 @@ describe('composeValidators', () => {
 			() => null,
 			() => ({error: true}),
 			() => null,
-		].map((fn, i) => (jasmine
+		].map((fn) => (jasmine
 			.createSpy(undefined, fn)
 			.and.callThrough()
 		));
