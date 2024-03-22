@@ -9,7 +9,6 @@ export interface CustomValidatorFn<
 	(control: TControl): ReturnType<ValidatorFn>;
 }
 
-// todo: rename
 // prettier-ignore
 export const NoopValidator: {
 	(control: AbstractControl): null;

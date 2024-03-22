@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {NoopValidator, composeValidators, withValidators} from '.';
 
 // prettier-ignore
-xdescribe('withValidators', () => {
+describe('withValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withValidators(
 			new FormControl<number>(1, {

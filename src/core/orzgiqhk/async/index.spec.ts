@@ -8,7 +8,7 @@ import {
 } from '.';
 
 // prettier-ignore
-xdescribe('withAsyncValidators', () => {
+describe('withAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(
 			new FormControl<number>(1, {
