@@ -3,7 +3,6 @@ import {FormControl} from '@angular/forms';
 
 import {NoopAsyncValidator, composeAsyncValidators, withAsyncValidators} from '.';
 
-// prettier-ignore
 describe('withAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(
@@ -58,7 +57,6 @@ describe('withAsyncValidators', () => {
 	}));
 });
 
-// prettier-ignore
 describe('composeAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(
