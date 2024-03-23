@@ -8,17 +8,17 @@ export interface CustomValidatorFn<
 	(control: TControl): ReturnType<ValidatorFn>;
 }
 
-export const NoopValidator: {
+export let NoopValidator: {
 	(control: AbstractControl): null;
 } = () => null;
 
-export const FailValidator: {
+export let FailValidator: {
 	<TErrors extends ValidationErrors>(errors: TErrors): {
 		(control: AbstractControl): TErrors;
 	};
 } = (errors) => () => errors;
 
-export const withValidators: {
+export let withValidators: {
 	<TControl extends AbstractControl>(
 		control: TControl,
 		validators: (
@@ -32,7 +32,7 @@ export const withValidators: {
 	return control;
 };
 
-export const composeValidators: {
+export let composeValidators: {
 	<TControl extends AbstractControl>(
 		validators: Readonly<Array<CustomValidatorFn<TControl>>>,
 	): CustomValidatorFn<TControl>;

@@ -8,7 +8,7 @@ import {
 	ValidationErrors,
 } from '@angular/forms';
 
-export const useFormFallthrough: {
+export let useFormFallthrough: {
 	<TControl extends AbstractControl>(): {(): null | TControl};
 	required: {
 		<TControl extends AbstractControl>(): {(): TControl};
@@ -49,7 +49,7 @@ export type FormBridgeOptions = Partial<{
 	disabled: WritableSignal<boolean>;
 }>;
 
-export const useFormBridge: {
+export let useFormBridge: {
 	<TValue>(
 		value: WritableSignal<TValue>,
 		options?: FormBridgeOptions,

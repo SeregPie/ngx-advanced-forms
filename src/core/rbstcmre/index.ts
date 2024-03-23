@@ -1,7 +1,7 @@
 import {computed, signal} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 
-const shxugoln = [
+let shxugoln = [
 	'status',
 	'valid',
 	'invalid',
@@ -16,11 +16,7 @@ const shxugoln = [
 	'errors',
 ] as const;
 
-export type FormPass<TControl extends AbstractControl = AbstractControl> = {
-	readonly control: TControl;
-} & Readonly<Pick<TControl, (typeof shxugoln)[number]>>;
-
-const nkavrkuo = [
+let nkavrkuo = [
 	'disable',
 	'enable',
 	'markAsDirty',
@@ -33,14 +29,14 @@ const nkavrkuo = [
 
 let instances = new WeakMap();
 
-export const formPass: {
-	<TControl extends AbstractControl>(control: TControl): FormPass<TControl>;
+export let formi: {
+	<TControl extends AbstractControl>(
+		control: TControl,
+	): Readonly<Pick<TControl, (typeof shxugoln)[number]>>;
 } = (control) => {
 	let instance = instances.get(control);
 	if (instance == null) {
-		instance = {
-			control,
-		};
+		instance = {};
 		let yftuleqz = signal({});
 		nkavrkuo.forEach((k) => {
 			let v = control[k];

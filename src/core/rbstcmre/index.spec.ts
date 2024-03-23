@@ -1,51 +1,52 @@
 import {effect} from '@angular/core';
-import {fakeAsync, tick} from '@angular/core/testing';
+import {TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 
-import {formPass} from '.';
+import {formi} from '.';
 
-describe('rbstcmre', () => {
-	it('...', async () => {
+describe('formi',   () => {
+	it('...', fakeAsync(async () => {
 		let form = new FormControl(1, {
 			nonNullable: true,
 		});
-		let hxfvtjvp = formPass(form);
 
-		console.log(hxfvtjvp.status);
-		console.log(hxfvtjvp.valid);
-		console.log(hxfvtjvp.invalid);
-		console.log(hxfvtjvp.pending);
-		console.log(hxfvtjvp.disabled);
-		console.log(hxfvtjvp.enabled);
-		console.log(hxfvtjvp.pristine);
-		console.log(hxfvtjvp.dirty);
-		console.log(hxfvtjvp.touched);
-		console.log(hxfvtjvp.untouched);
+		console.log(formi(form).status);
+		console.log(formi(form).valid);
+		console.log(formi(form).invalid);
+		console.log(formi(form).pending);
+		console.log(formi(form).disabled);
+		console.log(formi(form).enabled);
+		console.log(formi(form).pristine);
+		console.log(formi(form).dirty);
+		console.log(formi(form).touched);
+		console.log(formi(form).untouched);
 
 		expect(form.errors).toEqual({error: true});
 
 		form.setValue(2);
 
 		expect(form.errors).toBeNull();
-	});
+	}));
 
-	it('...', fakeAsync(() => {
+	it('...', fakeAsync(async () => {
 		let form = new FormControl(null);
-		let hxfvtjvp = formPass(form);
 
-		expect(hxfvtjvp.pristine).toBe(true);
-		expect(hxfvtjvp.dirty).toBe(false);
+		expect(formi(form).pristine).toBe(true);
+		expect(formi(form).dirty).toBe(false);
 
-		let spy = jasmine.createSpy();
+		let spy = {
+			['form.pristine']: jasmine.createSpy().and.identity
+		};
+
 		effect(() => {
-			hxfvtjvp.pristine;
-			spy();
+			formi(form).pristine;
+			spy['form.pristine']()
 		});
 
 		form.markAsDirty();
 
-		expect(hxfvtjvp.pristine).toBe(false);
-		expect(hxfvtjvp.dirty).toBe(true);
+		expect(formi(form).pristine).toBe(false);
+		expect(formi(form).dirty).toBe(true);
 
 		tick();
 
@@ -54,23 +55,25 @@ describe('rbstcmre', () => {
 
 		form.markAsPristine();
 
-		expect(hxfvtjvp.pristine).toBe(true);
-		expect(hxfvtjvp.dirty).toBe(false);
+		expect(formi(form).pristine).toBe(true);
+		expect(formi(form).dirty).toBe(false);
 
 		tick();
 
 		expect(spy).toHaveBeenCalledTimes(1);
 		spy.calls.reset();
+
+		TestBed.flushEffects();
 	}));
 
 	it('...', fakeAsync(() => {
 		let form = new FormControl(null);
-		let hxfvtjvp = formPass(form);
+		let formi(form) = formi(form);
 
-		expect(hxfvtjvp.pristine).toBe(true);
-		expect(hxfvtjvp.dirty).toBe(false);
-		expect(hxfvtjvp.touched).toBe(false);
-		expect(hxfvtjvp.untouched).toBe(true);
+		expect(formi(form).pristine).toBe(true);
+		expect(formi(form).dirty).toBe(false);
+		expect(formi(form).touched).toBe(false);
+		expect(formi(form).untouched).toBe(true);
 	}));
 
 	it('...', fakeAsync(() => {
@@ -92,16 +95,16 @@ describe('rbstcmre', () => {
 				}),
 			}),
 		});
-		let hxfvtjvp = formPass(form);
+		let formi(form) = formi(form);
 
-		expect(hxfvtjvp.getValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
-		expect(hxfvtjvp.getRawValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
+		expect(formi(form).getValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
+		expect(formi(form).getRawValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
 
 		form.controls.a.controls.b.disable();
 		form.controls.b.controls.a.disable();
 
-		expect(hxfvtjvp.getValue()).toEqual({a: {a: 1}, b: {b: 1}});
-		expect(hxfvtjvp.getRawValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
+		expect(formi(form).getValue()).toEqual({a: {a: 1}, b: {b: 1}});
+		expect(formi(form).getRawValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
 	}));
 
 	it('...', fakeAsync(() => {
@@ -117,20 +120,20 @@ describe('rbstcmre', () => {
 				new FormControl(0),
 			]),
 		});
-		let hxfvtjvp = formPass(form);
+		let formi(form) = formi(form);
 
-		expect(hxfvtjvp.value).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
+		expect(formi(form).value).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
 
 		let spy = jasmine.createSpy();
 		effect(() => {
-			hxfvtjvp.value;
+			formi(form).value;
 			spy();
 		});
 
 		form.controls.a.controls[1].disable();
 		form.controls.b.controls[0].disable();
 
-		expect(hxfvtjvp.value).toEqual({a: {a: 1}, b: {b: 1}});
+		expect(formi(form).value).toEqual({a: {a: 1}, b: {b: 1}});
 
 		tick();
 
@@ -156,11 +159,11 @@ describe('rbstcmre', () => {
 				b: new FormControl(0),
 			}),
 		]);
-		let hxfvtjvp = formPass(form);
+		let formi(form) = formi(form);
 
 		let spy = jasmine.createSpy();
 		effect(() => {
-			hxfvtjvp.value;
+			formi(form).value;
 			spy();
 		});
 
