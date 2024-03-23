@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 
 import {NoopValidator, composeValidators, withValidators} from '.';
 
+// prettier-ignore
 describe('withValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withValidators(
@@ -29,10 +30,7 @@ describe('withValidators', () => {
 
 	it('should call validators only once', fakeAsync(async () => {
 		let form = new FormControl(null);
-		let validator = (jasmine
-			.createSpy(undefined, () => null)
-			.and.callThrough()
-		);
+		let validator = spy(() => null);
 		withValidators(form, validator);
 
 		expect(validator).toHaveBeenCalledTimes(1);
@@ -78,13 +76,10 @@ describe('composeValidators', () => {
 
 	it('should skip other validators after one fails', fakeAsync(async () => {
 		let validators = [
-			() => null,
-			() => ({error: true}),
-			() => null,
-		].map((fn) => jasmine
-			.createSpy(undefined, fn)
-			.and.callThrough()
-		);
+			spy(() => null),
+			spy(() => ({error: true})),
+			spy(() => null),
+		];
 		new FormControl(null, {
 			validators: composeValidators(validators),
 		});
@@ -104,3 +99,7 @@ describe('composeValidators', () => {
 		expect(composeValidators([])).toBe(NoopValidator);
 	}));
 });
+
+function spy<T extends jasmine.Func>(fn: T): jasmine.Spy<T> {
+	return jasmine.createSpy(undefined, fn).and.callThrough();
+}

@@ -4,7 +4,7 @@ import {FormArray, FormControl, FormGroup} from '@angular/forms';
 
 import {formi} from '.';
 
-describe('formi',   () => {
+describe('formi', () => {
 	it('...', fakeAsync(async () => {
 		let form = new FormControl(1, {
 			nonNullable: true,
@@ -34,13 +34,8 @@ describe('formi',   () => {
 		expect(formi(form).pristine).toBe(true);
 		expect(formi(form).dirty).toBe(false);
 
-		let spy = {
-			['form.pristine']: jasmine.createSpy().and.identity
-		};
-
 		effect(() => {
 			formi(form).pristine;
-			spy['form.pristine']()
 		});
 
 		form.markAsDirty();
@@ -68,7 +63,6 @@ describe('formi',   () => {
 
 	it('...', fakeAsync(() => {
 		let form = new FormControl(null);
-		let formi(form) = formi(form);
 
 		expect(formi(form).pristine).toBe(true);
 		expect(formi(form).dirty).toBe(false);
@@ -95,16 +89,21 @@ describe('formi',   () => {
 				}),
 			}),
 		});
-		let formi(form) = formi(form);
 
 		expect(formi(form).getValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
-		expect(formi(form).getRawValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
+		expect(formi(form).getRawValue()).toEqual({
+			a: {a: 1, b: 1},
+			b: {a: 1, b: 1},
+		});
 
 		form.controls.a.controls.b.disable();
 		form.controls.b.controls.a.disable();
 
 		expect(formi(form).getValue()).toEqual({a: {a: 1}, b: {b: 1}});
-		expect(formi(form).getRawValue()).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
+		expect(formi(form).getRawValue()).toEqual({
+			a: {a: 1, b: 1},
+			b: {a: 1, b: 1},
+		});
 	}));
 
 	it('...', fakeAsync(() => {
@@ -120,7 +119,6 @@ describe('formi',   () => {
 				new FormControl(0),
 			]),
 		});
-		let formi(form) = formi(form);
 
 		expect(formi(form).value).toEqual({a: {a: 1, b: 1}, b: {a: 1, b: 1}});
 
@@ -159,7 +157,6 @@ describe('formi',   () => {
 				b: new FormControl(0),
 			}),
 		]);
-		let formi(form) = formi(form);
 
 		let spy = jasmine.createSpy();
 		effect(() => {
@@ -182,3 +179,7 @@ describe('formi',   () => {
 		spy.calls.reset();
 	}));
 });
+
+function spy<T extends jasmine.Func>(fn: T): jasmine.Spy<T> {
+	return jasmine.createSpy(undefined, fn).and.callThrough();
+}

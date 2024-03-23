@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 
 import {NoopAsyncValidator, composeAsyncValidators, withAsyncValidators} from '.';
 
+// prettier-ignore
 describe('withAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(
@@ -37,10 +38,7 @@ describe('withAsyncValidators', () => {
 
 	it('should call validators only once', fakeAsync(async () => {
 		let form = new FormControl(null);
-		let validator = (jasmine
-			.createSpy(undefined, async () => null)
-			.and.callThrough()
-		);
+		let validator = spy(async () => null);
 		withAsyncValidators(form, validator);
 
 		expect(validator).toHaveBeenCalledTimes(1);
@@ -60,6 +58,7 @@ describe('withAsyncValidators', () => {
 	}));
 });
 
+// prettier-ignore
 describe('composeAsyncValidators', () => {
 	it('should work', fakeAsync(async () => {
 		let form = withAsyncValidators(
@@ -97,13 +96,10 @@ describe('composeAsyncValidators', () => {
 
 	it('should skip other validators after one fails', fakeAsync(async () => {
 		let validators = [
-			async () => null,
-			async () => ({error: true}),
-			async () => null,
-		].map((fn) => jasmine
-			.createSpy(undefined, fn)
-			.and.callThrough()
-		);
+			spy(async () => null),
+			spy(async () => ({error: true})),
+			spy(async () => null),
+		];
 		new FormControl(null, {
 			asyncValidators: composeAsyncValidators(validators),
 		});
@@ -125,3 +121,7 @@ describe('composeAsyncValidators', () => {
 		expect(composeAsyncValidators([])).toBe(NoopAsyncValidator);
 	}));
 });
+
+function spy<T extends jasmine.Func>(fn: T): jasmine.Spy<T> {
+	return jasmine.createSpy(undefined, fn).and.callThrough();
+}
