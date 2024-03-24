@@ -1,6 +1,7 @@
 import {fakeAsync} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
+import {spy} from '../../test';
 import {NoopValidator, composeValidators, withValidators} from '.';
 
 describe('withValidators', () => {
@@ -97,7 +98,3 @@ describe('composeValidators', () => {
 		expect(composeValidators([])).toBe(NoopValidator);
 	}));
 });
-
-function spy<T extends jasmine.Func>(fn: T): jasmine.Spy<T> {
-	return jasmine.createSpy(undefined, fn).and.callThrough();
-}

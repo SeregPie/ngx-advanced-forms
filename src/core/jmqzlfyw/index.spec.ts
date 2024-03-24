@@ -1,5 +1,5 @@
 import {Component, computed, signal} from '@angular/core';
-import {TestBed, fakeAsync, tick} from '@angular/core/testing';
+import {TestBed, fakeAsync} from '@angular/core/testing';
 import {
 	FormArray,
 	FormControl,
@@ -10,7 +10,8 @@ import {
 } from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
-import {useFormBridge, useFormFallthrough} from '.';
+import {flush} from '../../test';
+import {useFormBridge, useFormFallthrough} from './';
 
 // prettier-ignore
 describe('useFormFallthrough', () => {
@@ -40,7 +41,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		await flush();
 		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -51,8 +52,7 @@ describe('useFormFallthrough', () => {
 
 		formSwitch$.set('b');
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(result()).toBe(form.controls.b);
 	}));
@@ -88,7 +88,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		await flush();
 		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -99,8 +99,7 @@ describe('useFormFallthrough', () => {
 
 		formSwitch$.set('b');
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(result()).toBe(form.controls.a);
 	}));
@@ -131,7 +130,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		await flush();
 		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -142,8 +141,7 @@ describe('useFormFallthrough', () => {
 
 		formSwitch$.set('b');
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(result()).toBe(form.controls.b);
 	}));
@@ -179,7 +177,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		await flush();
 		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -190,8 +188,7 @@ describe('useFormFallthrough', () => {
 
 		formSwitch$.set('b');
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(result()).toBe(form.controls.b);
 	}));
@@ -227,7 +224,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		await flush();
 		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -238,8 +235,7 @@ describe('useFormFallthrough', () => {
 
 		formSwitch$.set('b');
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(result()).toBe(form.controls.b);
 	}));
@@ -266,7 +262,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		fixture.autoDetectChanges();
 		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -274,22 +270,19 @@ describe('useFormFallthrough', () => {
 		);
 		let form = result();
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(form.value).toEqual(0);
 
 		form.setValue(1);
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(value$()).toEqual(1);
 
 		value$.set(2);
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(form.value).toEqual(2);
 	}));
@@ -304,7 +297,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		await flush();
 		let {result} = fixture.componentInstance;
 
 		expect(result()).toBeNull();
@@ -320,7 +313,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		await flush();
 		let {result} = fixture.componentInstance;
 
 		expect(result).toThrow();
@@ -351,7 +344,7 @@ describe('useFormBridge', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.detectChanges();
+		await flush();
 		// prettier-ignore
 		let {result}: MySubComponent = (fixture
 			.debugElement
@@ -363,8 +356,7 @@ describe('useFormBridge', () => {
 
 		form.disable();
 
-		fixture.detectChanges();
-		tick();
+		await flush();
 
 		expect(result.disabled()).toBeTrue();
 	}));

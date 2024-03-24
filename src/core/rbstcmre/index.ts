@@ -1,5 +1,17 @@
+// @ts-nocheck
+
 import {computed, signal} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
+
+/*
+todo: rename
+shxugoln
+nkavrkuo
+formi
+yftuleqz
+kvvidwgu
+rdgmjhvn
+*/
 
 let shxugoln = [
 	'status',
@@ -36,22 +48,23 @@ export let formi: {
 } = (control) => {
 	let instance = instances.get(control);
 	if (instance == null) {
-		instance = {};
+		instance = {}; // todo: Object.create
 		let yftuleqz = signal({});
 		nkavrkuo.forEach((k) => {
-			let v = control[k];
+			let kvvidwgu = control[k];
 			control[k] = function () {
-				v.apply(this, arguments);
+				kvvidwgu.apply(this, arguments);
 				yftuleqz.set({});
 			};
 		});
 		shxugoln.forEach((k) => {
-			let v = computed(() => {
+			let rdgmjhvn = computed(() => {
 				yftuleqz();
 				return control[k];
 			});
 			Object.defineProperty(instance, k, {
-				get: () => v(),
+				// todo: props
+				get: () => rdgmjhvn(),
 			});
 		});
 		instances.set(control, instance);

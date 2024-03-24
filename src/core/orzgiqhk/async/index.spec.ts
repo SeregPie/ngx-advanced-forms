@@ -1,6 +1,7 @@
-import {fakeAsync, tick} from '@angular/core/testing';
+import {fakeAsync} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
+import {spy, flush} from '../../../test';
 import {NoopAsyncValidator, composeAsyncValidators, withAsyncValidators} from '.';
 
 describe('withAsyncValidators', () => {
@@ -14,7 +15,7 @@ describe('withAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		tick();
+		await flush();
 
 		expect(form.errors).toEqual({error: true});
 
@@ -22,7 +23,7 @@ describe('withAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		tick();
+		await flush();
 
 		expect(form.errors).toBeNull();
 	}));
@@ -71,7 +72,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		tick();
+		await flush();
 
 		expect(form.errors).toEqual({error: {n: 1}});
 
@@ -79,7 +80,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		tick();
+		await flush();
 
 		expect(form.errors).toEqual({error: {n: 2}});
 
@@ -87,7 +88,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		tick();
+		await flush();
 
 		expect(form.errors).toBeNull();
 	}));
@@ -102,7 +103,7 @@ describe('composeAsyncValidators', () => {
 			asyncValidators: composeAsyncValidators(validators),
 		});
 
-		tick();
+		await flush();
 
 		expect(validators[0]).toHaveBeenCalledTimes(1);
 		expect(validators[1]).toHaveBeenCalledTimes(1);
@@ -119,7 +120,3 @@ describe('composeAsyncValidators', () => {
 		expect(composeAsyncValidators([])).toBe(NoopAsyncValidator);
 	}));
 });
-
-function spy<T extends jasmine.Func>(fn: T): jasmine.Spy<T> {
-	return jasmine.createSpy(undefined, fn).and.callThrough();
-}
