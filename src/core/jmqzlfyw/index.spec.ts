@@ -9,6 +9,7 @@ import {
 	ReactiveFormsModule,
 } from '@angular/forms';
 import {By} from '@angular/platform-browser';
+import {simpleFaker as faker} from '@faker-js/faker';
 
 import {flush} from '../../test';
 import {useFormBridge, useFormFallthrough} from './';
@@ -274,13 +275,13 @@ describe('useFormFallthrough', () => {
 		// todo: rand & multiple
 		expect(form.value).toEqual(value$());
 
-		form.setValue(1);
+		form.setValue(faker.number.int());
 
 		await flush();
 
 		expect(form.value).toEqual(value$());
 
-		value$.set(2);
+		value$.set(faker.number.int());
 
 		await flush();
 
