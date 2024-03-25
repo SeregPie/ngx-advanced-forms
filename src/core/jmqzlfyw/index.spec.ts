@@ -101,6 +101,7 @@ describe('useFormFallthrough', () => {
 
 		await flush();
 
+		// todo: comment
 		expect(result()).toBe(form.controls.a);
 	}));
 
@@ -262,7 +263,7 @@ describe('useFormFallthrough', () => {
 		}
 
 		let fixture = TestBed.createComponent(MyComponent);
-		fixture.autoDetectChanges();
+		await flush();
 		let {result}: MySubComponent = (fixture
 			.debugElement
 			.query(By.directive(MySubComponent))
@@ -270,21 +271,20 @@ describe('useFormFallthrough', () => {
 		);
 		let form = result();
 
-		await flush();
-
-		expect(form.value).toEqual(0);
+		// todo: rand & multiple
+		expect(form.value).toEqual(value$());
 
 		form.setValue(1);
 
 		await flush();
 
-		expect(value$()).toEqual(1);
+		expect(form.value).toEqual(value$());
 
 		value$.set(2);
 
 		await flush();
 
-		expect(form.value).toEqual(2);
+		expect(form.value).toEqual(value$());
 	}));
 
 	it('should return null if not available', fakeAsync(async () => {

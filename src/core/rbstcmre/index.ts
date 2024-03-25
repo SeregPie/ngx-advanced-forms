@@ -64,6 +64,7 @@ export let formi: {
 			});
 			Object.defineProperty(instance, k, {
 				// todo: props
+				enumerable: true,
 				get: () => rdgmjhvn(),
 			});
 		});
