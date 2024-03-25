@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import {WritableSignal, effect, inject, signal} from '@angular/core';
+import {Signal, WritableSignal, effect, inject, signal} from '@angular/core';
 import {
 	AbstractControl,
 	ControlContainer,
@@ -8,7 +8,7 @@ import {
 	ValidationErrors,
 } from '@angular/forms';
 
-export let useFormFallthrough: {
+export const useFormFallthrough: {
 	<TControl extends AbstractControl>(): {(): null | TControl};
 	required: {
 		<TControl extends AbstractControl>(): {(): TControl};
