@@ -49,7 +49,7 @@ export type FormBridgeOptions = Partial<{
 	disabled: WritableSignal<boolean>;
 }>;
 
-export let useFormBridge: {
+export const useFormBridge: {
 	<TValue>(
 		value: WritableSignal<TValue>,
 		options?: FormBridgeOptions,

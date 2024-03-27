@@ -272,20 +272,26 @@ describe('useFormFallthrough', () => {
 		);
 		let form = result();
 
-		// todo: rand & multiple
-		expect(form.value).toEqual(value$());
+		// todo?
+		for await (let _ of (async function* () {
+			yield;
 
-		form.setValue(faker.number.int());
+			for (let i = 2; i--; ) {
+				form.setValue(faker.number.int());
 
-		await flush();
+				await flush();
 
-		expect(form.value).toEqual(value$());
+				yield;
 
-		value$.set(faker.number.int());
+				value$.set(faker.number.int());
 
-		await flush();
+				await flush();
 
-		expect(form.value).toEqual(value$());
+				yield;
+			}
+		})()) {
+			expect(form.value).toEqual(value$());
+		}
 	}));
 
 	it('should return null if not available', fakeAsync(async () => {

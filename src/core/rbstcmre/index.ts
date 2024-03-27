@@ -3,18 +3,6 @@
 import {computed, signal} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 
-/*
-todo: rename
-shxugoln
-nkavrkuo
-formi
-yftuleqz
-kvvidwgu
-rdgmjhvn
-Ygakljpn
-Nyggshxy
-*/
-
 // prettier-ignore
 // todo: rename
 export type Ygakljpn = (

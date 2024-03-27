@@ -15,6 +15,47 @@ describe('formi', () => {
 			}),
 		});
 
+		let shxugoln = [
+			'status',
+			'valid',
+			'invalid',
+			'pending',
+			'disabled',
+			'enabled',
+			'pristine',
+			'dirty',
+			'touched',
+			'untouched',
+			'value',
+			'errors',
+		];
+		let test = (async () => {
+			[form, form.controls.a, form.controls.b].forEach((form) => {
+				expect(formi(form).status).toBe(form.status);
+				| 'status'
+				| 'valid'
+				| 'invalid'
+				| 'pending'
+				| 'disabled'
+				| 'enabled'
+				| 'pristine'
+				| 'dirty'
+				| 'touched'
+				| 'untouched'
+				| 'value'
+				| 'errors'
+
+				shxugoln.forEach((key) => {
+
+				});
+			});
+
+			await flush();
+
+
+		})
+
+		/*
 		let shxugoln = Object.keys(formi(form)) as Array<
 			keyof ReturnType<typeof formi>
 		>;
@@ -26,8 +67,7 @@ describe('formi', () => {
 				});
 			});
 		};
-
-		(3 * 2)! + (3 * 3)! + (1 + 3 * 3)! + 3!;
+		*/
 
 		let actions = [
 			() => form.disable(),
@@ -59,7 +99,7 @@ describe('formi', () => {
 			]),
 			[
 				() => form.markAllAsTouched(),
-				...[form, form.controls.a, form.controls.b].flatMap((form) => [
+				...[form, form.controls.a].flatMap((form) => [
 					() => form.markAsTouched(),
 					() => form.markAsUntouched(),
 					() => form.reset(),
@@ -76,16 +116,9 @@ describe('formi', () => {
 			],
 		];
 
-		jvlickuw();
-
-		form.controls.a.markAsDirty();
-
-		jvlickuw();
-
-		form.markAsPristine();
-
-		jvlickuw();
-
-		await flush();
+		await test();
+		for (let _ of actions) {
+			await test();
+		}
 	}));
 });
