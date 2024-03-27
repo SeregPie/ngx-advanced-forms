@@ -1,7 +1,7 @@
-import {fakeAsync} from '@angular/core/testing';
+import {fakeAsync, tick} from '@angular/core/testing';
 import {FormControl} from '@angular/forms';
 
-import {spy, flush} from '../../../test';
+import {spy} from '../../../test';
 import {NoopAsyncValidator, composeAsyncValidators, withAsyncValidators} from '.';
 
 describe('withAsyncValidators', () => {
@@ -15,7 +15,7 @@ describe('withAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await flush();
+		tick();
 
 		expect(form.errors).toEqual({error: true});
 
@@ -23,7 +23,7 @@ describe('withAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await flush();
+		tick();
 
 		expect(form.errors).toBeNull();
 	}));
@@ -72,7 +72,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await flush();
+		tick();
 
 		expect(form.errors).toEqual({error: {n: 1}});
 
@@ -80,7 +80,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await flush();
+		tick();
 
 		expect(form.errors).toEqual({error: {n: 2}});
 
@@ -88,7 +88,7 @@ describe('composeAsyncValidators', () => {
 
 		expect(form.pending).toBeTrue();
 
-		await flush();
+		tick();
 
 		expect(form.errors).toBeNull();
 	}));
@@ -103,7 +103,7 @@ describe('composeAsyncValidators', () => {
 			asyncValidators: composeAsyncValidators(validators),
 		});
 
-		await flush();
+		tick();
 
 		expect(validators[0]).toHaveBeenCalledTimes(1);
 		expect(validators[1]).toHaveBeenCalledTimes(1);

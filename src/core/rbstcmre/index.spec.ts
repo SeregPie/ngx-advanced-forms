@@ -1,54 +1,38 @@
-import {TestBed, fakeAsync} from '@angular/core/testing';
-import {FormControl, FormGroup} from '@angular/forms';
+import {computed} from '@angular/core';
+import {fakeAsync} from '@angular/core/testing';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
-import {effect} from '@angular/core';
 import {formi} from './';
 
-fdescribe('formi', () => {
+describe('formi', () => {
 	it('should work', fakeAsync(async () => {
 		let form = new FormGroup({
-			a: new FormControl(null),
-			b: new FormControl(null),
+			a: new FormControl<null | number>(null, {
+				validators: Validators.required,
+			}),
+			b: new FormControl<null | string>(null, {
+				validators: Validators.required,
+			}),
 		});
+		let jqqruzky = {
+			pristine: computed(() => formi(form).pristine),
+			dirty: computed(() => formi(form).dirty),
+			touched: computed(() => formi(form).touched),
+			untouched: computed(() => formi(form).untouched),
+		};
 
-		TestBed.runInInjectionContext(() => {
-			effect(() => {
-				console.log('form.touched', formi(form).touched);
-			});
-			effect(() => {
-				console.log('form.controls.a.touched', formi(form.controls.a).touched);
-			});
-			effect(() => {
-				console.log('form.controls.b.touched', formi(form.controls.b).touched);
-			});
-		});
+		for await (let _ of (async function* () {
+			yield;
 
-		TestBed.flushEffects();
+			form.markAsDirty();
 
-		expect(formi(form).touched).toBe(form.touched);
-		expect(formi(form.controls.a).touched).toBe(form.controls.a.touched);
-		expect(formi(form.controls.b).touched).toBe(form.controls.b.touched);
+			yield;
 
-		//
-
-		form.controls.a.markAsTouched();
-
-		expect(formi(form).touched).toBe(form.touched);
-		expect(formi(form.controls.a).touched).toBe(form.controls.a.touched);
-		expect(formi(form.controls.b).touched).toBe(form.controls.b.touched);
-
-		TestBed.flushEffects();
-
-		// expect effects
-
-		form.controls.a.markAsUntouched();
-
-		expect(formi(form).touched).toBe(form.touched);
-		expect(formi(form.controls.a).touched).toBe(form.controls.a.touched);
-		expect(formi(form.controls.b).touched).toBe(form.controls.b.touched);
-
-		TestBed.flushEffects();
-
-		// expect effects
+			form.reset();
+		})()) {
+			expect(jqqruzky.pristine()).toEqual(form.pristine);
+			expect(jqqruzky.dirty()).toEqual(form.dirty);
+			console.log();
+		}
 	}));
 });
