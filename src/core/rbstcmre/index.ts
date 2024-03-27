@@ -59,6 +59,7 @@ export const formi: {
 		'markAsPending',
 		'markAsPristine',
 		'markAsTouched',
+		'markAsUntouched',
 		'setErrors',
 		'updateValueAndValidity',
 	];
